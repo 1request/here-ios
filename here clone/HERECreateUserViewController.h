@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  HERECreateUserViewController.h
 //  here clone
 //
 //  Created by Joseph Cheung on 6/8/14.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface HERECreateUserViewController : UIViewController
 
 @end
-
