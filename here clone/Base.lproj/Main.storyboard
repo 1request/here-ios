@@ -121,10 +121,10 @@
             </objects>
             <point key="canvasLocation" x="641" y="1024"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Navigation View Controller-->
         <scene sceneID="4Ls-r5-3nZ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hO0-KS-n8b" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="contentController" automaticallyAdjustsScrollViewInsets="NO" id="hO0-KS-n8b" customClass="HERENavigationViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6Yg-o0-xf6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
