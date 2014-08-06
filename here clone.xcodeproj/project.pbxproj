@@ -56,6 +56,7 @@
 		7C3E5C8F19920EA100C53C7B /* 1_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6619920EA100C53C7B /* 1_128.png */; };
 		7C3E5C9019920EA100C53C7B /* 1_131.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6719920EA100C53C7B /* 1_131.png */; };
 		7C3E5C9119920EA100C53C7B /* 1_133.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6819920EA100C53C7B /* 1_133.png */; };
+		7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C931992109300C53C7B /* HERESignInViewController.m */; };
 		7C9E818E1991DFA100156B88 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E818D1991DFA100156B88 /* main.m */; };
 		7C9E81911991DFA100156B88 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E81901991DFA100156B88 /* AppDelegate.m */; };
 		7C9E81971991DFA100156B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81951991DFA100156B88 /* Main.storyboard */; };
@@ -129,6 +130,8 @@
 		7C3E5C6619920EA100C53C7B /* 1_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_128.png; sourceTree = "<group>"; };
 		7C3E5C6719920EA100C53C7B /* 1_131.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_131.png; sourceTree = "<group>"; };
 		7C3E5C6819920EA100C53C7B /* 1_133.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_133.png; sourceTree = "<group>"; };
+		7C3E5C921992109300C53C7B /* HERESignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERESignInViewController.h; sourceTree = "<group>"; };
+		7C3E5C931992109300C53C7B /* HERESignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESignInViewController.m; sourceTree = "<group>"; };
 		7C9E81881991DFA100156B88 /* here clone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "here clone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C9E818C1991DFA100156B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C9E818D1991DFA100156B88 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -179,10 +182,12 @@
 				7C3E5C1E199200D000C53C7B /* HERENavigationViewController.m */,
 				7C3E5C1A1991EF8300C53C7B /* HEREMenuViewController.h */,
 				7C3E5C1B1991EF8300C53C7B /* HEREMenuViewController.m */,
-				7C3E5C171991EF6300C53C7B /* HEREHomeViewController.h */,
-				7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */,
+				7C3E5C921992109300C53C7B /* HERESignInViewController.h */,
+				7C3E5C931992109300C53C7B /* HERESignInViewController.m */,
 				7C3E5C26199207C100C53C7B /* HERECreateUserViewController.h */,
 				7C3E5C27199207C100C53C7B /* HERECreateUserViewController.m */,
+				7C3E5C171991EF6300C53C7B /* HEREHomeViewController.h */,
+				7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */,
 				7C3E5C201992033000C53C7B /* HEREBeaconsTableViewController.h */,
 				7C3E5C211992033000C53C7B /* HEREBeaconsTableViewController.m */,
 				7C3E5C23199205A500C53C7B /* HEREStatusViewController.h */,
@@ -482,6 +487,7 @@
 				7C3E5C1C1991EF8300C53C7B /* HEREMenuViewController.m in Sources */,
 				7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */,
 				7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */,
+				7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */,
 				7C3E5C28199207C100C53C7B /* HERECreateUserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
