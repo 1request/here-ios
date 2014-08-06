@@ -34,4 +34,9 @@
 }
 */
 
+- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender {
+}
+
+- (IBAction)recordMessageButtonPressed:(UIButton *)sender {
+}
 @end

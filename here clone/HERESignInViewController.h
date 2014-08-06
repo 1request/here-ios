@@ -10,4 +10,10 @@
 
 @interface HERESignInViewController : UIViewController
 
+@property (strong, nonatomic) IBOutlet UITextField *usernameTextField;
+@property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
+
+- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender;
+- (IBAction)signInButtonPressed:(UIButton *)sender;
+
 @end

@@ -10,4 +10,9 @@
 
 @interface HEREStatusViewController : UIViewController
 
+@property (strong, nonatomic) IBOutlet UILabel *statusLabel;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *locationLabel;
+
+- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender;
+
 @end

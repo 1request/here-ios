@@ -10,4 +10,8 @@
 
 @interface HEREBeaconsTableViewController : UITableViewController
 
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
+- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender;
+
 @end

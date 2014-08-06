@@ -34,4 +34,9 @@
 }
 */
 
+- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender {
+}
+
+- (IBAction)signInButtonPressed:(UIButton *)sender {
+}
 @end

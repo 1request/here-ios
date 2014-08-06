@@ -104,10 +104,18 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Status" id="l7b-Rr-DBj">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="rfQ-HX-M7O"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="rfQ-HX-M7O">
+                            <connections>
+                                <action selector="menuBarButtonItemPressed:" destination="xVX-TB-MuZ" id="Oh3-pc-UMC"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="add.png" id="rgO-kU-crX"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="locationLabel" destination="8fG-MY-3LI" id="jzj-AY-rZB"/>
+                        <outlet property="statusLabel" destination="CtM-fy-oOl" id="ZIi-gX-2lP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ABE-R6-K39" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -160,6 +168,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="recordMessageButtonPressed:" destination="6xc-lR-L0r" eventType="touchUpInside" id="mHk-hh-tRl"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -173,7 +184,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="NK7-wH-hRY">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="6NL-jU-9z8"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="6NL-jU-9z8">
+                            <connections>
+                                <action selector="menuBarButtonItemPressed:" destination="6xc-lR-L0r" id="bLH-Gc-fHX"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="add.png" id="2ef-yP-57K"/>
                     </navigationItem>
                 </viewController>
@@ -242,10 +257,19 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Create Account" id="7sB-o0-Lw3">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="vbV-99-ILr"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="vbV-99-ILr">
+                            <connections>
+                                <action selector="menuBarButtonItemPressed:" destination="IUn-Gp-h4L" id="UyN-T5-sLE"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="add.png" id="TWZ-an-PwW"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="passwordTextField" destination="BA9-TX-Aru" id="TSg-9Y-SjZ"/>
+                        <outlet property="signUpButtonPressed" destination="rzA-ZL-iZz" id="ckU-3M-T3n"/>
+                        <outlet property="usernameTextField" destination="HJ6-EC-jAu" id="B5l-5y-M6e"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="llA-tK-SSg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -274,10 +298,17 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Beacons" id="JZ7-68-rna">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="27J-7O-pPM"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="27J-7O-pPM">
+                            <connections>
+                                <action selector="menuBarButtonItemPressed:" destination="RWW-T4-Ocw" id="GgC-yz-S6h"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="add.png" id="SDb-VW-hO4"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="OXk-Hf-6if" id="yrW-z2-BbF"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NgI-RI-IF8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -312,6 +343,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="signInButtonPressed:" destination="df6-qV-alL" eventType="touchUpInside" id="LfI-PU-QgG"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oaD-fi-amb">
                                 <rect key="frame" x="36" y="359" width="528" height="30"/>
@@ -349,10 +383,18 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Sign in" id="UFL-6k-LCt">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="ST4-QL-ade"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="ST4-QL-ade">
+                            <connections>
+                                <action selector="menuBarButtonItemPressed:" destination="df6-qV-alL" id="rVp-F1-a6U"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="add.png" id="UbB-AI-zFz"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="passwordTextField" destination="P01-BL-ZL3" id="eSS-Tt-6ho"/>
+                        <outlet property="usernameTextField" destination="oaD-fi-amb" id="Ejo-9H-X64"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FeS-tg-5R0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
