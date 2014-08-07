@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "REFrostedViewController.h"
 
-@interface HEREAddBeaconViewController : UIViewController
+@interface HEREAddBeaconViewController : UIViewController <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *majorLabel;
 @property (strong, nonatomic) IBOutlet UILabel *minorLabel;
 @property (strong, nonatomic) IBOutlet UITextField *beaconNameTextField;
+
+@property (strong, nonatomic) CLBeaconRegion *beaconRegion;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 
 - (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender;
 - (IBAction)addBeaconButtonPressed:(UIButton *)sender;

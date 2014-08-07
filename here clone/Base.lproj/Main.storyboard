@@ -389,20 +389,10 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="name this beacon:" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9p5-h4-wBg">
-                                <rect key="frame" x="36" y="285" width="528" height="30"/>
+                                <rect key="frame" x="36" y="274" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkt-Uc-QfS">
-                                <rect key="frame" x="-65" y="-51" width="50" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="LqK-Rv-9yh"/>
-                                    <constraint firstAttribute="width" constant="50" id="SdD-V2-XSJ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minor:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eke-Au-Vp4">
                                 <rect key="frame" x="196" y="135" width="49" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -412,17 +402,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="9p5-h4-wBg" secondAttribute="centerY" id="14d-yT-3i5"/>
                             <constraint firstItem="Pms-wH-PD6" firstAttribute="width" secondItem="hp1-Vf-wpu" secondAttribute="width" id="1Cq-cu-z8M"/>
                             <constraint firstItem="Pms-wH-PD6" firstAttribute="top" secondItem="NEZ-ke-ZqF" secondAttribute="bottom" constant="30" id="2xR-OU-b2x"/>
                             <constraint firstItem="FQK-Q5-Hdp" firstAttribute="top" secondItem="gAl-vC-Sfg" secondAttribute="bottom" constant="20" id="3vi-SC-cwZ"/>
                             <constraint firstItem="9p5-h4-wBg" firstAttribute="leading" secondItem="XVM-uL-hPD" secondAttribute="leadingMargin" constant="20" id="BZQ-pf-uy0"/>
                             <constraint firstItem="GTO-QJ-otk" firstAttribute="leading" secondItem="XVM-uL-hPD" secondAttribute="leadingMargin" constant="12" id="CRv-nE-KQL"/>
-                            <constraint firstAttribute="centerX" secondItem="9p5-h4-wBg" secondAttribute="centerX" id="FjU-5f-sm9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="9p5-h4-wBg" secondAttribute="trailing" constant="20" id="JFq-Om-WBg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gAl-vC-Sfg" secondAttribute="trailing" constant="12" id="N1p-yv-tgc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="GTO-QJ-otk" secondAttribute="trailing" constant="12" id="OX7-HI-xeW"/>
                             <constraint firstItem="eke-Au-Vp4" firstAttribute="leading" secondItem="3Sd-OL-PFT" secondAttribute="leading" id="Pz6-zZ-TWW"/>
+                            <constraint firstItem="GTO-QJ-otk" firstAttribute="top" secondItem="9p5-h4-wBg" secondAttribute="bottom" constant="50" id="VEO-7H-N09"/>
                             <constraint firstItem="hp1-Vf-wpu" firstAttribute="top" secondItem="Pms-wH-PD6" secondAttribute="bottom" constant="20" id="VOc-Pe-Bfr"/>
                             <constraint firstItem="gAl-vC-Sfg" firstAttribute="leading" secondItem="XVM-uL-hPD" secondAttribute="leadingMargin" constant="12" id="Xn1-2G-fM6"/>
                             <constraint firstAttribute="centerX" secondItem="hp1-Vf-wpu" secondAttribute="centerX" id="dGf-Kh-yPs"/>
