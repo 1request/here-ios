@@ -56,6 +56,7 @@
 		7C3E5C9019920EA100C53C7B /* 1_131.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6719920EA100C53C7B /* 1_131.png */; };
 		7C3E5C9119920EA100C53C7B /* 1_133.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6819920EA100C53C7B /* 1_133.png */; };
 		7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C931992109300C53C7B /* HERESignInViewController.m */; };
+		7C7EBC4B19933E850078BE2F /* here.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C7EBC4A19933E850078BE2F /* here.png */; };
 		7C9E818E1991DFA100156B88 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E818D1991DFA100156B88 /* main.m */; };
 		7C9E81911991DFA100156B88 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E81901991DFA100156B88 /* AppDelegate.m */; };
 		7C9E81971991DFA100156B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81951991DFA100156B88 /* Main.storyboard */; };
@@ -130,6 +131,7 @@
 		7C3E5C6819920EA100C53C7B /* 1_133.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_133.png; sourceTree = "<group>"; };
 		7C3E5C921992109300C53C7B /* HERESignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERESignInViewController.h; sourceTree = "<group>"; };
 		7C3E5C931992109300C53C7B /* HERESignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESignInViewController.m; sourceTree = "<group>"; };
+		7C7EBC4A19933E850078BE2F /* here.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = here.png; sourceTree = "<group>"; };
 		7C9E81881991DFA100156B88 /* here clone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "here clone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C9E818C1991DFA100156B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C9E818D1991DFA100156B88 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 		7C3E5C3F19920E9700C53C7B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				7C7EBC4A19933E850078BE2F /* here.png */,
 				7C3E5C4019920EA000C53C7B /* 1_01.png */,
 				7C3E5C4119920EA000C53C7B /* 1_03.png */,
 				7C3E5C4219920EA000C53C7B /* 1_06.png */,
@@ -409,6 +412,7 @@
 				7C3E5C8B19920EA100C53C7B /* 1_112.png in Resources */,
 				7C3E5C7919920EA100C53C7B /* menu.png in Resources */,
 				7C9E81971991DFA100156B88 /* Main.storyboard in Resources */,
+				7C7EBC4B19933E850078BE2F /* here.png in Resources */,
 				7C3E5C9019920EA100C53C7B /* 1_131.png in Resources */,
 				7C3E5C7A19920EA100C53C7B /* 1_49.png in Resources */,
 				7C3E5C6B19920EA100C53C7B /* 1_06.png in Resources */,

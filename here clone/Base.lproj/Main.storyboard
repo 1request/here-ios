@@ -32,7 +32,7 @@
             </objects>
             <point key="canvasLocation" x="-765" y="1024"/>
         </scene>
-        <!--Status-->
+        <!--Status View Controller-->
         <scene sceneID="d4q-5O-fGe">
             <objects>
                 <viewController storyboardIdentifier="statusController" id="xVX-TB-MuZ" customClass="HEREStatusViewController" sceneMemberID="viewController">
@@ -41,7 +41,7 @@
                         <viewControllerLayoutGuide type="bottom" id="qKN-Ay-iik"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LmO-Au-q3P">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOz-nU-RzV">
@@ -63,13 +63,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CtM-fy-oOl">
-                                <rect key="frame" x="130.5" y="144" width="433.5" height="20.5"/>
+                                <rect key="frame" x="130" y="144" width="433.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5e-tM-Jub">
-                                <rect key="frame" x="130.5" y="179" width="433.5" height="20.5"/>
+                                <rect key="frame" x="130" y="179" width="433.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -90,7 +90,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Status" id="l7b-Rr-DBj">
+                    <navigationItem key="navigationItem" id="l7b-Rr-DBj">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="rfQ-HX-M7O">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="xVX-TB-MuZ" id="Oh3-pc-UMC"/>
@@ -126,7 +126,7 @@
             </objects>
             <point key="canvasLocation" x="-815" y="30"/>
         </scene>
-        <!--Home-->
+        <!--Home View Controller-->
         <scene sceneID="SJD-f9-zZa">
             <objects>
                 <viewController storyboardIdentifier="homeController" id="6xc-lR-L0r" customClass="HEREHomeViewController" sceneMemberID="viewController">
@@ -135,38 +135,48 @@
                         <viewControllerLayoutGuide type="bottom" id="yDG-ru-pM3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="cT1-dH-4In">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="anonymous_user.png" translatesAutoresizingMaskIntoConstraints="NO" id="B0W-XO-jQc">
-                                <rect key="frame" x="216" y="144" width="167" height="195"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="167" id="G5K-HS-cyh"/>
-                                    <constraint firstAttribute="height" constant="195" id="aWF-xD-gDO"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSW-Lm-KWg">
                                 <rect key="frame" x="28" y="494" width="544" height="86"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="fSW-Lm-KWg" secondAttribute="height" multiplier="272:43" id="IxN-o9-n7f"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Leave a message" image="mic.png" backgroundImage="light_button.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="recordMessageButtonPressed:" destination="6xc-lR-L0r" eventType="touchUpInside" id="mHk-hh-tRl"/>
+                                    <action selector="recordMessageButtonPressed:" destination="6xc-lR-L0r" eventType="touchUpInside" id="Qtd-eE-tWA"/>
+                                    <action selector="recordMessageButtonTouchedDown:" destination="6xc-lR-L0r" eventType="touchDown" id="aTC-Uu-wBA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zzu-Tp-GNh">
+                                <rect key="frame" x="196.5" y="144" width="207" height="195"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="195" id="AgG-2g-kLg"/>
+                                    <constraint firstAttribute="width" secondItem="Zzu-Tp-GNh" secondAttribute="height" multiplier="409:385" id="Z2h-jS-n3K"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="anonymous_user.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="avatarButtonPressed:" destination="6xc-lR-L0r" eventType="touchUpInside" id="SZF-xK-hvz"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="B0W-XO-jQc" secondAttribute="centerX" id="EKQ-m4-kFd"/>
-                            <constraint firstItem="B0W-XO-jQc" firstAttribute="top" secondItem="xRm-Sh-Hvi" secondAttribute="bottom" constant="80" id="R2N-J0-m1n"/>
+                            <constraint firstItem="Zzu-Tp-GNh" firstAttribute="top" secondItem="xRm-Sh-Hvi" secondAttribute="bottom" constant="80" id="86X-ls-XoA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fSW-Lm-KWg" secondAttribute="trailing" constant="12" id="ZRK-QZ-r2P"/>
                             <constraint firstItem="yDG-ru-pM3" firstAttribute="top" secondItem="fSW-Lm-KWg" secondAttribute="bottom" constant="20" id="bq3-qF-Y8G"/>
+                            <constraint firstAttribute="centerX" secondItem="Zzu-Tp-GNh" secondAttribute="centerX" id="wS0-wE-1BJ"/>
                             <constraint firstItem="fSW-Lm-KWg" firstAttribute="leading" secondItem="cT1-dH-4In" secondAttribute="leadingMargin" constant="12" id="xB0-IT-ZVa"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="NK7-wH-hRY">
+                    <navigationItem key="navigationItem" id="NK7-wH-hRY">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="6NL-jU-9z8">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="6xc-lR-L0r" id="bLH-Gc-fHX"/>
@@ -174,12 +184,16 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="add.png" id="2ef-yP-57K"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="avatarButton" destination="Zzu-Tp-GNh" id="8hn-Bl-Qxk"/>
+                        <outlet property="recordMessageButton" destination="fSW-Lm-KWg" id="8dn-cc-IGt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uJ4-ga-gOI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="635" y="-402"/>
         </scene>
-        <!--Create Account-->
+        <!--Create User View Controller-->
         <scene sceneID="tQA-D8-gLd">
             <objects>
                 <viewController storyboardIdentifier="createAccountController" id="IUn-Gp-h4L" customClass="HERECreateUserViewController" sceneMemberID="viewController">
@@ -188,16 +202,16 @@
                         <viewControllerLayoutGuide type="bottom" id="v8f-VW-5qk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="R9r-BI-O6I">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="anonymous_user.png" translatesAutoresizingMaskIntoConstraints="NO" id="HJC-dA-KQY">
-                                <rect key="frame" x="216" y="80" width="167" height="195"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="anonymous_user.png" translatesAutoresizingMaskIntoConstraints="NO" id="HJC-dA-KQY">
+                                <rect key="frame" x="216" y="145" width="167" height="195"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="195" id="E50-HE-opn"/>
                                     <constraint firstAttribute="width" constant="167" id="bao-aP-hAU"/>
                                 </constraints>
-                                <variation key="widthClass=compact" ambiguous="YES">
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="116" y="80" width="167" height="195"/>
                                 </variation>
                             </imageView>
@@ -213,18 +227,18 @@
                                 </state>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HJ6-EC-jAu">
-                                <rect key="frame" x="36" y="295" width="528" height="30"/>
+                                <rect key="frame" x="36" y="360" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <variation key="widthClass=compact" ambiguous="YES">
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="36" y="295" width="328" height="30"/>
                                 </variation>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BA9-TX-Aru">
-                                <rect key="frame" x="36" y="345" width="528" height="30"/>
+                                <rect key="frame" x="36" y="410" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <variation key="widthClass=compact" ambiguous="YES">
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="36" y="345" width="328" height="30"/>
                                 </variation>
                             </textField>
@@ -243,12 +257,11 @@
                             <constraint firstItem="HJ6-EC-jAu" firstAttribute="leading" secondItem="R9r-BI-O6I" secondAttribute="leadingMargin" constant="20" id="do0-E1-aVx"/>
                             <constraint firstAttribute="centerX" secondItem="HJC-dA-KQY" secondAttribute="centerX" id="hxC-lc-a4D"/>
                             <constraint firstItem="HJ6-EC-jAu" firstAttribute="top" secondItem="HJC-dA-KQY" secondAttribute="bottom" constant="20" id="j8C-cR-ND9"/>
-                            <constraint firstItem="HJC-dA-KQY" firstAttribute="top" relation="lessThanOrEqual" secondItem="R9r-BI-O6I" secondAttribute="topMargin" constant="80" id="rxV-uS-TFa"/>
                             <constraint firstItem="rzA-ZL-iZz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BA9-TX-Aru" secondAttribute="bottom" constant="10" id="tba-b3-yjs"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Create Account" id="7sB-o0-Lw3">
+                    <navigationItem key="navigationItem" id="7sB-o0-Lw3">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="vbV-99-ILr">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="IUn-Gp-h4L" id="UyN-T5-sLE"/>
@@ -267,12 +280,12 @@
             </objects>
             <point key="canvasLocation" x="635" y="310"/>
         </scene>
-        <!--Beacons-->
+        <!--Beacons Table View Controller-->
         <scene sceneID="EZO-SS-gLH">
             <objects>
                 <tableViewController storyboardIdentifier="beaconsController" id="RWW-T4-Ocw" customClass="HEREBeaconsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OXk-Hf-6if">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -289,7 +302,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Beacons" id="JZ7-68-rna">
+                    <navigationItem key="navigationItem" id="JZ7-68-rna">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="27J-7O-pPM">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="RWW-T4-Ocw" id="GgC-yz-S6h"/>
@@ -306,7 +319,7 @@
             </objects>
             <point key="canvasLocation" x="635" y="1030"/>
         </scene>
-        <!--Sign in-->
+        <!--Sign In View Controller-->
         <scene sceneID="gzI-Bq-QVT">
             <objects>
                 <viewController storyboardIdentifier="signInController" id="df6-qV-alL" customClass="HERESignInViewController" sceneMemberID="viewController">
@@ -315,11 +328,11 @@
                         <viewControllerLayoutGuide type="bottom" id="CVe-X4-4um"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="nOy-VF-UcN">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="anonymous_user.png" translatesAutoresizingMaskIntoConstraints="NO" id="y0U-MT-ZrG">
-                                <rect key="frame" x="216" y="144" width="167" height="195"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="anonymous_user.png" translatesAutoresizingMaskIntoConstraints="NO" id="y0U-MT-ZrG">
+                                <rect key="frame" x="216" y="145" width="167" height="195"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="195" id="5oZ-ZZ-cGb"/>
                                     <constraint firstAttribute="width" constant="167" id="ma6-DO-iyz"/>
@@ -343,7 +356,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oaD-fi-amb">
-                                <rect key="frame" x="36" y="359" width="528" height="30"/>
+                                <rect key="frame" x="36" y="360" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <variation key="widthClass=compact" ambiguous="YES">
@@ -351,7 +364,7 @@
                                 </variation>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P01-BL-ZL3">
-                                <rect key="frame" x="36" y="409" width="528" height="30"/>
+                                <rect key="frame" x="36" y="410" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <variation key="widthClass=compact" ambiguous="YES">
@@ -367,7 +380,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="lqa-51-oxi" secondAttribute="trailing" constant="12" id="Ba4-J9-SSn"/>
                             <constraint firstAttribute="centerX" secondItem="y0U-MT-ZrG" secondAttribute="centerX" id="EJ9-VQ-WTp"/>
                             <constraint firstItem="oaD-fi-amb" firstAttribute="top" secondItem="y0U-MT-ZrG" secondAttribute="bottom" constant="20" id="G0P-K4-4r6"/>
-                            <constraint firstItem="y0U-MT-ZrG" firstAttribute="top" relation="lessThanOrEqual" secondItem="6QZ-zJ-exS" secondAttribute="bottom" constant="80" id="LJC-fW-BK0"/>
                             <constraint firstItem="lqa-51-oxi" firstAttribute="leading" secondItem="nOy-VF-UcN" secondAttribute="leadingMargin" constant="12" id="NQF-2D-xIB"/>
                             <constraint firstItem="CVe-X4-4um" firstAttribute="top" secondItem="lqa-51-oxi" secondAttribute="bottom" constant="20" id="QUi-V6-gF8"/>
                             <constraint firstItem="P01-BL-ZL3" firstAttribute="top" secondItem="oaD-fi-amb" secondAttribute="bottom" constant="20" id="Yig-tz-FTz"/>
@@ -383,7 +395,7 @@
                         </variation>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Sign in" id="UFL-6k-LCt">
+                    <navigationItem key="navigationItem" id="UFL-6k-LCt">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="ST4-QL-ade">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="df6-qV-alL" id="rVp-F1-a6U"/>
@@ -409,6 +421,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6Yg-o0-xf6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.12941176470588234" green="0.6705882352941176" blue="0.2196078431372549" alpha="0.87" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
