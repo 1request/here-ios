@@ -149,34 +149,32 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="recordMessageButtonPressed:" destination="6xc-lR-L0r" eventType="touchUpInside" id="mHk-hh-tRl"/>
+                                    <action selector="recordMessageButtonPressed:" destination="6xc-lR-L0r" eventType="touchUpInside" id="Qtd-eE-tWA"/>
+                                    <action selector="recordMessageButtonTouchedDown:" destination="6xc-lR-L0r" eventType="touchDown" id="aTC-Uu-wBA"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jef-9o-2ZP">
-                                <rect key="frame" x="200" y="144" width="200" height="200"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zzu-Tp-GNh">
+                                <rect key="frame" x="196.5" y="144" width="207" height="195"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="7Yc-WM-wky"/>
-                                    <constraint firstAttribute="width" constant="200" id="jql-Ef-9IB"/>
+                                    <constraint firstAttribute="height" constant="195" id="AgG-2g-kLg"/>
+                                    <constraint firstAttribute="width" secondItem="Zzu-Tp-GNh" secondAttribute="height" multiplier="409:385" id="Z2h-jS-n3K"/>
                                 </constraints>
-                                <state key="normal" image="anonymous_user.png">
+                                <state key="normal" title="Button" image="anonymous_user.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="avatarButtonPressed:" destination="6xc-lR-L0r" eventType="touchUpInside" id="SZF-xK-hvz"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="jef-9o-2ZP" secondAttribute="centerX" id="7hs-xL-yJZ"/>
+                            <constraint firstItem="Zzu-Tp-GNh" firstAttribute="top" secondItem="xRm-Sh-Hvi" secondAttribute="bottom" constant="80" id="86X-ls-XoA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fSW-Lm-KWg" secondAttribute="trailing" constant="12" id="ZRK-QZ-r2P"/>
-                            <constraint firstAttribute="centerY" secondItem="jef-9o-2ZP" secondAttribute="centerY" id="Zsr-ku-RfS"/>
                             <constraint firstItem="yDG-ru-pM3" firstAttribute="top" secondItem="fSW-Lm-KWg" secondAttribute="bottom" constant="20" id="bq3-qF-Y8G"/>
-                            <constraint firstItem="jef-9o-2ZP" firstAttribute="top" secondItem="xRm-Sh-Hvi" secondAttribute="bottom" constant="80" id="gMZ-00-E41"/>
+                            <constraint firstAttribute="centerX" secondItem="Zzu-Tp-GNh" secondAttribute="centerX" id="wS0-wE-1BJ"/>
                             <constraint firstItem="fSW-Lm-KWg" firstAttribute="leading" secondItem="cT1-dH-4In" secondAttribute="leadingMargin" constant="12" id="xB0-IT-ZVa"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="Zsr-ku-RfS"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="NK7-wH-hRY">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="6NL-jU-9z8">
@@ -186,6 +184,10 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="add.png" id="2ef-yP-57K"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="avatarButton" destination="Zzu-Tp-GNh" id="8hn-Bl-Qxk"/>
+                        <outlet property="recordMessageButton" destination="fSW-Lm-KWg" id="8dn-cc-IGt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uJ4-ga-gOI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -209,7 +211,7 @@
                                     <constraint firstAttribute="height" constant="195" id="E50-HE-opn"/>
                                     <constraint firstAttribute="width" constant="167" id="bao-aP-hAU"/>
                                 </constraints>
-                                <variation key="widthClass=compact" ambiguous="YES">
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="116" y="80" width="167" height="195"/>
                                 </variation>
                             </imageView>
@@ -228,7 +230,7 @@
                                 <rect key="frame" x="36" y="360" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <variation key="widthClass=compact" ambiguous="YES">
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="36" y="295" width="328" height="30"/>
                                 </variation>
                             </textField>
@@ -236,7 +238,7 @@
                                 <rect key="frame" x="36" y="410" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <variation key="widthClass=compact" ambiguous="YES">
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="36" y="345" width="328" height="30"/>
                                 </variation>
                             </textField>
@@ -330,7 +332,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="anonymous_user.png" translatesAutoresizingMaskIntoConstraints="NO" id="y0U-MT-ZrG">
-                                <rect key="frame" x="216" y="144" width="167" height="195"/>
+                                <rect key="frame" x="216" y="145" width="167" height="195"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="195" id="5oZ-ZZ-cGb"/>
                                     <constraint firstAttribute="width" constant="167" id="ma6-DO-iyz"/>
@@ -354,7 +356,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oaD-fi-amb">
-                                <rect key="frame" x="36" y="359" width="528" height="30"/>
+                                <rect key="frame" x="36" y="360" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <variation key="widthClass=compact" ambiguous="YES">
@@ -362,7 +364,7 @@
                                 </variation>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P01-BL-ZL3">
-                                <rect key="frame" x="36" y="409" width="528" height="30"/>
+                                <rect key="frame" x="36" y="410" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <variation key="widthClass=compact" ambiguous="YES">
@@ -378,7 +380,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="lqa-51-oxi" secondAttribute="trailing" constant="12" id="Ba4-J9-SSn"/>
                             <constraint firstAttribute="centerX" secondItem="y0U-MT-ZrG" secondAttribute="centerX" id="EJ9-VQ-WTp"/>
                             <constraint firstItem="oaD-fi-amb" firstAttribute="top" secondItem="y0U-MT-ZrG" secondAttribute="bottom" constant="20" id="G0P-K4-4r6"/>
-                            <constraint firstItem="y0U-MT-ZrG" firstAttribute="top" relation="lessThanOrEqual" secondItem="6QZ-zJ-exS" secondAttribute="bottom" constant="80" id="LJC-fW-BK0"/>
                             <constraint firstItem="lqa-51-oxi" firstAttribute="leading" secondItem="nOy-VF-UcN" secondAttribute="leadingMargin" constant="12" id="NQF-2D-xIB"/>
                             <constraint firstItem="CVe-X4-4um" firstAttribute="top" secondItem="lqa-51-oxi" secondAttribute="bottom" constant="20" id="QUi-V6-gF8"/>
                             <constraint firstItem="P01-BL-ZL3" firstAttribute="top" secondItem="oaD-fi-amb" secondAttribute="bottom" constant="20" id="Yig-tz-FTz"/>
