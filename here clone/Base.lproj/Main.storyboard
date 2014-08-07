@@ -32,7 +32,7 @@
             </objects>
             <point key="canvasLocation" x="-765" y="1024"/>
         </scene>
-        <!--Status-->
+        <!--Status View Controller-->
         <scene sceneID="d4q-5O-fGe">
             <objects>
                 <viewController storyboardIdentifier="statusController" id="xVX-TB-MuZ" customClass="HEREStatusViewController" sceneMemberID="viewController">
@@ -41,7 +41,7 @@
                         <viewControllerLayoutGuide type="bottom" id="qKN-Ay-iik"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LmO-Au-q3P">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOz-nU-RzV">
@@ -63,13 +63,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CtM-fy-oOl">
-                                <rect key="frame" x="130.5" y="144" width="433.5" height="20.5"/>
+                                <rect key="frame" x="130" y="144" width="433.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5e-tM-Jub">
-                                <rect key="frame" x="130.5" y="179" width="433.5" height="20.5"/>
+                                <rect key="frame" x="130" y="179" width="433.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -90,7 +90,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Status" id="l7b-Rr-DBj">
+                    <navigationItem key="navigationItem" id="l7b-Rr-DBj">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="rfQ-HX-M7O">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="xVX-TB-MuZ" id="Oh3-pc-UMC"/>
@@ -126,7 +126,7 @@
             </objects>
             <point key="canvasLocation" x="-815" y="30"/>
         </scene>
-        <!--Home-->
+        <!--Home View Controller-->
         <scene sceneID="SJD-f9-zZa">
             <objects>
                 <viewController storyboardIdentifier="homeController" id="6xc-lR-L0r" customClass="HEREHomeViewController" sceneMemberID="viewController">
@@ -135,7 +135,7 @@
                         <viewControllerLayoutGuide type="bottom" id="yDG-ru-pM3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="cT1-dH-4In">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="anonymous_user.png" translatesAutoresizingMaskIntoConstraints="NO" id="B0W-XO-jQc">
@@ -147,6 +147,9 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSW-Lm-KWg">
                                 <rect key="frame" x="28" y="494" width="544" height="86"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="fSW-Lm-KWg" secondAttribute="height" multiplier="272:43" id="IxN-o9-n7f"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Leave a message" image="mic.png" backgroundImage="light_button.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -166,7 +169,7 @@
                             <constraint firstItem="fSW-Lm-KWg" firstAttribute="leading" secondItem="cT1-dH-4In" secondAttribute="leadingMargin" constant="12" id="xB0-IT-ZVa"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="NK7-wH-hRY">
+                    <navigationItem key="navigationItem" id="NK7-wH-hRY">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="6NL-jU-9z8">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="6xc-lR-L0r" id="bLH-Gc-fHX"/>
@@ -179,7 +182,7 @@
             </objects>
             <point key="canvasLocation" x="635" y="-402"/>
         </scene>
-        <!--Create Account-->
+        <!--Create User View Controller-->
         <scene sceneID="tQA-D8-gLd">
             <objects>
                 <viewController storyboardIdentifier="createAccountController" id="IUn-Gp-h4L" customClass="HERECreateUserViewController" sceneMemberID="viewController">
@@ -188,7 +191,7 @@
                         <viewControllerLayoutGuide type="bottom" id="v8f-VW-5qk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="R9r-BI-O6I">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="anonymous_user.png" translatesAutoresizingMaskIntoConstraints="NO" id="HJC-dA-KQY">
@@ -248,7 +251,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Create Account" id="7sB-o0-Lw3">
+                    <navigationItem key="navigationItem" id="7sB-o0-Lw3">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="vbV-99-ILr">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="IUn-Gp-h4L" id="UyN-T5-sLE"/>
@@ -267,12 +270,12 @@
             </objects>
             <point key="canvasLocation" x="635" y="310"/>
         </scene>
-        <!--Beacons-->
+        <!--Beacons Table View Controller-->
         <scene sceneID="EZO-SS-gLH">
             <objects>
                 <tableViewController storyboardIdentifier="beaconsController" id="RWW-T4-Ocw" customClass="HEREBeaconsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OXk-Hf-6if">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -289,7 +292,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Beacons" id="JZ7-68-rna">
+                    <navigationItem key="navigationItem" id="JZ7-68-rna">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="27J-7O-pPM">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="RWW-T4-Ocw" id="GgC-yz-S6h"/>
@@ -306,7 +309,7 @@
             </objects>
             <point key="canvasLocation" x="635" y="1030"/>
         </scene>
-        <!--Sign in-->
+        <!--Sign In View Controller-->
         <scene sceneID="gzI-Bq-QVT">
             <objects>
                 <viewController storyboardIdentifier="signInController" id="df6-qV-alL" customClass="HERESignInViewController" sceneMemberID="viewController">
@@ -315,7 +318,7 @@
                         <viewControllerLayoutGuide type="bottom" id="CVe-X4-4um"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="nOy-VF-UcN">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="anonymous_user.png" translatesAutoresizingMaskIntoConstraints="NO" id="y0U-MT-ZrG">
@@ -383,7 +386,7 @@
                         </variation>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Sign in" id="UFL-6k-LCt">
+                    <navigationItem key="navigationItem" id="UFL-6k-LCt">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="ST4-QL-ade">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="df6-qV-alL" id="rVp-F1-a6U"/>
@@ -409,6 +412,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6Yg-o0-xf6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.12941176470588234" green="0.6705882352941176" blue="0.2196078431372549" alpha="0.87" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
