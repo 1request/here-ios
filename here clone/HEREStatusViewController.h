@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "REFrostedViewController.h"
+
 
 @interface HEREStatusViewController : UIViewController
 
