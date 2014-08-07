@@ -6,49 +6,36 @@
         <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Menu View Controller-->
-        <scene sceneID="5GL-ag-Ss6">
+        <!--Menu Table View Controller-->
+        <scene sceneID="wPl-oV-2u7">
             <objects>
-                <viewController storyboardIdentifier="menuController" id="d5s-BR-Aut" customClass="HEREMenuViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="D43-wp-irh"/>
-                        <viewControllerLayoutGuide type="bottom" id="yuP-I9-U9F"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="yWD-1t-yeC">
+                <tableViewController storyboardIdentifier="menuController" id="CNM-55-KhA" customClass="HEREMenuTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gch-dT-uHG">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="aq6-V1-F3y">
-                                <rect key="frame" x="16" y="0.0" width="568" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuCell" id="rcw-4Y-8gG">
-                                        <rect key="frame" x="0.0" y="0.0" width="568" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rcw-4Y-8gG" id="fSa-u7-Xsu">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="aq6-V1-F3y" secondAttribute="trailing" id="3hJ-ne-fAw"/>
-                            <constraint firstItem="aq6-V1-F3y" firstAttribute="top" secondItem="yWD-1t-yeC" secondAttribute="topMargin" id="YrV-dU-MPj"/>
-                            <constraint firstItem="yuP-I9-U9F" firstAttribute="top" secondItem="aq6-V1-F3y" secondAttribute="bottom" id="bt2-Ir-2SP"/>
-                            <constraint firstItem="aq6-V1-F3y" firstAttribute="leading" secondItem="yWD-1t-yeC" secondAttribute="leadingMargin" id="s1y-kt-56M"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YT8-DZ-fi3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuCell" id="Lhs-dh-zYc">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lhs-dh-zYc" id="noN-YF-leN">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="CNM-55-KhA" id="OWh-sH-qDI"/>
+                            <outlet property="delegate" destination="CNM-55-KhA" id="xEt-3l-52F"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vEY-Il-aFc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-815" y="780"/>
+            <point key="canvasLocation" x="-765" y="1024"/>
         </scene>
         <!--Status-->
         <scene sceneID="d4q-5O-fGe">
             <objects>
-                <viewController id="xVX-TB-MuZ" customClass="HEREStatusViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="statusController" id="xVX-TB-MuZ" customClass="HEREStatusViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Dt4-sy-Svh"/>
                         <viewControllerLayoutGuide type="bottom" id="qKN-Ay-iik"/>
@@ -142,7 +129,7 @@
         <!--Home-->
         <scene sceneID="SJD-f9-zZa">
             <objects>
-                <viewController id="6xc-lR-L0r" customClass="HEREHomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeController" id="6xc-lR-L0r" customClass="HEREHomeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xRm-Sh-Hvi"/>
                         <viewControllerLayoutGuide type="bottom" id="yDG-ru-pM3"/>
@@ -160,9 +147,6 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSW-Lm-KWg">
                                 <rect key="frame" x="28" y="494" width="544" height="86"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="fSW-Lm-KWg" secondAttribute="height" multiplier="272:43" id="rjE-nQ-644"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Leave a message" image="mic.png" backgroundImage="light_button.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -178,8 +162,7 @@
                             <constraint firstAttribute="centerX" secondItem="B0W-XO-jQc" secondAttribute="centerX" id="EKQ-m4-kFd"/>
                             <constraint firstItem="B0W-XO-jQc" firstAttribute="top" secondItem="xRm-Sh-Hvi" secondAttribute="bottom" constant="80" id="R2N-J0-m1n"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fSW-Lm-KWg" secondAttribute="trailing" constant="12" id="ZRK-QZ-r2P"/>
-                            <constraint firstAttribute="centerX" secondItem="fSW-Lm-KWg" secondAttribute="centerX" id="f41-xO-Lzc"/>
-                            <constraint firstItem="yDG-ru-pM3" firstAttribute="top" secondItem="fSW-Lm-KWg" secondAttribute="bottom" constant="20" id="k6q-hV-Ryy"/>
+                            <constraint firstItem="yDG-ru-pM3" firstAttribute="top" secondItem="fSW-Lm-KWg" secondAttribute="bottom" constant="20" id="bq3-qF-Y8G"/>
                             <constraint firstItem="fSW-Lm-KWg" firstAttribute="leading" secondItem="cT1-dH-4In" secondAttribute="leadingMargin" constant="12" id="xB0-IT-ZVa"/>
                         </constraints>
                     </view>
@@ -199,7 +182,7 @@
         <!--Create Account-->
         <scene sceneID="tQA-D8-gLd">
             <objects>
-                <viewController id="IUn-Gp-h4L" customClass="HERECreateUserViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="createAccountController" id="IUn-Gp-h4L" customClass="HERECreateUserViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jLh-rA-QqC"/>
                         <viewControllerLayoutGuide type="bottom" id="v8f-VW-5qk"/>
@@ -214,6 +197,9 @@
                                     <constraint firstAttribute="height" constant="195" id="E50-HE-opn"/>
                                     <constraint firstAttribute="width" constant="167" id="bao-aP-hAU"/>
                                 </constraints>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="116" y="80" width="167" height="195"/>
+                                </variation>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rzA-ZL-iZz">
                                 <rect key="frame" x="28" y="450" width="544" height="86"/>
@@ -230,11 +216,17 @@
                                 <rect key="frame" x="36" y="295" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="36" y="295" width="328" height="30"/>
+                                </variation>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BA9-TX-Aru">
                                 <rect key="frame" x="36" y="345" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="36" y="345" width="328" height="30"/>
+                                </variation>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -278,7 +270,7 @@
         <!--Beacons-->
         <scene sceneID="EZO-SS-gLH">
             <objects>
-                <tableViewController id="RWW-T4-Ocw" customClass="HEREBeaconsTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="beaconsController" id="RWW-T4-Ocw" customClass="HEREBeaconsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OXk-Hf-6if">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -317,7 +309,7 @@
         <!--Sign in-->
         <scene sceneID="gzI-Bq-QVT">
             <objects>
-                <viewController id="df6-qV-alL" customClass="HERESignInViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="signInController" id="df6-qV-alL" customClass="HERESignInViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6QZ-zJ-exS"/>
                         <viewControllerLayoutGuide type="bottom" id="CVe-X4-4um"/>
@@ -332,6 +324,9 @@
                                     <constraint firstAttribute="height" constant="195" id="5oZ-ZZ-cGb"/>
                                     <constraint firstAttribute="width" constant="167" id="ma6-DO-iyz"/>
                                 </constraints>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="116" y="144" width="167" height="195"/>
+                                </variation>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lqa-51-oxi">
                                 <rect key="frame" x="28" y="450" width="544" height="86"/>
@@ -351,11 +346,17 @@
                                 <rect key="frame" x="36" y="359" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="36" y="359" width="328" height="30"/>
+                                </variation>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P01-BL-ZL3">
                                 <rect key="frame" x="36" y="409" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="36" y="409" width="328" height="30"/>
+                                </variation>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

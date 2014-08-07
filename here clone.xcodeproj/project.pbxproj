@@ -10,7 +10,6 @@
 		35470C42431644F88034A4CD /* libPods-here clone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4514242B13346C6B416A6E6 /* libPods-here clone.a */; };
 		7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C141991E1E900C53C7B /* HERERootViewController.m */; };
 		7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */; };
-		7C3E5C1C1991EF8300C53C7B /* HEREMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C1B1991EF8300C53C7B /* HEREMenuViewController.m */; };
 		7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C1E199200D000C53C7B /* HERENavigationViewController.m */; };
 		7C3E5C221992033000C53C7B /* HEREBeaconsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C211992033000C53C7B /* HEREBeaconsTableViewController.m */; };
 		7C3E5C25199205A500C53C7B /* HEREStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C24199205A500C53C7B /* HEREStatusViewController.m */; };
@@ -62,6 +61,7 @@
 		7C9E81971991DFA100156B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81951991DFA100156B88 /* Main.storyboard */; };
 		7C9E81991991DFA100156B88 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81981991DFA100156B88 /* Images.xcassets */; };
 		7C9E81A51991DFA100156B88 /* here_cloneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E81A41991DFA100156B88 /* here_cloneTests.m */; };
+		7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,8 +79,6 @@
 		7C3E5C141991E1E900C53C7B /* HERERootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERERootViewController.m; sourceTree = "<group>"; };
 		7C3E5C171991EF6300C53C7B /* HEREHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREHomeViewController.h; sourceTree = "<group>"; };
 		7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREHomeViewController.m; sourceTree = "<group>"; };
-		7C3E5C1A1991EF8300C53C7B /* HEREMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREMenuViewController.h; sourceTree = "<group>"; };
-		7C3E5C1B1991EF8300C53C7B /* HEREMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREMenuViewController.m; sourceTree = "<group>"; };
 		7C3E5C1D199200D000C53C7B /* HERENavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERENavigationViewController.h; sourceTree = "<group>"; };
 		7C3E5C1E199200D000C53C7B /* HERENavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERENavigationViewController.m; sourceTree = "<group>"; };
 		7C3E5C201992033000C53C7B /* HEREBeaconsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREBeaconsTableViewController.h; sourceTree = "<group>"; };
@@ -142,6 +140,8 @@
 		7C9E819E1991DFA100156B88 /* here cloneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "here cloneTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C9E81A31991DFA100156B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C9E81A41991DFA100156B88 /* here_cloneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = here_cloneTests.m; sourceTree = "<group>"; };
+		7CDD6D8819922D5400138475 /* HEREMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREMenuTableViewController.h; sourceTree = "<group>"; };
+		7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREMenuTableViewController.m; sourceTree = "<group>"; };
 		AF475C44CD5C49859A81FAD0 /* Pods-here clone.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-here clone.xcconfig"; path = "Pods/Pods-here clone.xcconfig"; sourceTree = "<group>"; };
 		B4514242B13346C6B416A6E6 /* libPods-here clone.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-here clone.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -180,8 +180,8 @@
 				7C3E5C141991E1E900C53C7B /* HERERootViewController.m */,
 				7C3E5C1D199200D000C53C7B /* HERENavigationViewController.h */,
 				7C3E5C1E199200D000C53C7B /* HERENavigationViewController.m */,
-				7C3E5C1A1991EF8300C53C7B /* HEREMenuViewController.h */,
-				7C3E5C1B1991EF8300C53C7B /* HEREMenuViewController.m */,
+				7CDD6D8819922D5400138475 /* HEREMenuTableViewController.h */,
+				7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */,
 				7C3E5C921992109300C53C7B /* HERESignInViewController.h */,
 				7C3E5C931992109300C53C7B /* HERESignInViewController.m */,
 				7C3E5C26199207C100C53C7B /* HERECreateUserViewController.h */,
@@ -481,10 +481,10 @@
 			files = (
 				7C3E5C221992033000C53C7B /* HEREBeaconsTableViewController.m in Sources */,
 				7C9E81911991DFA100156B88 /* AppDelegate.m in Sources */,
+				7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */,
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
 				7C3E5C25199205A500C53C7B /* HEREStatusViewController.m in Sources */,
-				7C3E5C1C1991EF8300C53C7B /* HEREMenuViewController.m in Sources */,
 				7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */,
 				7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */,
 				7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */,

@@ -1,5 +1,5 @@
 //
-//  HERENavigationViewController.h
+//  HEREMenuTableViewController.h
 //  here clone
 //
 //  Created by Joseph Cheung on 6/8/14.
@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "REFrostedViewController.h"
 
-@interface HERENavigationViewController : UINavigationController
-
-- (void)panGestureRecognized:(UIPanGestureRecognizer *)sender;
+@interface HEREMenuTableViewController : UITableViewController
 
 @end
