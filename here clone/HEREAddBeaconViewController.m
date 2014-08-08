@@ -54,12 +54,12 @@
 
 - (IBAction)addBeaconButtonPressed:(UIButton *)sender
 {
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)cancelButtonPressed:(UIButton *)sender
 {
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)scanBeaconButtonPressed:(UIButton *)sender
