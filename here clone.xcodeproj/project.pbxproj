@@ -16,7 +16,7 @@
 		7C3E5C28199207C100C53C7B /* HERECreateUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C27199207C100C53C7B /* HERECreateUserViewController.m */; };
 		7C3E5C6919920EA100C53C7B /* 1_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4019920EA000C53C7B /* 1_01.png */; };
 		7C3E5C6A19920EA100C53C7B /* 1_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4119920EA000C53C7B /* 1_03.png */; };
-		7C3E5C6B19920EA100C53C7B /* 1_06.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4219920EA000C53C7B /* 1_06.png */; };
+		7C3E5C6B19920EA100C53C7B /* empty_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4219920EA000C53C7B /* empty_button.png */; };
 		7C3E5C6C19920EA100C53C7B /* 1_09.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4319920EA000C53C7B /* 1_09.png */; };
 		7C3E5C6D19920EA100C53C7B /* 1_12.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4419920EA000C53C7B /* 1_12.png */; };
 		7C3E5C6E19920EA100C53C7B /* light_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4519920EA000C53C7B /* light_button.png */; };
@@ -57,6 +57,9 @@
 		7C3E5C9119920EA100C53C7B /* 1_133.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6819920EA100C53C7B /* 1_133.png */; };
 		7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C931992109300C53C7B /* HERESignInViewController.m */; };
 		7C7EBC4B19933E850078BE2F /* here.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C7EBC4A19933E850078BE2F /* here.png */; };
+		7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8D6AD3199485DC005A87C4 /* UIViewController+HEREMenu.m */; };
+		7C9893D71993A53000A53029 /* HEREAddBeaconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9893D61993A53000A53029 /* HEREAddBeaconViewController.m */; };
+		7C9893D91993AD8F00A53029 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C9893D81993AD8F00A53029 /* CoreLocation.framework */; };
 		7C9E818E1991DFA100156B88 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E818D1991DFA100156B88 /* main.m */; };
 		7C9E81911991DFA100156B88 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E81901991DFA100156B88 /* AppDelegate.m */; };
 		7C9E81971991DFA100156B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81951991DFA100156B88 /* Main.storyboard */; };
@@ -90,7 +93,7 @@
 		7C3E5C27199207C100C53C7B /* HERECreateUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERECreateUserViewController.m; sourceTree = "<group>"; };
 		7C3E5C4019920EA000C53C7B /* 1_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_01.png; sourceTree = "<group>"; };
 		7C3E5C4119920EA000C53C7B /* 1_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_03.png; sourceTree = "<group>"; };
-		7C3E5C4219920EA000C53C7B /* 1_06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_06.png; sourceTree = "<group>"; };
+		7C3E5C4219920EA000C53C7B /* empty_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_button.png; sourceTree = "<group>"; };
 		7C3E5C4319920EA000C53C7B /* 1_09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_09.png; sourceTree = "<group>"; };
 		7C3E5C4419920EA000C53C7B /* 1_12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_12.png; sourceTree = "<group>"; };
 		7C3E5C4519920EA000C53C7B /* light_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_button.png; sourceTree = "<group>"; };
@@ -132,6 +135,11 @@
 		7C3E5C921992109300C53C7B /* HERESignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERESignInViewController.h; sourceTree = "<group>"; };
 		7C3E5C931992109300C53C7B /* HERESignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESignInViewController.m; sourceTree = "<group>"; };
 		7C7EBC4A19933E850078BE2F /* here.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = here.png; sourceTree = "<group>"; };
+		7C8D6AD2199485DC005A87C4 /* UIViewController+HEREMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HEREMenu.h"; sourceTree = "<group>"; };
+		7C8D6AD3199485DC005A87C4 /* UIViewController+HEREMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+HEREMenu.m"; sourceTree = "<group>"; };
+		7C9893D51993A53000A53029 /* HEREAddBeaconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREAddBeaconViewController.h; sourceTree = "<group>"; };
+		7C9893D61993A53000A53029 /* HEREAddBeaconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREAddBeaconViewController.m; sourceTree = "<group>"; };
+		7C9893D81993AD8F00A53029 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7C9E81881991DFA100156B88 /* here clone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "here clone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C9E818C1991DFA100156B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C9E818D1991DFA100156B88 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -153,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C9893D91993AD8F00A53029 /* CoreLocation.framework in Frameworks */,
 				35470C42431644F88034A4CD /* libPods-here clone.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,6 +179,7 @@
 		152EE7DA0D30420BB89BFA61 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7C9893D81993AD8F00A53029 /* CoreLocation.framework */,
 				B4514242B13346C6B416A6E6 /* libPods-here clone.a */,
 			);
 			name = Frameworks;
@@ -178,6 +188,8 @@
 		7C3E5C161991E1F100C53C7B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7C8D6AD2199485DC005A87C4 /* UIViewController+HEREMenu.h */,
+				7C8D6AD3199485DC005A87C4 /* UIViewController+HEREMenu.m */,
 				7C3E5C131991E1E900C53C7B /* HERERootViewController.h */,
 				7C3E5C141991E1E900C53C7B /* HERERootViewController.m */,
 				7C3E5C1D199200D000C53C7B /* HERENavigationViewController.h */,
@@ -192,6 +204,8 @@
 				7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */,
 				7C3E5C201992033000C53C7B /* HEREBeaconsTableViewController.h */,
 				7C3E5C211992033000C53C7B /* HEREBeaconsTableViewController.m */,
+				7C9893D51993A53000A53029 /* HEREAddBeaconViewController.h */,
+				7C9893D61993A53000A53029 /* HEREAddBeaconViewController.m */,
 				7C3E5C23199205A500C53C7B /* HEREStatusViewController.h */,
 				7C3E5C24199205A500C53C7B /* HEREStatusViewController.m */,
 			);
@@ -204,7 +218,7 @@
 				7C7EBC4A19933E850078BE2F /* here.png */,
 				7C3E5C4019920EA000C53C7B /* 1_01.png */,
 				7C3E5C4119920EA000C53C7B /* 1_03.png */,
-				7C3E5C4219920EA000C53C7B /* 1_06.png */,
+				7C3E5C4219920EA000C53C7B /* empty_button.png */,
 				7C3E5C4319920EA000C53C7B /* 1_09.png */,
 				7C3E5C4419920EA000C53C7B /* 1_12.png */,
 				7C3E5C4519920EA000C53C7B /* light_button.png */,
@@ -415,7 +429,7 @@
 				7C7EBC4B19933E850078BE2F /* here.png in Resources */,
 				7C3E5C9019920EA100C53C7B /* 1_131.png in Resources */,
 				7C3E5C7A19920EA100C53C7B /* 1_49.png in Resources */,
-				7C3E5C6B19920EA100C53C7B /* 1_06.png in Resources */,
+				7C3E5C6B19920EA100C53C7B /* empty_button.png in Resources */,
 				7C3E5C8819920EA100C53C7B /* 1_100.png in Resources */,
 				7C3E5C7D19920EA100C53C7B /* 1_60.png in Resources */,
 				7C3E5C6A19920EA100C53C7B /* 1_03.png in Resources */,
@@ -486,9 +500,11 @@
 				7C3E5C221992033000C53C7B /* HEREBeaconsTableViewController.m in Sources */,
 				7C9E81911991DFA100156B88 /* AppDelegate.m in Sources */,
 				7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */,
+				7C9893D71993A53000A53029 /* HEREAddBeaconViewController.m in Sources */,
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
 				7C3E5C25199205A500C53C7B /* HEREStatusViewController.m in Sources */,
+				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,
 				7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */,
 				7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */,
 				7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */,
