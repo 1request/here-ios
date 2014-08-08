@@ -323,7 +323,7 @@
             </objects>
             <point key="canvasLocation" x="635" y="1030"/>
         </scene>
-        <!--Title-->
+        <!--Add Beacon View Controller-->
         <scene sceneID="hVc-X3-JZM">
             <objects>
                 <viewController id="Ty5-G3-cq6" customClass="HEREAddBeaconViewController" sceneMemberID="viewController">
@@ -459,7 +459,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Title" id="JKM-ve-cVb">
+                    <navigationItem key="navigationItem" id="JKM-ve-cVb">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="k8P-Eo-X1V">
                             <connections>
                                 <action selector="menuBarButtonItemPressed:" destination="Ty5-G3-cq6" id="kBV-ME-bBr"/>

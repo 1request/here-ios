@@ -30,7 +30,6 @@
     self.animationView.duration = 0.5;
     self.animationView.delay = 0;
     self.animationView.type = CSAnimationTypeZoomIn;
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,6 +87,9 @@
 {
     CLBeacon *foundBeacon = [beacons firstObject];
     if (foundBeacon.major && foundBeacon.minor) {
+        
+        [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];
+        
         NSString *major = [NSString stringWithFormat:@"%@", foundBeacon.major];
         NSString *minor = [NSString stringWithFormat:@"%@", foundBeacon.minor];
         self.majorNumberLabel.text = major;
@@ -103,6 +105,13 @@
         self.minorNumberLabel.hidden = NO;
         self.addBeaconButton.hidden = NO;
         self.beaconNameTextField.hidden = NO;
+        
+        int systemSoundId = 1304;
+        AudioServicesPlaySystemSound(systemSoundId);
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Detected iBeacon" message:@"Detected a new iBeacon. You can name and add it to your beacon collection" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alertView show];
     }
 }
 

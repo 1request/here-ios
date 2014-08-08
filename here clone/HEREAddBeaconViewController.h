@@ -11,9 +11,9 @@
 #import "REFrostedViewController.h"
 #import "Canvas.h"
 #import "UIViewController+HEREMenu.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface HEREAddBeaconViewController : UIViewController <CLLocationManagerDelegate>
-
 
 @property (strong, nonatomic) IBOutlet UILabel *majorLabel;
 @property (strong, nonatomic) IBOutlet UILabel *minorLabel;
