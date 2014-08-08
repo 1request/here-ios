@@ -9,6 +9,9 @@
 #import "HEREAddBeaconViewController.h"
 
 @interface HEREAddBeaconViewController ()
+{
+    NSTimer *animationTimer;
+}
 
 @end
 
@@ -21,13 +24,13 @@
     self.locationManager.delegate = self;
     NSUUID *redBearUUID = [[NSUUID alloc] initWithUUIDString:@"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0"];
     self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:redBearUUID identifier:@"beacon"];
-    [self.locationManager startMonitoringForRegion:self.beaconRegion];
+
+    // setup animation view
+    self.animationView.layer.cornerRadius = self.animationView.frame.size.width / 2;
+    self.animationView.duration = 0.5;
+    self.animationView.delay = 0;
+    self.animationView.type = CSAnimationTypeZoomIn;
     
-    if (![CLLocationManager isMonitoringAvailableForClass:[CLBeaconRegion class]]) {
-        NSLog(@"Couldn't turn on region monitoring: Region monitoring is not available for CLBeaconRegion class.");
-        return;
-    }
-    [self.locationManager requestAlwaysAuthorization];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,13 +48,28 @@
 }
 */
 
-- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender {
+- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender
+{
+    
 }
 
-- (IBAction)addBeaconButtonPressed:(UIButton *)sender {
+- (IBAction)addBeaconButtonPressed:(UIButton *)sender
+{
+    
 }
 
-- (IBAction)cancelButtonPressed:(UIButton *)sender {
+- (IBAction)cancelButtonPressed:(UIButton *)sender
+{
+    
+}
+
+- (IBAction)scanBeaconButtonPressed:(UIButton *)sender
+{
+    self.scanBeaconButton.hidden = YES;
+    self.scanningBeaconsLabel.hidden = NO;
+    animationTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self.animationView selector:@selector(startCanvasAnimation) userInfo:nil repeats:YES];
+    [self.locationManager startMonitoringForRegion:self.beaconRegion];
+    [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
 }
 
 #pragma mark - CoreLocation Delegate
@@ -69,10 +87,23 @@
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
     CLBeacon *foundBeacon = [beacons firstObject];
-    NSString *major = [NSString stringWithFormat:@"%@", foundBeacon.major];
-    NSString *minor = [NSString stringWithFormat:@"%@", foundBeacon.minor];
-    self.majorLabel.text = major;
-    self.minorLabel.text = minor;
+    if (foundBeacon.major && foundBeacon.minor) {
+        NSString *major = [NSString stringWithFormat:@"%@", foundBeacon.major];
+        NSString *minor = [NSString stringWithFormat:@"%@", foundBeacon.minor];
+        self.majorNumberLabel.text = major;
+        self.minorNumberLabel.text = minor;
+ 
+        [animationTimer invalidate];
+        animationTimer = nil;
+        
+        self.animationView.hidden = YES;
+        self.majorLabel.hidden = NO;
+        self.majorNumberLabel.hidden = NO;
+        self.minorLabel.hidden = NO;
+        self.minorNumberLabel.hidden = NO;
+        self.addBeaconButton.hidden = NO;
+        self.beaconNameTextField.hidden = NO;
+    }
 }
 
 @end

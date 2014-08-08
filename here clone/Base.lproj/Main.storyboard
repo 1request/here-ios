@@ -335,13 +335,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Major:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Sd-OL-PFT">
-                                <rect key="frame" x="196" y="94" width="49" height="21"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Major:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Sd-OL-PFT">
+                                <rect key="frame" x="196" y="94" width="48.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pms-wH-PD6">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minor:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eke-Au-Vp4">
+                                <rect key="frame" x="196" y="135.5" width="49" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pms-wH-PD6">
                                 <rect key="frame" x="275" y="94" width="50" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="drt-4x-qpb"/>
@@ -351,7 +357,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hp1-Vf-wpu">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hp1-Vf-wpu">
                                 <rect key="frame" x="275" y="135" width="50" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="TW5-bi-WeL"/>
@@ -374,7 +380,7 @@
                                     <action selector="cancelButtonPressed:" destination="Ty5-G3-cq6" eventType="touchUpInside" id="xem-6Y-Ypw"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTO-QJ-otk">
+                            <button hidden="YES" opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTO-QJ-otk">
                                 <rect key="frame" x="28" y="354" width="544" height="86"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="GTO-QJ-otk" secondAttribute="height" multiplier="272:43" id="dbd-tc-EPW"/>
@@ -388,17 +394,45 @@
                                     <action selector="addBeaconButtonPressed:" destination="Ty5-G3-cq6" eventType="touchUpInside" id="QUI-gz-WNU"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="name this beacon:" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9p5-h4-wBg">
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="name this beacon:" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9p5-h4-wBg">
                                 <rect key="frame" x="36" y="274" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minor:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eke-Au-Vp4">
-                                <rect key="frame" x="196" y="135" width="49" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PuB-mN-t4n" customClass="CSAnimationView">
+                                <rect key="frame" x="200" y="200" width="200" height="200"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dXZ-U9-dNc">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                        <state key="normal" title="Scan Beacon">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="scanBeaconButtonPressed:" destination="Ty5-G3-cq6" eventType="touchUpInside" id="sFJ-yg-mgn"/>
+                                        </connections>
+                                    </button>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scanning Beacons" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="120" translatesAutoresizingMaskIntoConstraints="NO" id="u0Q-cu-eNn">
+                                        <rect key="frame" x="40" y="40" width="120" height="120"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.12941176469999999" green="0.6705882353" blue="0.21960784310000001" alpha="0.87" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="dXZ-U9-dNc" secondAttribute="bottom" id="4rB-hD-wpQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="u0Q-cu-eNn" secondAttribute="bottom" constant="40" id="5ro-za-mdw"/>
+                                    <constraint firstAttribute="trailing" secondItem="u0Q-cu-eNn" secondAttribute="trailing" constant="40" id="HMT-aP-iT4"/>
+                                    <constraint firstItem="u0Q-cu-eNn" firstAttribute="top" secondItem="PuB-mN-t4n" secondAttribute="top" constant="40" id="KLE-pW-zKg"/>
+                                    <constraint firstItem="dXZ-U9-dNc" firstAttribute="top" secondItem="PuB-mN-t4n" secondAttribute="top" id="S2v-bO-1Br"/>
+                                    <constraint firstAttribute="trailing" secondItem="dXZ-U9-dNc" secondAttribute="trailing" id="dSs-cF-qcq"/>
+                                    <constraint firstAttribute="width" constant="200" id="e3l-89-NDL"/>
+                                    <constraint firstAttribute="height" constant="200" id="hJr-DI-CIr"/>
+                                    <constraint firstItem="u0Q-cu-eNn" firstAttribute="leading" secondItem="PuB-mN-t4n" secondAttribute="leading" constant="40" id="iGJ-fQ-t5c"/>
+                                    <constraint firstItem="dXZ-U9-dNc" firstAttribute="leading" secondItem="PuB-mN-t4n" secondAttribute="leading" id="nJe-iD-dCS"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -414,12 +448,14 @@
                             <constraint firstItem="GTO-QJ-otk" firstAttribute="top" secondItem="9p5-h4-wBg" secondAttribute="bottom" constant="50" id="VEO-7H-N09"/>
                             <constraint firstItem="hp1-Vf-wpu" firstAttribute="top" secondItem="Pms-wH-PD6" secondAttribute="bottom" constant="20" id="VOc-Pe-Bfr"/>
                             <constraint firstItem="gAl-vC-Sfg" firstAttribute="leading" secondItem="XVM-uL-hPD" secondAttribute="leadingMargin" constant="12" id="Xn1-2G-fM6"/>
+                            <constraint firstAttribute="centerY" secondItem="PuB-mN-t4n" secondAttribute="centerY" id="c7Q-BJ-Tor"/>
                             <constraint firstAttribute="centerX" secondItem="hp1-Vf-wpu" secondAttribute="centerX" id="dGf-Kh-yPs"/>
                             <constraint firstAttribute="centerX" secondItem="Pms-wH-PD6" secondAttribute="centerX" id="fg4-vt-K74"/>
                             <constraint firstItem="hp1-Vf-wpu" firstAttribute="leading" secondItem="eke-Au-Vp4" secondAttribute="trailing" constant="30" id="mqU-08-6fB"/>
                             <constraint firstItem="gAl-vC-Sfg" firstAttribute="top" secondItem="GTO-QJ-otk" secondAttribute="bottom" constant="10" id="oJ8-Pg-bbn"/>
                             <constraint firstItem="Pms-wH-PD6" firstAttribute="centerY" secondItem="3Sd-OL-PFT" secondAttribute="centerY" id="qbv-TS-tk5"/>
                             <constraint firstItem="eke-Au-Vp4" firstAttribute="centerY" secondItem="hp1-Vf-wpu" secondAttribute="centerY" id="tn6-6T-Oq0"/>
+                            <constraint firstAttribute="centerX" secondItem="PuB-mN-t4n" secondAttribute="centerX" id="vBy-bK-rv7"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -431,9 +467,15 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addBeaconButton" destination="GTO-QJ-otk" id="3II-Am-G8I"/>
+                        <outlet property="animationView" destination="PuB-mN-t4n" id="y3A-9u-oVD"/>
                         <outlet property="beaconNameTextField" destination="9p5-h4-wBg" id="CSt-Hj-kp2"/>
-                        <outlet property="majorLabel" destination="Pms-wH-PD6" id="eS2-9L-ljw"/>
-                        <outlet property="minorLabel" destination="hp1-Vf-wpu" id="OTI-U3-CaO"/>
+                        <outlet property="majorLabel" destination="3Sd-OL-PFT" id="k0m-tw-JQ0"/>
+                        <outlet property="majorNumberLabel" destination="Pms-wH-PD6" id="yO2-m2-clX"/>
+                        <outlet property="minorLabel" destination="eke-Au-Vp4" id="XSy-r0-mOW"/>
+                        <outlet property="minorNumberLabel" destination="hp1-Vf-wpu" id="u4k-Vd-z6J"/>
+                        <outlet property="scanBeaconButton" destination="dXZ-U9-dNc" id="mqQ-VS-6kF"/>
+                        <outlet property="scanningBeaconsLabel" destination="u0Q-cu-eNn" id="83S-Ix-fwz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nv6-NC-VlK" userLabel="First Responder" sceneMemberID="firstResponder"/>
