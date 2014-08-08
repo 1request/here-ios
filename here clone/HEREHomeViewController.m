@@ -46,6 +46,13 @@
     self.audioRecorder.delegate = self;
     self.audioRecorder.meteringEnabled = YES;
     [self.audioRecorder prepareToRecord];
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    
+    if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        [self.locationManager requestAlwaysAuthorization];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
