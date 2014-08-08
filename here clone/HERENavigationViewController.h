@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "REFrostedViewController.h"
+#import "UIViewController+HEREMenu.h"
 
 @interface HERENavigationViewController : UINavigationController
 

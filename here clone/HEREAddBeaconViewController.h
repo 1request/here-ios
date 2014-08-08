@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "REFrostedViewController.h"
 #import "Canvas.h"
+#import "UIViewController+HEREMenu.h"
 
 @interface HEREAddBeaconViewController : UIViewController <CLLocationManagerDelegate>
 

@@ -50,7 +50,7 @@
 
 - (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender
 {
-    
+    [self showMenu];
 }
 
 - (IBAction)addBeaconButtonPressed:(UIButton *)sender
