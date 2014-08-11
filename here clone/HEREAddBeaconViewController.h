@@ -13,8 +13,15 @@
 #import "UIViewController+HEREMenu.h"
 #import <AudioToolbox/AudioToolbox.h>
 
-@interface HEREAddBeaconViewController : UIViewController <CLLocationManagerDelegate>
+@protocol addBeaconViewControllerDelegate <NSObject>
 
+- (void)didAddBeacon;
+
+@end
+
+@interface HEREAddBeaconViewController : UIViewController <CLLocationManagerDelegate, UIAlertViewDelegate>
+
+@property (weak, nonatomic) id <addBeaconViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UILabel *majorLabel;
 @property (strong, nonatomic) IBOutlet UILabel *minorLabel;
 @property (strong, nonatomic) IBOutlet UILabel *majorNumberLabel;

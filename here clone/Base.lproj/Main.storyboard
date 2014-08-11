@@ -126,7 +126,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSW-Lm-KWg">
-                                <rect key="frame" x="28" y="494" width="544" height="86"/>
+                                <rect key="frame" x="28" y="450" width="544" height="86"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="fSW-Lm-KWg" secondAttribute="height" multiplier="272:43" id="66M-Ss-2y5"/>
                                 </constraints>
