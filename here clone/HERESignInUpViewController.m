@@ -1,23 +1,23 @@
 //
-//  HERESignInViewController.m
+//  HERESignInUpViewController.m
 //  here clone
 //
-//  Created by Joseph Cheung on 6/8/14.
+//  Created by Joseph Cheung on 8/8/14.
 //  Copyright (c) 2014 Reque.st. All rights reserved.
 //
 
-#import "HERESignInViewController.h"
+#import "HERESignInUpViewController.h"
 
-@interface HERESignInViewController ()
+@interface HERESignInUpViewController ()
 
 @end
 
-@implementation HERESignInViewController
+@implementation HERESignInUpViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,11 +35,4 @@
 }
 */
 
-- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender
-{
-    [self showMenu];
-}
-
-- (IBAction)signInButtonPressed:(UIButton *)sender {
-}
 @end
