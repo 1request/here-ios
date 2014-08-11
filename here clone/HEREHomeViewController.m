@@ -53,6 +53,8 @@
     if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
         [self.locationManager requestAlwaysAuthorization];
     }
+    
+    self.usernameLabel.text = [PFUser currentUser].username;
 }
 
 - (void)didReceiveMemoryWarning {

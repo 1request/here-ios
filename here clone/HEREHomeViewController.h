@@ -18,6 +18,8 @@
 @property (strong, nonatomic)AVAudioRecorder *audioRecorder;
 @property (strong, nonatomic) IBOutlet UIButton *recordMessageButton;
 @property (strong, nonatomic) IBOutlet UIButton *avatarButton;
+@property (strong, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (strong, nonatomic) IBOutlet UIView *locationLabel;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
