@@ -8,8 +8,9 @@
 
 #import "HEREBeaconsTableViewController.h"
 
-@interface HEREBeaconsTableViewController ()
-
+@interface HEREBeaconsTableViewController (){
+    NSMutableArray *beacons;
+}
 @end
 
 @implementation HEREBeaconsTableViewController
@@ -24,6 +25,11 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self queryBeacons];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -32,46 +38,56 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [beacons count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeaconCell" forIndexPath:indexPath];
     
     // Configure the cell...
     
+    PFObject *beacon = beacons[indexPath.row];
+    
+    cell.textLabel.text = beacon[kHEREBeaconNameKey];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Major: %@, Minor: %@", beacon[kHEREBeaconMajorKey], beacon[kHEREBeaconMinorKey]];
+    
     return cell;
 }
-*/
 
-/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        PFObject *beacon = beacons[indexPath.row];
+        
+        [beacon deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!error) {
+                if (succeeded) {
+                    NSLog(@"Deleted beacon (name: %@)", beacon[kHEREBeaconNameKey]);
+                }
+            }
+            else {
+                NSLog(@"Error when delete beacon, error: %@", error.description);
+            }
+        }];
+        
+        [beacons removeObjectAtIndex:indexPath.row];
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    }
 }
-*/
 
 /*
 // Override to support rearranging the table view.
@@ -101,4 +117,23 @@
 {
     [self showMenu];
 }
+
+#pragma mark - helper methods
+
+- (void)queryBeacons
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Beacon"];
+    [query whereKey:kHEREBeaconUserKey equalTo:[PFUser currentUser]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            NSLog(@"Queried successfully; count: %tu", [beacons count]);
+            beacons = [objects mutableCopy];
+            [self.tableView reloadData];
+        }
+        else {
+            NSLog(@"Error when query beacons in beaconsTableViewController: %@", error.description);
+        }
+    }];
+}
+
 @end
