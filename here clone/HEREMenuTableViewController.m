@@ -10,10 +10,14 @@
 #import "HEREHomeViewController.h"
 #import "HEREBeaconsTableViewController.h"
 #import "HEREStatusViewController.h"
+#import "HERECreateUserViewController.h"
+#import "HERESignInViewController.h"
 #import "UIViewController+REFrostedViewController.h"
 #import "HERENavigationViewController.h"
 
 @interface HEREMenuTableViewController ()
+
+@property (strong, nonatomic) UILabel *usernameLabel;
 
 @end
 
@@ -28,30 +32,36 @@
     self.tableView.dataSource = self;
     self.tableView.opaque = NO;
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.tableHeaderView = ({
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 100, 100)];
-        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        imageView.image = [UIImage imageNamed:@"anonymous_user.png"];
-        imageView.layer.masksToBounds = YES;
-        imageView.layer.borderColor = [UIColor clearColor].CGColor;
-        imageView.layer.borderWidth = 3.0f;
-        imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        imageView.layer.shouldRasterize = YES;
-        imageView.clipsToBounds = YES;
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
-        label.text = @"Roman Efimov";
-        label.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
-        label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
-        [label sizeToFit];
-        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        
-        [view addSubview:imageView];
-        [view addSubview:label];
-        view;
-    });
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if ([PFUser currentUser]) {
+        self.tableView.tableHeaderView = ({
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 100, 100)];
+            imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+            imageView.image = [UIImage imageNamed:@"anonymous_user.png"];
+            imageView.layer.masksToBounds = YES;
+            imageView.layer.borderColor = [UIColor clearColor].CGColor;
+            imageView.layer.borderWidth = 3.0f;
+            imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+            imageView.layer.shouldRasterize = YES;
+            imageView.clipsToBounds = YES;
+            
+            self.usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
+            self.usernameLabel.text = [PFUser currentUser].username;
+            self.usernameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
+            self.usernameLabel.backgroundColor = [UIColor clearColor];
+            self.usernameLabel.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
+            [self.usernameLabel sizeToFit];
+            self.usernameLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+            [view addSubview:imageView];
+            [view addSubview:self.usernameLabel];
+            view;
+        });
+    }
+    [self.tableView reloadData];
 }
 
 #pragma mark -
@@ -96,15 +106,28 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HERENavigationViewController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentController"];
     
-    if (indexPath.row == 0) {
-        HEREHomeViewController *homeViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
-        navigationController.viewControllers = @[homeViewController];
-    } else if (indexPath.row == 1) {
-        HEREBeaconsTableViewController *beaconsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"beaconsController"];
-        navigationController.viewControllers = @[beaconsTableViewController];
-    } else {
-        HEREStatusViewController *statusController = [self.storyboard instantiateViewControllerWithIdentifier:@"statusController"];
-        navigationController.viewControllers = @[statusController];
+    if ([PFUser currentUser]) {
+        if (indexPath.row == 0) {
+            HEREHomeViewController *homeViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
+            navigationController.viewControllers = @[homeViewController];
+        } else if (indexPath.row == 1) {
+            HEREBeaconsTableViewController *beaconsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"beaconsController"];
+            navigationController.viewControllers = @[beaconsTableViewController];
+        } else if (indexPath.row == 2) {
+            HEREStatusViewController *statusController = [self.storyboard instantiateViewControllerWithIdentifier:@"statusController"];
+            navigationController.viewControllers = @[statusController];
+        } else {
+            [PFUser logOut];
+        }
+    }
+    else {
+        if (indexPath.row == 0) {
+            HERESignInViewController *signInController = [self.storyboard instantiateViewControllerWithIdentifier:@"signInController"];
+            navigationController.viewControllers = @[signInController];
+        } else {
+            HERECreateUserViewController *createAccountController = [self.storyboard instantiateViewControllerWithIdentifier:@"createAccountController"];
+            navigationController.viewControllers = @[createAccountController];
+        }
     }
     
     self.frostedViewController.contentViewController = navigationController;
@@ -126,8 +149,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return 3
-    ;
+    if ([PFUser currentUser]) {
+        return 4;
+    }
+    else {
+        return 2;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -140,8 +167,14 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    NSArray *titles = @[@"Home", @"Beacons", @"Status"];
-    cell.textLabel.text = titles[indexPath.row];
+    if ([PFUser currentUser]) {
+        NSArray *titles = @[@"Home", @"Beacons", @"Status", @"Sign out"];
+        cell.textLabel.text = titles[indexPath.row];
+    }
+    else {
+        NSArray *titles = @[@"Sign in", @"Sign up"];
+        cell.textLabel.text = titles[indexPath.row];
+    }
     
     return cell;
 }
