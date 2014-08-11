@@ -16,13 +16,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)]];
+    [self.view addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureRecognized:)]];
 }
 
 #pragma mark - Gesture recognizer
 
-- (void)panGestureRecognized:(UIPanGestureRecognizer *)sender
+
+- (void)swipeGestureRecognized:(UIPanGestureRecognizer *)sender
 {
+    
     [self showMenu];
 }
 

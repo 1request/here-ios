@@ -12,6 +12,6 @@
 
 @interface HERENavigationViewController : UINavigationController
 
-- (void)panGestureRecognized:(UIPanGestureRecognizer *)sender;
+- (void)swipeGestureRecognized:(UIPanGestureRecognizer *)sender;
 
 @end
