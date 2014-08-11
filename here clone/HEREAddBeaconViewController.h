@@ -19,7 +19,7 @@
 
 @end
 
-@interface HEREAddBeaconViewController : UIViewController <CLLocationManagerDelegate>
+@interface HEREAddBeaconViewController : UIViewController <CLLocationManagerDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) id <addBeaconViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UILabel *majorLabel;
