@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		35470C42431644F88034A4CD /* libPods-here clone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4514242B13346C6B416A6E6 /* libPods-here clone.a */; };
+		7C01C03719989AD700124BEC /* HEREConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C01C03619989AD700124BEC /* HEREConstant.m */; };
 		7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C141991E1E900C53C7B /* HERERootViewController.m */; };
 		7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */; };
 		7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C1E199200D000C53C7B /* HERENavigationViewController.m */; };
@@ -80,6 +81,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7C01C03519989AD700124BEC /* HEREConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREConstant.h; sourceTree = "<group>"; };
+		7C01C03619989AD700124BEC /* HEREConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREConstant.m; sourceTree = "<group>"; };
 		7C3E5C131991E1E900C53C7B /* HERERootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERERootViewController.h; sourceTree = "<group>"; };
 		7C3E5C141991E1E900C53C7B /* HERERootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERERootViewController.m; sourceTree = "<group>"; };
 		7C3E5C171991EF6300C53C7B /* HEREHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREHomeViewController.h; sourceTree = "<group>"; };
@@ -292,6 +295,8 @@
 			children = (
 				7C9E818F1991DFA100156B88 /* AppDelegate.h */,
 				7C9E81901991DFA100156B88 /* AppDelegate.m */,
+				7C01C03519989AD700124BEC /* HEREConstant.h */,
+				7C01C03619989AD700124BEC /* HEREConstant.m */,
 				7C3E5C161991E1F100C53C7B /* Controllers */,
 				7C9E81951991DFA100156B88 /* Main.storyboard */,
 				7C9E81981991DFA100156B88 /* Images.xcassets */,
@@ -517,6 +522,7 @@
 				7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */,
 				7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */,
 				7C3E5C28199207C100C53C7B /* HERECreateUserViewController.m in Sources */,
+				7C01C03719989AD700124BEC /* HEREConstant.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

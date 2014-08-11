@@ -11,6 +11,9 @@
 @interface HEREAddBeaconViewController ()
 {
     NSTimer *animationTimer;
+    NSNumber *major;
+    NSNumber *minor;
+    NSUUID *uuid;
 }
 
 @end
@@ -22,8 +25,8 @@
     // Do any additional setup after loading the view.
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
-    NSUUID *redBearUUID = [[NSUUID alloc] initWithUUIDString:@"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0"];
-    self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:redBearUUID identifier:@"beacon"];
+    uuid = [[NSUUID alloc] initWithUUIDString:@"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0"];
+    self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:@"beacon"];
 
     // setup animation view
     self.animationView.layer.cornerRadius = self.animationView.frame.size.width / 2;
@@ -54,7 +57,13 @@
 
 - (IBAction)addBeaconButtonPressed:(UIButton *)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (major && minor && uuid) {
+        [self addBeaconToParse];
+    }
+    else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Missing Information" message:@"Beacon UUID/major/minor is missing" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
 }
 
 - (IBAction)cancelButtonPressed:(UIButton *)sender
@@ -90,10 +99,10 @@
         
         [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];
         
-        NSString *major = [NSString stringWithFormat:@"%@", foundBeacon.major];
-        NSString *minor = [NSString stringWithFormat:@"%@", foundBeacon.minor];
-        self.majorNumberLabel.text = major;
-        self.minorNumberLabel.text = minor;
+        major = foundBeacon.major;
+        minor = foundBeacon.minor;
+        self.majorNumberLabel.text = [NSString stringWithFormat:@"%@", major];
+        self.minorNumberLabel.text = [NSString stringWithFormat:@"%@", minor];
  
         [animationTimer invalidate];
         animationTimer = nil;
@@ -113,6 +122,26 @@
         
         [alertView show];
     }
+}
+
+#pragma mark - helper methods
+
+- (void)addBeaconToParse
+{
+    PFObject *beacon = [PFObject objectWithClassName:kHEREBeaconClassKey];
+    [beacon setObject:[PFUser currentUser] forKey:kHEREBeaconUserKey];
+    [beacon setObject:[NSString stringWithFormat:@"%@", uuid.UUIDString] forKey:kHEREBeaconUUIDKey];
+    [beacon setObject:major forKey:kHEREBeaconMajorKey];
+    [beacon setObject:minor forKey:kHEREBeaconMinorKey];
+    [beacon saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"Save beacon successfully");
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else {
+            NSLog(@"Cannot save");
+        }
+    }];
 }
 
 @end
