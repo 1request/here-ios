@@ -14,6 +14,7 @@
     NSNumber *major;
     NSNumber *minor;
     NSUUID *uuid;
+    NSString *name;
 }
 
 @end
@@ -57,11 +58,12 @@
 
 - (IBAction)addBeaconButtonPressed:(UIButton *)sender
 {
-    if (major && minor && uuid) {
+    name = self.beaconNameTextField.text;
+    if (major && minor && uuid && name) {
         [self addBeaconToParse];
     }
     else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Missing Information" message:@"Beacon UUID/major/minor is missing" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Missing Information" message:@"Beacon UUID/major/minor/name is missing" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertView show];
     }
 }
@@ -133,6 +135,7 @@
     [beacon setObject:[NSString stringWithFormat:@"%@", uuid.UUIDString] forKey:kHEREBeaconUUIDKey];
     [beacon setObject:major forKey:kHEREBeaconMajorKey];
     [beacon setObject:minor forKey:kHEREBeaconMinorKey];
+    [beacon setObject:name forKey:kHEREBeaconNameKey];
     [beacon saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             NSLog(@"Save beacon successfully");

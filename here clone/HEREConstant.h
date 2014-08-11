@@ -16,5 +16,6 @@ extern NSString *const kHEREBeaconUserKey;
 extern NSString *const kHEREBeaconUUIDKey;
 extern NSString *const kHEREBeaconMajorKey;
 extern NSString *const kHEREBeaconMinorKey;
+extern NSString *const kHEREBeaconNameKey;
 
 @end

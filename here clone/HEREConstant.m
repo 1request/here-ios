@@ -16,5 +16,6 @@ NSString *const kHEREBeaconUserKey      = @"user";
 NSString *const kHEREBeaconUUIDKey      = @"uuid";
 NSString *const kHEREBeaconMajorKey     = @"major";
 NSString *const kHEREBeaconMinorKey     = @"minor";
+NSString *const kHEREBeaconNameKey      = @"name";
 
 @end
