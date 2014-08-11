@@ -510,7 +510,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oaD-fi-amb">
                                 <rect key="frame" x="36" y="360" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <variation key="widthClass=compact" ambiguous="YES">
                                     <rect key="frame" x="36" y="359" width="328" height="30"/>
                                 </variation>
@@ -518,7 +518,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P01-BL-ZL3">
                                 <rect key="frame" x="36" y="410" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <variation key="widthClass=compact" ambiguous="YES">
                                     <rect key="frame" x="36" y="409" width="328" height="30"/>
                                 </variation>
@@ -558,6 +558,7 @@
                     <connections>
                         <outlet property="passwordTextField" destination="P01-BL-ZL3" id="eSS-Tt-6ho"/>
                         <outlet property="usernameTextField" destination="oaD-fi-amb" id="Ejo-9H-X64"/>
+                        <segue destination="6xc-lR-L0r" kind="show" identifier="signInToHomeSegue" id="mFJ-aU-qzW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FeS-tg-5R0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -663,6 +664,6 @@
         <image name="mic.png" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="f7h-xH-kAF"/>
+        <segue reference="mFJ-aU-qzW"/>
     </inferredMetricsTieBreakers>
 </document>

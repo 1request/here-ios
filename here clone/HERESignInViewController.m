@@ -40,6 +40,16 @@
     [self showMenu];
 }
 
-- (IBAction)signInButtonPressed:(UIButton *)sender {
+- (IBAction)signInButtonPressed:(UIButton *)sender
+{
+    [PFUser logInWithUsernameInBackground:self.usernameTextField.text password:self.passwordTextField.text block:^(PFUser *user, NSError *error) {
+        if (!user) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Fail" message:@"username / password combination is incorrect" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertView show];
+        }
+        else {
+            [self performSegueWithIdentifier:@"signInToHomeSegue" sender:self];
+        }
+    }];
 }
 @end
