@@ -10,6 +10,8 @@
 #import "HEREHomeViewController.h"
 #import "HEREBeaconsTableViewController.h"
 #import "HEREStatusViewController.h"
+#import "HERECreateUserViewController.h"
+#import "HERESignInViewController.h"
 #import "UIViewController+REFrostedViewController.h"
 #import "HERENavigationViewController.h"
 
@@ -54,6 +56,11 @@
     });
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
+}
+
 #pragma mark -
 #pragma mark UITableView Delegate
 
@@ -96,15 +103,28 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HERENavigationViewController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentController"];
     
-    if (indexPath.row == 0) {
-        HEREHomeViewController *homeViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
-        navigationController.viewControllers = @[homeViewController];
-    } else if (indexPath.row == 1) {
-        HEREBeaconsTableViewController *beaconsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"beaconsController"];
-        navigationController.viewControllers = @[beaconsTableViewController];
-    } else {
-        HEREStatusViewController *statusController = [self.storyboard instantiateViewControllerWithIdentifier:@"statusController"];
-        navigationController.viewControllers = @[statusController];
+    if ([PFUser currentUser]) {
+        if (indexPath.row == 0) {
+            HEREHomeViewController *homeViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
+            navigationController.viewControllers = @[homeViewController];
+        } else if (indexPath.row == 1) {
+            HEREBeaconsTableViewController *beaconsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"beaconsController"];
+            navigationController.viewControllers = @[beaconsTableViewController];
+        } else if (indexPath.row == 2) {
+            HEREStatusViewController *statusController = [self.storyboard instantiateViewControllerWithIdentifier:@"statusController"];
+            navigationController.viewControllers = @[statusController];
+        } else {
+            [PFUser logOut];
+        }
+    }
+    else {
+        if (indexPath.row == 0) {
+            HERESignInViewController *signInController = [self.storyboard instantiateViewControllerWithIdentifier:@"signInController"];
+            navigationController.viewControllers = @[signInController];
+        } else {
+            HERECreateUserViewController *createAccountController = [self.storyboard instantiateViewControllerWithIdentifier:@"createAccountController"];
+            navigationController.viewControllers = @[createAccountController];
+        }
     }
     
     self.frostedViewController.contentViewController = navigationController;
@@ -126,8 +146,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return 3
-    ;
+    if ([PFUser currentUser]) {
+        return 4;
+    }
+    else {
+        return 2;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -140,8 +164,14 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    NSArray *titles = @[@"Home", @"Beacons", @"Status"];
-    cell.textLabel.text = titles[indexPath.row];
+    if ([PFUser currentUser]) {
+        NSArray *titles = @[@"Home", @"Beacons", @"Status", @"Sign out"];
+        cell.textLabel.text = titles[indexPath.row];
+    }
+    else {
+        NSArray *titles = @[@"Sign in", @"Sign up"];
+        cell.textLabel.text = titles[indexPath.row];
+    }
     
     return cell;
 }

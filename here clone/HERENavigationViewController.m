@@ -7,7 +7,7 @@
 //
 
 #import "HERENavigationViewController.h"
-
+#import "HERESignInUpViewController.h"
 @interface HERENavigationViewController ()
 
 @end
@@ -25,7 +25,9 @@
 - (void)swipeGestureRecognized:(UIPanGestureRecognizer *)sender
 {
     
-    [self showMenu];
+    if (![self.visibleViewController isKindOfClass:[HERESignInUpViewController class]]) {
+        [self showMenu];
+    }
 }
 
 @end
