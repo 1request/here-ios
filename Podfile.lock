@@ -3,12 +3,14 @@ PODS:
   - Canvas (0.1.2)
   - Facebook-iOS-SDK (3.16.2):
     - Bolts
+  - IQKeyboardManager (3.0.6)
   - Parse (1.2.20):
     - Facebook-iOS-SDK (~> 3.11)
   - REFrostedViewController (2.4.6)
 
 DEPENDENCIES:
   - Canvas (~> 0.1.2)
+  - IQKeyboardManager
   - Parse
   - REFrostedViewController (~> 2.4.6)
 
@@ -16,6 +18,7 @@ SPEC CHECKSUMS:
   Bolts: 0ca796081c3e7c139bd86d6903c27f1b83036a5d
   Canvas: ae2faca05a15c4d6659fb3ae5e2a14817df4449a
   Facebook-iOS-SDK: 34eef640c2cc4c8618ba0f574ad2b290e07f1b4e
+  IQKeyboardManager: 3381092a6728e3565a6ad5051c44386be36bd990
   Parse: 28c0dc54f30201a369d29a2f76c09fa43b2add16
   REFrostedViewController: 0f6bb16aeb4b384da25cc3c97bc1a16926583c62
 
