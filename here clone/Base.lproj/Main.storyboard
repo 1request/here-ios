@@ -621,7 +621,7 @@
                         <segue destination="rjK-Sj-WAX" kind="relationship" relationship="rootViewController" id="yWy-a3-eO0"/>
                         <segue destination="6xc-lR-L0r" kind="show" identifier="navigationToHomeSegue" id="f7h-xH-kAF"/>
                         <segue destination="IUn-Gp-h4L" kind="show" identifier="toCreateUserViewControllerSegue" id="YfP-lJ-EHk"/>
-                        <segue destination="0YV-o3-iYG" kind="show" id="cbf-RF-qK9"/>
+                        <segue destination="0YV-o3-iYG" kind="show" identifier="toSignInSegue" id="cbf-RF-qK9"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ar5-fJ-Iph" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -639,7 +639,7 @@
         <image name="mic.png" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KAy-Fq-QwP"/>
+        <segue reference="cbf-RF-qK9"/>
         <segue reference="DUt-Op-gzX"/>
         <segue reference="aWV-Dy-yBl"/>
     </inferredMetricsTieBreakers>

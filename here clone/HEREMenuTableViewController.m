@@ -17,6 +17,8 @@
 
 @interface HEREMenuTableViewController ()
 
+@property (strong, nonatomic) UILabel *usernameLabel;
+
 @end
 
 @implementation HEREMenuTableViewController
@@ -30,34 +32,35 @@
     self.tableView.dataSource = self;
     self.tableView.opaque = NO;
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.tableHeaderView = ({
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 100, 100)];
-        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        imageView.image = [UIImage imageNamed:@"anonymous_user.png"];
-        imageView.layer.masksToBounds = YES;
-        imageView.layer.borderColor = [UIColor clearColor].CGColor;
-        imageView.layer.borderWidth = 3.0f;
-        imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        imageView.layer.shouldRasterize = YES;
-        imageView.clipsToBounds = YES;
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
-        label.text = @"Roman Efimov";
-        label.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
-        label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
-        [label sizeToFit];
-        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        
-        [view addSubview:imageView];
-        [view addSubview:label];
-        view;
-    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    if ([PFUser currentUser]) {
+        self.tableView.tableHeaderView = ({
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 100, 100)];
+            imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+            imageView.image = [UIImage imageNamed:@"anonymous_user.png"];
+            imageView.layer.masksToBounds = YES;
+            imageView.layer.borderColor = [UIColor clearColor].CGColor;
+            imageView.layer.borderWidth = 3.0f;
+            imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+            imageView.layer.shouldRasterize = YES;
+            imageView.clipsToBounds = YES;
+            
+            self.usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
+            self.usernameLabel.text = [PFUser currentUser].username;
+            self.usernameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
+            self.usernameLabel.backgroundColor = [UIColor clearColor];
+            self.usernameLabel.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
+            [self.usernameLabel sizeToFit];
+            self.usernameLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+            [view addSubview:imageView];
+            [view addSubview:self.usernameLabel];
+            view;
+        });
+    }
     [self.tableView reloadData];
 }
 
