@@ -153,13 +153,39 @@
                                     <action selector="avatarButtonPressed:" destination="6xc-lR-L0r" eventType="touchUpInside" id="SZF-xK-hvz"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATw-Ve-bMq">
+                                <rect key="frame" x="36" y="349" width="528" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20.5" id="Tzv-Ve-Yol"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="0.24313725490196078" green="0.71372549019607845" blue="0.32156862745098036" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zod-Wa-3KF">
+                                <rect key="frame" x="36" y="379" width="528" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20.5" id="Hoa-eU-hw1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="0.85490196078431369" green="0.85490196078431369" blue="0.85490196078431369" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fSW-Lm-KWg" firstAttribute="leading" secondItem="cT1-dH-4In" secondAttribute="leadingMargin" constant="12" id="0oS-Pz-s9h"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ATw-Ve-bMq" secondAttribute="trailing" constant="20" id="1oX-jM-lf0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Zod-Wa-3KF" secondAttribute="trailing" constant="20" id="20r-53-Yh3"/>
                             <constraint firstItem="Zzu-Tp-GNh" firstAttribute="top" secondItem="xRm-Sh-Hvi" secondAttribute="bottom" constant="80" id="86X-ls-XoA"/>
+                            <constraint firstItem="Zod-Wa-3KF" firstAttribute="leading" secondItem="cT1-dH-4In" secondAttribute="leadingMargin" constant="20" id="B37-Io-JfK"/>
+                            <constraint firstItem="ATw-Ve-bMq" firstAttribute="top" secondItem="Zzu-Tp-GNh" secondAttribute="bottom" constant="10" id="CJP-V1-NLg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fSW-Lm-KWg" secondAttribute="trailing" constant="12" id="Ju3-h4-wrj"/>
+                            <constraint firstItem="ATw-Ve-bMq" firstAttribute="leading" secondItem="cT1-dH-4In" secondAttribute="leadingMargin" constant="20" id="LDP-1o-Lv1"/>
                             <constraint firstItem="yDG-ru-pM3" firstAttribute="top" secondItem="fSW-Lm-KWg" secondAttribute="bottom" constant="20" id="ZGz-An-uvs"/>
+                            <constraint firstAttribute="centerX" secondItem="Zod-Wa-3KF" secondAttribute="centerX" id="atA-Cn-iBC"/>
+                            <constraint firstAttribute="centerX" secondItem="ATw-Ve-bMq" secondAttribute="centerX" id="gBJ-qL-dqS"/>
+                            <constraint firstItem="Zod-Wa-3KF" firstAttribute="top" secondItem="ATw-Ve-bMq" secondAttribute="bottom" constant="10" id="ksY-mo-KQ5"/>
                             <constraint firstAttribute="centerX" secondItem="Zzu-Tp-GNh" secondAttribute="centerX" id="wS0-wE-1BJ"/>
                         </constraints>
                     </view>
@@ -169,16 +195,50 @@
                                 <action selector="menuBarButtonItemPressed:" destination="6xc-lR-L0r" id="bLH-Gc-fHX"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="add.png" id="2ef-yP-57K"/>
+                        <barButtonItem key="rightBarButtonItem" image="pin.png" id="2ef-yP-57K">
+                            <connections>
+                                <segue destination="OVM-YR-lc3" kind="show" id="7xy-E5-bBm"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="avatarButton" destination="Zzu-Tp-GNh" id="8hn-Bl-Qxk"/>
+                        <outlet property="locationLabel" destination="cT1-dH-4In" id="PZC-6Q-IWK"/>
                         <outlet property="recordMessageButton" destination="fSW-Lm-KWg" id="8dn-cc-IGt"/>
+                        <outlet property="usernameLabel" destination="ATw-Ve-bMq" id="hzJ-RO-Okp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uJ4-ga-gOI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1377" y="310"/>
+        </scene>
+        <!--Beacons Messages Table View Controller-->
+        <scene sceneID="Mao-IG-hvj">
+            <objects>
+                <tableViewController storyboardIdentifier="beaconsMessagesController" id="OVM-YR-lc3" customClass="HEREBeaconsMessagesTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9IT-4Z-NiS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="5bz-jd-owF">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5bz-jd-owF" id="4Ug-M2-i5Q">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="OVM-YR-lc3" id="na8-Ry-736"/>
+                            <outlet property="delegate" destination="OVM-YR-lc3" id="CVW-nM-bbl"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="XjC-6b-hR7"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VVq-uG-jE3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2117" y="310"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="Zp0-BE-8SG">
@@ -651,6 +711,7 @@
         <image name="light_button.png" width="544" height="86"/>
         <image name="menu.png" width="50" height="50"/>
         <image name="mic.png" width="50" height="50"/>
+        <image name="pin.png" width="38" height="38"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cbf-RF-qK9"/>
