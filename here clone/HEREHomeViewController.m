@@ -57,6 +57,8 @@
     }
     
     self.usernameLabel.text = [PFUser currentUser].username;
+    
+    [self.avatarButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
 }
 
 - (void)didReceiveMemoryWarning {
