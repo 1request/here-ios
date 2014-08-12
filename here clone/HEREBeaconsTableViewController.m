@@ -131,6 +131,7 @@
             NSLog(@"Queried successfully; count: %tu", [beacons count]);
             beacons = [objects mutableCopy];
             [self.tableView reloadData];
+            [self saveBeaconsLocally];
         }
         else {
             NSLog(@"Error when query beacons in beaconsTableViewController: %@", error.description);
@@ -162,7 +163,6 @@
 {
     NSLog(@"Did add beacon");
     [self queryBeacons];
-    [self saveBeaconsLocally];
 }
 
 @end

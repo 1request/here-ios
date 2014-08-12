@@ -11,15 +11,16 @@
 #import <CoreLocation/CoreLocation.h>
 #import "REFrostedViewController.h"
 #import "UIViewController+HEREMenu.h"
+#import "HEREBeaconsMessagesTableViewController.h"
 
-@interface HEREHomeViewController : UIViewController <AVAudioPlayerDelegate, AVAudioRecorderDelegate, CLLocationManagerDelegate>
+@interface HEREHomeViewController : UIViewController <AVAudioPlayerDelegate, AVAudioRecorderDelegate, CLLocationManagerDelegate, beaconsMessagesTableViewControllerDelegate>
 
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @property (strong, nonatomic)AVAudioRecorder *audioRecorder;
 @property (strong, nonatomic) IBOutlet UIButton *recordMessageButton;
 @property (strong, nonatomic) IBOutlet UIButton *avatarButton;
 @property (strong, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (strong, nonatomic) IBOutlet UIView *locationLabel;
+@property (strong, nonatomic) IBOutlet UILabel *locationLabel;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 

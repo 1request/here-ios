@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6205" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6198"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
@@ -203,7 +204,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="avatarButton" destination="Zzu-Tp-GNh" id="8hn-Bl-Qxk"/>
-                        <outlet property="locationLabel" destination="cT1-dH-4In" id="PZC-6Q-IWK"/>
+                        <outlet property="locationLabel" destination="Zod-Wa-3KF" id="1lr-tl-Frm"/>
                         <outlet property="recordMessageButton" destination="fSW-Lm-KWg" id="8dn-cc-IGt"/>
                         <outlet property="usernameLabel" destination="ATw-Ve-bMq" id="hzJ-RO-Okp"/>
                     </connections>
@@ -221,7 +222,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="5bz-jd-owF">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BeaconsMessagesCell" id="5bz-jd-owF">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5bz-jd-owF" id="4Ug-M2-i5Q">
                                     <autoresizingMask key="autoresizingMask"/>
