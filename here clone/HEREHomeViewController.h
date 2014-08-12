@@ -21,6 +21,9 @@
 @property (strong, nonatomic) IBOutlet UIButton *avatarButton;
 @property (strong, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *locationLabel;
+@property (strong, nonatomic) IBOutlet UILabel *activityLabel;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) IBOutlet UIView *activityView;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 

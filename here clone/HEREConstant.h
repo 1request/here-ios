@@ -24,5 +24,6 @@ extern NSString *const kHEREAudioClassKey;
 extern NSString *const kHEREAudioUserKey;
 extern NSString *const kHEREAudioBeaconKey;
 extern NSString *const kHEREAudioFileKey;
+extern NSString *const kHEREAudioIsReadKey;
 
 @end

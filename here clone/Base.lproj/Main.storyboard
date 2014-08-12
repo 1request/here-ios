@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6205" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6198"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
@@ -140,7 +141,7 @@
                                     <action selector="recordMessageButtonTouchedDown:" destination="6xc-lR-L0r" eventType="touchDown" id="aTC-Uu-wBA"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zzu-Tp-GNh">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zzu-Tp-GNh">
                                 <rect key="frame" x="197" y="144" width="207" height="195"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="195" id="AgG-2g-kLg"/>
@@ -171,6 +172,26 @@
                                 <color key="textColor" red="0.85490196078431369" green="0.85490196078431369" blue="0.85490196078431369" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6cL-hh-QQB">
+                                <rect key="frame" x="197" y="144.5" width="207" height="195"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYn-EE-CaC">
+                                        <rect key="frame" x="82" y="88" width="42" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="APe-Fd-Pxz">
+                                        <rect key="frame" x="59" y="88" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="FYn-EE-CaC" secondAttribute="centerY" id="75x-Zd-Imr"/>
+                                    <constraint firstItem="FYn-EE-CaC" firstAttribute="centerY" secondItem="APe-Fd-Pxz" secondAttribute="centerY" id="7RK-ys-viB"/>
+                                    <constraint firstAttribute="centerX" secondItem="FYn-EE-CaC" secondAttribute="centerX" id="RZp-IF-HUc"/>
+                                    <constraint firstItem="FYn-EE-CaC" firstAttribute="leading" secondItem="APe-Fd-Pxz" secondAttribute="trailing" constant="3" id="y8t-SD-2AB"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -180,9 +201,13 @@
                             <constraint firstItem="Zzu-Tp-GNh" firstAttribute="top" secondItem="xRm-Sh-Hvi" secondAttribute="bottom" constant="80" id="86X-ls-XoA"/>
                             <constraint firstItem="Zod-Wa-3KF" firstAttribute="leading" secondItem="cT1-dH-4In" secondAttribute="leadingMargin" constant="20" id="B37-Io-JfK"/>
                             <constraint firstItem="ATw-Ve-bMq" firstAttribute="top" secondItem="Zzu-Tp-GNh" secondAttribute="bottom" constant="10" id="CJP-V1-NLg"/>
+                            <constraint firstItem="Zzu-Tp-GNh" firstAttribute="centerY" secondItem="6cL-hh-QQB" secondAttribute="centerY" id="G4s-8m-m0d"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fSW-Lm-KWg" secondAttribute="trailing" constant="12" id="Ju3-h4-wrj"/>
                             <constraint firstItem="ATw-Ve-bMq" firstAttribute="leading" secondItem="cT1-dH-4In" secondAttribute="leadingMargin" constant="20" id="LDP-1o-Lv1"/>
+                            <constraint firstItem="Zzu-Tp-GNh" firstAttribute="width" secondItem="6cL-hh-QQB" secondAttribute="width" id="TKi-aM-uID"/>
+                            <constraint firstItem="Zzu-Tp-GNh" firstAttribute="centerX" secondItem="6cL-hh-QQB" secondAttribute="centerX" id="YGu-fw-joU"/>
                             <constraint firstItem="yDG-ru-pM3" firstAttribute="top" secondItem="fSW-Lm-KWg" secondAttribute="bottom" constant="20" id="ZGz-An-uvs"/>
+                            <constraint firstItem="Zzu-Tp-GNh" firstAttribute="height" secondItem="6cL-hh-QQB" secondAttribute="height" id="a9W-15-Vlg"/>
                             <constraint firstAttribute="centerX" secondItem="Zod-Wa-3KF" secondAttribute="centerX" id="atA-Cn-iBC"/>
                             <constraint firstAttribute="centerX" secondItem="ATw-Ve-bMq" secondAttribute="centerX" id="gBJ-qL-dqS"/>
                             <constraint firstItem="Zod-Wa-3KF" firstAttribute="top" secondItem="ATw-Ve-bMq" secondAttribute="bottom" constant="10" id="ksY-mo-KQ5"/>
@@ -202,6 +227,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="APe-Fd-Pxz" id="WOO-lW-6W0"/>
+                        <outlet property="activityLabel" destination="FYn-EE-CaC" id="f8o-Te-ojC"/>
+                        <outlet property="activityView" destination="6cL-hh-QQB" id="xCe-al-kdz"/>
                         <outlet property="avatarButton" destination="Zzu-Tp-GNh" id="8hn-Bl-Qxk"/>
                         <outlet property="locationLabel" destination="Zod-Wa-3KF" id="1lr-tl-Frm"/>
                         <outlet property="recordMessageButton" destination="fSW-Lm-KWg" id="8dn-cc-IGt"/>
@@ -321,7 +349,7 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D58A821F-FA24-4735-8868-564A714CAC12" translatesAutoresizingMaskIntoConstraints="NO" id="HJC-dA-KQY">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="5F788FF0-19AB-4F2A-AE69-07599F0CECBD" translatesAutoresizingMaskIntoConstraints="NO" id="HJC-dA-KQY">
                                 <rect key="frame" x="216" y="144" width="167" height="195"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="167" id="9T3-Fp-SX0"/>
@@ -705,7 +733,7 @@
     </scenes>
     <resources>
         <image name="1_01.png" width="402" height="590"/>
-        <image name="D58A821F-FA24-4735-8868-564A714CAC12" width="354" height="385">
+        <image name="5F788FF0-19AB-4F2A-AE69-07599F0CECBD" width="354" height="385">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

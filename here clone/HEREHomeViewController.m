@@ -11,6 +11,7 @@
 @interface HEREHomeViewController ()
 
 @property (strong, nonatomic) HEREBeacon *beacon;
+@property (strong, nonatomic) NSMutableArray *audioRecords;
 
 @end
 
@@ -59,6 +60,8 @@
     self.usernameLabel.text = [PFUser currentUser].username;
     
     [self.avatarButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    
+    if (self.beacon) [self queryAudio];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -117,13 +120,23 @@
 - (IBAction)avatarButtonPressed:(UIButton *)sender
 {
     if (!self.audioRecorder.recording) {
+        PFObject *audio = [self.audioRecords lastObject];
         NSError *error;
-        self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.audioRecorder.url error:&error];
-        if (error) {
-            NSLog(@"Error: %@", [error localizedDescription]);
+        if (audio) {
+            NSLog(@"Play audio from parse");
+            PFFile *audioFile = audio[kHEREAudioFileKey];
+            NSURL *url = [[NSURL alloc] initWithString:[audioFile url]];
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
+        } else {
+            self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.audioRecorder.url error:&error];
+        }
+        if (!error) {
+            NSLog(@"no error, play audio");
+            [self.audioPlayer play];
         }
         else {
-            [self.audioPlayer play];
+            NSLog(@"Error palying audio: %@", error.description);
         }
     }
 }
@@ -135,6 +148,7 @@
     NSLog(@"did select beacon, parseId: %@", beacon.parseId
           );
     self.beacon = beacon;
+    [self queryAudio];
     self.locationLabel.text = beacon.name;
 }
 
@@ -142,6 +156,11 @@
 
 - (void)uploadAudio
 {
+    self.activityView.hidden = NO;
+    [self showActivityIndicator];
+    self.activityLabel.text = @"Uploading";
+    self.avatarButton.enabled = NO;
+    
     NSData *audioData = [NSData dataWithContentsOfURL:self.audioRecorder.url];
     
     PFFile *audioFile = [PFFile fileWithName:@"memo.m4a" data:audioData];
@@ -151,13 +170,58 @@
             PFObject *audio = [PFObject objectWithClassName:kHEREAudioClassKey];
             [audio setObject:[PFUser currentUser] forKey:kHEREAudioUserKey];
             [audio setObject:audioFile forKey:kHEREAudioFileKey];
+            [audio setObject:[NSNumber numberWithBool:NO] forKey:kHEREAudioIsReadKey];
             audio[kHEREAudioBeaconKey] = [PFObject objectWithoutDataWithClassName:kHEREBeaconClassKey objectId:self.beacon.parseId];
             [audio saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
                     NSLog(@"save audio file and collection successfully");
+                    [self hideActivityIndicator];
+                    self.activityView.hidden = YES;
+                    [self queryAudio];
                 }
             }];
         }
+    }];
+}
+
+- (void)queryAudio
+{
+    [self showActivityIndicator];
+    self.activityLabel.text = @"Querying";
+    self.activityView.hidden = NO;
+    self.avatarButton.enabled = NO;
+    
+    PFQuery *query = [PFQuery queryWithClassName:kHEREAudioClassKey];
+    [query whereKey:kHEREAudioBeaconKey equalTo:[PFObject objectWithoutDataWithClassName:kHEREBeaconClassKey objectId:self.beacon.parseId]];
+    [query whereKey:kHEREAudioUserKey equalTo:[PFUser currentUser]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            NSLog(@"queried audio records at location %@, count: %tu", self.beacon.name, [objects count]);
+            self.audioRecords = [objects mutableCopy];
+            [self hideActivityIndicator];
+            self.activityView.hidden = YES;
+            self.avatarButton.enabled = YES;
+        }
+        else {
+            NSLog(@"error when querying audio in home view controller: %@", error.description);
+        }
+    }];
+}
+
+#pragma mark - activity indicator
+- (void) showActivityIndicator {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.activityIndicator.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        [self.activityIndicator startAnimating];
+    }];
+}
+
+- (void) hideActivityIndicator {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.activityIndicator.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [self.activityIndicator stopAnimating];
     }];
 }
 

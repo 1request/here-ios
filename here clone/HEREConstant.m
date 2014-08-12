@@ -24,5 +24,6 @@ NSString *const kHEREAudioClassKey      = @"Audio";
 NSString *const kHEREAudioUserKey       = @"user";
 NSString *const kHEREAudioBeaconKey     = @"beacon";
 NSString *const kHEREAudioFileKey       = @"audioFile";
+NSString *const kHEREAudioIsReadKey     = @"isRead";
 
 @end
