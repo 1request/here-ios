@@ -105,6 +105,13 @@
 {
     [self.audioRecorder stop];
     [self.recordMessageButton setTitle:@"Leave a message" forState:UIControlStateNormal];
+    if (self.beacon) {
+        [self uploadAudio];
+    }
+    else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location not selected" message:@"Location is not selected yet. Please press + sign on navigation bar to select one." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
+    }
 }
 
 - (IBAction)avatarButtonPressed:(UIButton *)sender
@@ -125,9 +132,33 @@
 
 - (void)didSelectBeacon:(HEREBeacon *)beacon
 {
-    NSLog(@"did select beacon");
+    NSLog(@"did select beacon, parseId: %@", beacon.parseId
+          );
     self.beacon = beacon;
     self.locationLabel.text = beacon.name;
+}
+
+#pragma mark - helper methods
+
+- (void)uploadAudio
+{
+    NSData *audioData = [NSData dataWithContentsOfURL:self.audioRecorder.url];
+    
+    PFFile *audioFile = [PFFile fileWithName:@"memo.m4a" data:audioData];
+    
+    [audioFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            PFObject *audio = [PFObject objectWithClassName:kHEREAudioClassKey];
+            [audio setObject:[PFUser currentUser] forKey:kHEREAudioUserKey];
+            [audio setObject:audioFile forKey:kHEREAudioFileKey];
+            audio[kHEREAudioBeaconKey] = [PFObject objectWithoutDataWithClassName:kHEREBeaconClassKey objectId:self.beacon.parseId];
+            [audio saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    NSLog(@"save audio file and collection successfully");
+                }
+            }];
+        }
+    }];
 }
 
 @end

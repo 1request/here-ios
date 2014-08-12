@@ -24,6 +24,7 @@
     self.major = [data[kHEREBeaconMajorKey] intValue];
     self.minor = [data[kHEREBeaconMinorKey] intValue];
     self.name = data[kHEREBeaconNameKey];
+    self.parseId = data[kHEREBeaconParseIdKey];
     
     return self;
 }

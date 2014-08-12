@@ -141,7 +141,7 @@
 
 - (NSDictionary *)beaconObjectAsPropertyList:(PFObject *)beacon
 {
-    NSDictionary *beaconObjectAsPropertyList = @{kHEREBeaconUUIDKey : beacon[kHEREBeaconUUIDKey], kHEREBeaconMajorKey : beacon[kHEREBeaconMajorKey], kHEREBeaconMinorKey : beacon[kHEREBeaconMinorKey], kHEREBeaconNameKey : beacon[kHEREBeaconNameKey]};
+    NSDictionary *beaconObjectAsPropertyList = @{kHEREBeaconUUIDKey : beacon[kHEREBeaconUUIDKey], kHEREBeaconMajorKey : beacon[kHEREBeaconMajorKey], kHEREBeaconMinorKey : beacon[kHEREBeaconMinorKey], kHEREBeaconNameKey : beacon[kHEREBeaconNameKey], kHEREBeaconParseIdKey : beacon.objectId};
     
     return beaconObjectAsPropertyList;
 }

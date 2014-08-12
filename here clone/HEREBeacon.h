@@ -14,6 +14,7 @@
 @property (nonatomic) int major;
 @property (nonatomic) int minor;
 @property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *parseId;
 
 - (id)initWithData:(NSDictionary *)data;
 
