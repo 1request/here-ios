@@ -349,7 +349,7 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="5F788FF0-19AB-4F2A-AE69-07599F0CECBD" translatesAutoresizingMaskIntoConstraints="NO" id="HJC-dA-KQY">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="12B7049E-21A9-44F3-98C5-5678C3AAE0A3" translatesAutoresizingMaskIntoConstraints="NO" id="HJC-dA-KQY">
                                 <rect key="frame" x="216" y="144" width="167" height="195"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="167" id="9T3-Fp-SX0"/>
@@ -732,8 +732,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1_01.png" width="402" height="590"/>
-        <image name="5F788FF0-19AB-4F2A-AE69-07599F0CECBD" width="354" height="385">
+        <image name="12B7049E-21A9-44F3-98C5-5678C3AAE0A3" width="354" height="385">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -9892,6 +9891,7 @@ AAhgLgAIYDAACGA1AAhgPQAIYEAACGBFAAhgTQAIYFAACGBiAAhgZQAIYGoAAAAAAAAEAQAAAAAAAAA/
 AAAAAAAAAAAAAAAAAAhgbA
 </mutableData>
         </image>
+        <image name="1_01.png" width="402" height="590"/>
         <image name="add.png" width="50" height="50"/>
         <image name="anonymous_user.png" width="354" height="385"/>
         <image name="empty_button.png" width="544" height="86"/>
