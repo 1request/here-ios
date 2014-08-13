@@ -71,6 +71,7 @@
 		7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */; };
 		7CF1A1BC1999CB04004300AF /* HEREBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A1BB1999CB04004300AF /* HEREBeacon.m */; };
 		7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF49702199B5CFF001AD29F /* HEREFactory.m */; };
+		7CF4970A199B887B001AD29F /* HERELocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF49709199B887B001AD29F /* HERELocation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,6 +169,8 @@
 		7CF1A1BB1999CB04004300AF /* HEREBeacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREBeacon.m; sourceTree = "<group>"; };
 		7CF49701199B5CFF001AD29F /* HEREFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREFactory.h; sourceTree = "<group>"; };
 		7CF49702199B5CFF001AD29F /* HEREFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREFactory.m; sourceTree = "<group>"; };
+		7CF49708199B887B001AD29F /* HERELocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERELocation.h; sourceTree = "<group>"; };
+		7CF49709199B887B001AD29F /* HERELocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERELocation.m; sourceTree = "<group>"; };
 		AF475C44CD5C49859A81FAD0 /* Pods-here clone.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-here clone.xcconfig"; path = "Pods/Pods-here clone.xcconfig"; sourceTree = "<group>"; };
 		B4514242B13346C6B416A6E6 /* libPods-here clone.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-here clone.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -308,6 +311,8 @@
 				7C9E81901991DFA100156B88 /* AppDelegate.m */,
 				7C01C03519989AD700124BEC /* HEREConstant.h */,
 				7C01C03619989AD700124BEC /* HEREConstant.m */,
+				7CF49708199B887B001AD29F /* HERELocation.h */,
+				7CF49709199B887B001AD29F /* HERELocation.m */,
 				7CF1A1B91999CAF8004300AF /* Models */,
 				7C3E5C161991E1F100C53C7B /* Controllers */,
 				7C9E81951991DFA100156B88 /* Main.storyboard */,
@@ -416,6 +421,11 @@
 					7C9E81871991DFA100156B88 = {
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = 49V87TT95M;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					7C9E819D1991DFA100156B88 = {
 						CreatedOnToolsVersion = 6.0;
@@ -553,6 +563,7 @@
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
 				7C3E5C25199205A500C53C7B /* HEREStatusViewController.m in Sources */,
 				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,
+				7CF4970A199B887B001AD29F /* HERELocation.m in Sources */,
 				7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */,
 				7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */,
 				7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */,

@@ -14,8 +14,9 @@
 
 @end
 
-@interface HEREFactory : NSObject
+@interface HEREFactory : NSObject <CLLocationManagerDelegate>
 
+@property (strong, nonatomic) CLLocationManager *locationManager;
 @property (weak, nonatomic) id <factoryDelegate> delegate;
 
 - (void)queryBeacons;

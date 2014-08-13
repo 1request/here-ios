@@ -10,9 +10,7 @@
 #import "HEREBeacon.h"
 
 @interface HEREFactory ()
-{
-    NSMutableArray *beacons;
-}
+    @property (strong, nonatomic) NSMutableArray *beacons;
 @end
 
 @implementation HEREFactory
@@ -25,8 +23,8 @@
     [query whereKey:kHEREBeaconUserKey equalTo:[PFUser currentUser]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            beacons = [objects mutableCopy];
-            NSLog(@"Queried successfully; count: %tu", [beacons count]);
+            self.beacons = [objects mutableCopy];
+            NSLog(@"Queried successfully; count: %tu", [self.beacons count]);
             [self saveBeaconsLocally];
         }
         else {
@@ -45,7 +43,7 @@
 - (void)saveBeaconsLocally
 {
     NSMutableArray *localBeaconObjectData = [[NSMutableArray alloc] init];
-    for (PFObject *beacon in beacons) {
+    for (PFObject *beacon in self.beacons) {
         [localBeaconObjectData addObject:[self beaconObjectAsPropertyList:beacon]];
     }
     
@@ -74,5 +72,6 @@
     
     return beaconObjects;
 }
+
 
 @end
