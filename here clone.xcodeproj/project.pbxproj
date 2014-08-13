@@ -70,6 +70,7 @@
 		7C9E81A51991DFA100156B88 /* here_cloneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E81A41991DFA100156B88 /* here_cloneTests.m */; };
 		7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */; };
 		7CF1A1BC1999CB04004300AF /* HEREBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A1BB1999CB04004300AF /* HEREBeacon.m */; };
+		7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF49702199B5CFF001AD29F /* HEREFactory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +166,8 @@
 		7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREMenuTableViewController.m; sourceTree = "<group>"; };
 		7CF1A1BA1999CB04004300AF /* HEREBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREBeacon.h; sourceTree = "<group>"; };
 		7CF1A1BB1999CB04004300AF /* HEREBeacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREBeacon.m; sourceTree = "<group>"; };
+		7CF49701199B5CFF001AD29F /* HEREFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREFactory.h; sourceTree = "<group>"; };
+		7CF49702199B5CFF001AD29F /* HEREFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREFactory.m; sourceTree = "<group>"; };
 		AF475C44CD5C49859A81FAD0 /* Pods-here clone.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-here clone.xcconfig"; path = "Pods/Pods-here clone.xcconfig"; sourceTree = "<group>"; };
 		B4514242B13346C6B416A6E6 /* libPods-here clone.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-here clone.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -345,10 +348,20 @@
 		7CF1A1B91999CAF8004300AF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7CF49704199B5D04001AD29F /* Factory */,
 				7CF1A1BA1999CB04004300AF /* HEREBeacon.h */,
 				7CF1A1BB1999CB04004300AF /* HEREBeacon.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		7CF49704199B5D04001AD29F /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				7CF49701199B5CFF001AD29F /* HEREFactory.h */,
+				7CF49702199B5CFF001AD29F /* HEREFactory.m */,
+			);
+			name = Factory;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -536,6 +549,7 @@
 				7C9893D71993A53000A53029 /* HEREAddBeaconViewController.m in Sources */,
 				7C2B11B01998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m in Sources */,
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
+				7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */,
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
 				7C3E5C25199205A500C53C7B /* HEREStatusViewController.m in Sources */,
 				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,

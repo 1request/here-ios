@@ -7,6 +7,7 @@
 //
 
 #import "HEREHomeViewController.h"
+#import "HEREFactory.h"
 
 @interface HEREHomeViewController ()
 
@@ -19,6 +20,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    HEREFactory *factory = [[HEREFactory alloc] init];
+    [factory queryBeacons];
+    
     [self.navigationController setNavigationBarHidden:NO];
     // Do any additional setup after loading the view.
     UIImage *image = [UIImage imageNamed:@"here.png"];

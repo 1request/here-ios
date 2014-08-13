@@ -7,23 +7,16 @@
 //
 
 #import "HEREBeaconsMessagesTableViewController.h"
+#import "HEREFactory.h"
 
-@interface HEREBeaconsMessagesTableViewController ()
-
-@property (strong, nonatomic) NSMutableArray *beacons;
+@interface HEREBeaconsMessagesTableViewController () {
+    NSMutableArray *beacons;
+    HEREFactory *factory;
+}
 
 @end
 
 @implementation HEREBeaconsMessagesTableViewController
-
-#pragma mark - Lazy Instantiation
-- (NSMutableArray *)beacons
-{
-    if (!_beacons) {
-        _beacons = [[NSMutableArray alloc] init];
-    }
-    return _beacons;
-}
 
 #pragma mark - Controller Initialization
 
@@ -35,12 +28,8 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    NSArray *beaconObjectsAsPropertyLists = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconClassKey];
-    for (NSDictionary *dictionary in beaconObjectsAsPropertyLists) {
-        HEREBeacon *beacon = [self beaconObjectForDictionary:dictionary];
-        [self.beacons addObject:beacon];
-    }
+    factory = [[HEREFactory alloc] init];
+    beacons = [factory returnBeacons];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,13 +46,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    NSLog(@"local beacon count: %tu", [self.beacons count]);
-    return [self.beacons count];
+    return [beacons count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeaconsMessagesCell" forIndexPath:indexPath];
-    HEREBeacon *beacon = self.beacons[indexPath.row];
+    HEREBeacon *beacon = beacons[indexPath.row];
     cell.textLabel.text = beacon.name;
     
     return cell;
@@ -71,10 +59,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"selected row %tu", indexPath.row);
-    NSLog(@"beacons: %@", [self.beacons[indexPath.row] class]);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.delegate didSelectBeacon:self.beacons[indexPath.row]];
+    [self.delegate didSelectBeacon:beacons[indexPath.row]];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -121,12 +107,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-
-#pragma mark - helper methods
-- (HEREBeacon *)beaconObjectForDictionary:(NSDictionary *)dictionary
-{
-    HEREBeacon *beacon = [[HEREBeacon alloc] initWithData:dictionary];
-    return beacon;
-}
 
 @end
