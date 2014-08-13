@@ -17,5 +17,13 @@ extern NSString *const kHEREBeaconUUIDKey;
 extern NSString *const kHEREBeaconMajorKey;
 extern NSString *const kHEREBeaconMinorKey;
 extern NSString *const kHEREBeaconNameKey;
+extern NSString *const kHEREBeaconParseIdKey;
+
+#pragma mark - Audio Class
+extern NSString *const kHEREAudioClassKey;
+extern NSString *const kHEREAudioUserKey;
+extern NSString *const kHEREAudioBeaconKey;
+extern NSString *const kHEREAudioFileKey;
+extern NSString *const kHEREAudioIsReadKey;
 
 @end

@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "REFrostedViewController.h"
 #import "UIViewController+HEREMenu.h"
+#import "HEREAddBeaconViewController.h"
 
-@interface HEREBeaconsTableViewController : UITableViewController
+@interface HEREBeaconsTableViewController : UITableViewController <addBeaconViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 

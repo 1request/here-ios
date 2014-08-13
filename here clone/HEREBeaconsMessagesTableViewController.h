@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HEREBeacon.h"
+
+@protocol beaconsMessagesTableViewControllerDelegate <NSObject>
+
+- (void)didSelectBeacon:(HEREBeacon *)beacon;
+
+@end
 
 @interface HEREBeaconsMessagesTableViewController : UITableViewController
+
+@property (weak, nonatomic) id <beaconsMessagesTableViewControllerDelegate> delegate;
 
 @end

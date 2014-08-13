@@ -62,6 +62,7 @@
     name = self.beaconNameTextField.text;
     if (major && minor && uuidString && name) {
         [self addBeaconToParse];
+        [self.delegate didAddBeacon];
     }
     else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Missing Information" message:@"Beacon UUID/major/minor/name is missing" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];

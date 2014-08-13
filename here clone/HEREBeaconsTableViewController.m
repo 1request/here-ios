@@ -84,6 +84,7 @@
         }];
         
         [beacons removeObjectAtIndex:indexPath.row];
+        [self saveBeaconsLocally];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -103,15 +104,16 @@
 }
 */
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[HEREAddBeaconViewController class]]) {
+        HEREAddBeaconViewController *addBeaconViewController = segue.destinationViewController;
+        addBeaconViewController.delegate = self;
+    }
 }
-*/
 
 - (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender
 {
@@ -129,11 +131,38 @@
             NSLog(@"Queried successfully; count: %tu", [beacons count]);
             beacons = [objects mutableCopy];
             [self.tableView reloadData];
+            [self saveBeaconsLocally];
         }
         else {
             NSLog(@"Error when query beacons in beaconsTableViewController: %@", error.description);
         }
     }];
+}
+
+- (NSDictionary *)beaconObjectAsPropertyList:(PFObject *)beacon
+{
+    NSDictionary *beaconObjectAsPropertyList = @{kHEREBeaconUUIDKey : beacon[kHEREBeaconUUIDKey], kHEREBeaconMajorKey : beacon[kHEREBeaconMajorKey], kHEREBeaconMinorKey : beacon[kHEREBeaconMinorKey], kHEREBeaconNameKey : beacon[kHEREBeaconNameKey], kHEREBeaconParseIdKey : beacon.objectId};
+    
+    return beaconObjectAsPropertyList;
+}
+
+- (void)saveBeaconsLocally
+{
+    NSMutableArray *localBeaconObjectData = [[NSMutableArray alloc] init];
+    for (PFObject *beacon in beacons) {
+        [localBeaconObjectData addObject:[self beaconObjectAsPropertyList:beacon]];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:localBeaconObjectData forKey:kHEREBeaconClassKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - addBeaconTableViewController Delegate
+
+- (void)didAddBeacon
+{
+    NSLog(@"Did add beacon");
+    [self queryBeacons];
 }
 
 @end

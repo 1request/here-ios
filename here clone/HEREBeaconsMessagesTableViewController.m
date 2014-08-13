@@ -10,9 +10,22 @@
 
 @interface HEREBeaconsMessagesTableViewController ()
 
+@property (strong, nonatomic) NSMutableArray *beacons;
+
 @end
 
 @implementation HEREBeaconsMessagesTableViewController
+
+#pragma mark - Lazy Instantiation
+- (NSMutableArray *)beacons
+{
+    if (!_beacons) {
+        _beacons = [[NSMutableArray alloc] init];
+    }
+    return _beacons;
+}
+
+#pragma mark - Controller Initialization
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -22,6 +35,12 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    NSArray *beaconObjectsAsPropertyLists = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconClassKey];
+    for (NSDictionary *dictionary in beaconObjectsAsPropertyLists) {
+        HEREBeacon *beacon = [self beaconObjectForDictionary:dictionary];
+        [self.beacons addObject:beacon];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -32,26 +51,32 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    NSLog(@"local beacon count: %tu", [self.beacons count]);
+    return [self.beacons count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeaconsMessagesCell" forIndexPath:indexPath];
+    HEREBeacon *beacon = self.beacons[indexPath.row];
+    cell.textLabel.text = beacon.name;
     
     return cell;
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"selected row %tu", indexPath.row);
+    NSLog(@"beacons: %@", [self.beacons[indexPath.row] class]);
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.delegate didSelectBeacon:self.beacons[indexPath.row]];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -96,5 +121,12 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - helper methods
+- (HEREBeacon *)beaconObjectForDictionary:(NSDictionary *)dictionary
+{
+    HEREBeacon *beacon = [[HEREBeacon alloc] initWithData:dictionary];
+    return beacon;
+}
 
 @end
