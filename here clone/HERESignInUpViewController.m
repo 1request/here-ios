@@ -7,6 +7,7 @@
 //
 
 #import "HERESignInUpViewController.h"
+#import "HEREHomeViewController.h" 
 
 @interface HERESignInUpViewController ()
 
@@ -23,6 +24,14 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if ([PFUser currentUser]) {
+        HEREHomeViewController *homeController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
+        [self.navigationController setViewControllers:@[homeController] animated:NO];
+    }
 }
 
 /*
