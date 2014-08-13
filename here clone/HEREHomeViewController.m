@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.navigationController setNavigationBarHidden:NO];
     // Do any additional setup after loading the view.
     UIImage *image = [UIImage imageNamed:@"here.png"];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
