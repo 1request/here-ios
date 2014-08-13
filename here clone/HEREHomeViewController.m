@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) HEREBeacon *beacon;
 @property (strong, nonatomic) NSMutableArray *audioRecords;
+@property (strong, nonatomic) NSMutableArray *beacons;
 
 @end
 
@@ -19,6 +20,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    HEREFactory *factory = [[HEREFactory alloc] init];
+    [factory queryBeacons];
+    self.beacons = [factory returnBeacons];
+    
+    self.location = [HERELocation new];
+
+    self.location.delegate = self;
+
+    [self.location monitorBeacons];
+    
     [self.navigationController setNavigationBarHidden:NO];
     // Do any additional setup after loading the view.
     UIImage *image = [UIImage imageNamed:@"here.png"];
@@ -51,18 +63,23 @@
     self.audioRecorder.meteringEnabled = YES;
     [self.audioRecorder prepareToRecord];
     
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    
-    if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-        [self.locationManager requestAlwaysAuthorization];
-    }
-    
     self.usernameLabel.text = [PFUser currentUser].username;
     
     [self.avatarButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
     
     if (self.beacon) [self queryAudio];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"setBeacon" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSDictionary *dict = [note userInfo];
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"parseId == %@", dict[kHEREBeaconParseIdKey]];
+        HEREBeacon *beacon = [[self.beacons filteredArrayUsingPredicate:pred] firstObject];
+        self.beacon = beacon;
+        self.locationLabel.text = beacon.name;
+        [self queryAudio];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -224,6 +241,33 @@
     } completion:^(BOOL finished) {
         [self.activityIndicator stopAnimating];
     }];
+}
+
+#pragma mark - factory delegate
+
+- (void)notifyWhenEntryBeacon:(HEREBeacon *)beacon
+{
+    self.beacon = beacon;
+}
+
+- (void)notifyWhenExitBeacon:(CLBeaconRegion *)beaconRegion
+{
+//    NSLog(@"exit region: %@", beaconRegion);
+}
+
+- (void)notifyWhenFar:(CLBeacon *)beacon
+{
+//    NSLog(@"far from beacon: %@", beacon);
+}
+
+- (void)notifyWhenImmediate:(CLBeacon *)beacon
+{
+//    NSLog(@"Immediate to beacon: %@", beacon);
+}
+
+- (void)notifyWhenNear:(CLBeacon *)beacon
+{
+//    NSLog(@"Near beacon: %@", beacon);
 }
 
 @end

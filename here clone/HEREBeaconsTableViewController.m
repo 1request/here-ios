@@ -7,9 +7,11 @@
 //
 
 #import "HEREBeaconsTableViewController.h"
+#import "HEREBeacon.h"
 
 @interface HEREBeaconsTableViewController (){
     NSMutableArray *beacons;
+    HEREFactory *factory;
 }
 @end
 
@@ -23,11 +25,14 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    factory = [[HEREFactory alloc] init];
+    factory.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self queryBeacons];
+    [factory queryBeacons];
+    beacons = [factory returnBeacons];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,10 +57,10 @@
     
     // Configure the cell...
     
-    PFObject *beacon = beacons[indexPath.row];
+    HEREBeacon *beacon = beacons[indexPath.row];
     
-    cell.textLabel.text = beacon[kHEREBeaconNameKey];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Major: %@, Minor: %@", beacon[kHEREBeaconMajorKey], beacon[kHEREBeaconMinorKey]];
+    cell.textLabel.text = beacon.name;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Major: %i, Minor: %i", beacon.major, beacon.minor];
     
     return cell;
 }
@@ -70,12 +75,14 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        PFObject *beacon = beacons[indexPath.row];
+        HEREBeacon *beacon = beacons[indexPath.row];
+        PFObject *beaconObject = [PFObject objectWithoutDataWithClassName:kHEREBeaconClassKey objectId:beacon.parseId];
         
-        [beacon deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [beaconObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
                 if (succeeded) {
-                    NSLog(@"Deleted beacon (name: %@)", beacon[kHEREBeaconNameKey]);
+                    NSLog(@"Deleted beacon (name: %@)", beacon.name);
+                    [factory queryBeacons];
                 }
             }
             else {
@@ -84,7 +91,6 @@
         }];
         
         [beacons removeObjectAtIndex:indexPath.row];
-        [self saveBeaconsLocally];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -120,49 +126,20 @@
     [self showMenu];
 }
 
-#pragma mark - helper methods
-
-- (void)queryBeacons
-{
-    PFQuery *query = [PFQuery queryWithClassName:@"Beacon"];
-    [query whereKey:kHEREBeaconUserKey equalTo:[PFUser currentUser]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            NSLog(@"Queried successfully; count: %tu", [beacons count]);
-            beacons = [objects mutableCopy];
-            [self.tableView reloadData];
-            [self saveBeaconsLocally];
-        }
-        else {
-            NSLog(@"Error when query beacons in beaconsTableViewController: %@", error.description);
-        }
-    }];
-}
-
-- (NSDictionary *)beaconObjectAsPropertyList:(PFObject *)beacon
-{
-    NSDictionary *beaconObjectAsPropertyList = @{kHEREBeaconUUIDKey : beacon[kHEREBeaconUUIDKey], kHEREBeaconMajorKey : beacon[kHEREBeaconMajorKey], kHEREBeaconMinorKey : beacon[kHEREBeaconMinorKey], kHEREBeaconNameKey : beacon[kHEREBeaconNameKey], kHEREBeaconParseIdKey : beacon.objectId};
-    
-    return beaconObjectAsPropertyList;
-}
-
-- (void)saveBeaconsLocally
-{
-    NSMutableArray *localBeaconObjectData = [[NSMutableArray alloc] init];
-    for (PFObject *beacon in beacons) {
-        [localBeaconObjectData addObject:[self beaconObjectAsPropertyList:beacon]];
-    }
-    
-    [[NSUserDefaults standardUserDefaults] setObject:localBeaconObjectData forKey:kHEREBeaconClassKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
 #pragma mark - addBeaconTableViewController Delegate
 
 - (void)didAddBeacon
 {
     NSLog(@"Did add beacon");
-    [self queryBeacons];
+    [factory queryBeacons];
+}
+
+#pragma mark - factory delegate
+- (void)didFinishQueryingBeaconsFromParse
+{
+    NSLog(@"did finish querying beacons from parse");
+    beacons = [factory returnBeacons];
+    [self.tableView reloadData];
 }
 
 @end

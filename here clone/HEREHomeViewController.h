@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import <CoreLocation/CoreLocation.h>
 #import "REFrostedViewController.h"
 #import "UIViewController+HEREMenu.h"
 #import "HEREBeaconsMessagesTableViewController.h"
+#import "HEREFactory.h"
+#import "HERELocation.h"
 
-@interface HEREHomeViewController : UIViewController <AVAudioPlayerDelegate, AVAudioRecorderDelegate, CLLocationManagerDelegate, beaconsMessagesTableViewControllerDelegate>
+@interface HEREHomeViewController : UIViewController <AVAudioPlayerDelegate, AVAudioRecorderDelegate, CLLocationManagerDelegate, beaconsMessagesTableViewControllerDelegate, locationDelegate>
 
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @property (strong, nonatomic)AVAudioRecorder *audioRecorder;
@@ -24,7 +25,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *activityLabel;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) IBOutlet UIView *activityView;
-
+@property (strong, nonatomic) HERELocation *location;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
 - (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender;
