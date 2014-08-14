@@ -24,6 +24,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self updateBeacons];
+    
+    [self triggerBeacon];
+    
     [self.navigationController setNavigationBarHidden:NO];
     // Do any additional setup after loading the view.
     UIImage *image = [UIImage imageNamed:@"here.png"];
@@ -70,11 +74,7 @@
 {
     self.audioData = nil;
     
-    HEREFactory *factory = [[HEREFactory alloc] init];
-    [factory queryBeacons];
-    self.beacons = [factory returnBeacons];
-    
-    [self triggerBeacon];
+    [self updateBeacons];
     
     self.location = [HERELocation new];
     
@@ -155,6 +155,7 @@
 
 - (void)didSelectBeacon:(HEREBeacon *)beacon
 {
+    NSLog(@"did select beacon, %@", beacon.name);
     [self updateBeacon:beacon];
 }
 
@@ -243,6 +244,13 @@
     self.beacon = beacon;
     self.locationLabel.text = beacon.name;
     [self queryAudio];
+}
+
+- (void)updateBeacons
+{
+    HEREFactory *factory = [[HEREFactory alloc] init];
+    [factory queryBeacons];
+    self.beacons = [factory returnBeacons];
 }
 
 #pragma mark - activity indicator
