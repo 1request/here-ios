@@ -7,6 +7,7 @@
 //
 
 #import "HEREAddBeaconViewController.h"
+#import "HERELocation.h"
 
 @interface HEREAddBeaconViewController ()
 {
@@ -16,10 +17,19 @@
     NSString *uuidString;
     NSString *name;
 }
+@property (strong, nonatomic) HERELocation *location;
 
 @end
 
 @implementation HEREAddBeaconViewController
+
+- (HERELocation *)location
+{
+    if (!_location) {
+        _location = [[HERELocation alloc] init];
+    }
+    return _location;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,6 +50,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self.location monitorBeacons];
 }
 
 /*
@@ -77,24 +92,15 @@
 
 - (IBAction)scanBeaconButtonPressed:(UIButton *)sender
 {
+    [self.location stopMonitoringBeacons];
+    
     self.scanBeaconButton.hidden = YES;
     self.scanningBeaconsLabel.hidden = NO;
     animationTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self.animationView selector:@selector(startCanvasAnimation) userInfo:nil repeats:YES];
-    [self.locationManager startMonitoringForRegion:self.beaconRegion];
     [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
 }
 
 #pragma mark - CoreLocation Delegate
-
-- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
-{
-    [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
-}
-
-- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
-{
-    [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];
-}
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
@@ -124,9 +130,8 @@
     self.minorNumberLabel.hidden = NO;
     self.addBeaconButton.hidden = NO;
     self.beaconNameTextField.hidden = NO;
-    
-    int systemSoundId = 1304;
-    AudioServicesPlaySystemSound(systemSoundId);
+
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Detected iBeacon" message:@"Detected a new iBeacon. You can name and add it to your beacon collection" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     

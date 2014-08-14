@@ -8,14 +8,24 @@
 
 #import "HEREBeaconsTableViewController.h"
 #import "HEREBeacon.h"
+#import "HERELocation.h"
 
 @interface HEREBeaconsTableViewController (){
     NSMutableArray *beacons;
     HEREFactory *factory;
 }
+@property (strong, nonatomic) HERELocation *location;
 @end
 
 @implementation HEREBeaconsTableViewController
+
+- (HERELocation *)location
+{
+    if (!_location) {
+        _location = [[HERELocation alloc] init];
+    }
+    return _location;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -83,6 +93,7 @@
                 if (succeeded) {
                     NSLog(@"Deleted beacon (name: %@)", beacon.name);
                     [factory queryBeacons];
+                    [self.location stopMonitoringBeacon:beacon];
                 }
             }
             else {

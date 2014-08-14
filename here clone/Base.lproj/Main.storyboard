@@ -127,7 +127,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSW-Lm-KWg">
-                                <rect key="frame" x="20" y="491" width="560" height="89"/>
+                                <rect key="frame" x="20" y="491" width="560" height="88.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="fSW-Lm-KWg" secondAttribute="height" multiplier="272:43" id="KsK-ju-Xa4"/>
                                 </constraints>
@@ -176,15 +176,15 @@
                                 <rect key="frame" x="217" y="144" width="167" height="195"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYn-EE-CaC">
-                                        <rect key="frame" x="44" y="87" width="80" height="21"/>
+                                        <rect key="frame" x="34" y="87" width="100" height="20.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="5wr-eA-hG9"/>
+                                            <constraint firstAttribute="width" constant="100" id="5wr-eA-hG9"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="APe-Fd-Pxz">
-                                        <rect key="frame" x="21" y="87" width="20" height="20"/>
+                                        <rect key="frame" x="11" y="87" width="20" height="20"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

@@ -18,6 +18,7 @@ extern NSString *const kHEREBeaconMajorKey;
 extern NSString *const kHEREBeaconMinorKey;
 extern NSString *const kHEREBeaconNameKey;
 extern NSString *const kHEREBeaconParseIdKey;
+extern NSString *const kHEREBeaconTriggeredKey;
 
 #pragma mark - Audio Class
 extern NSString *const kHEREAudioClassKey;
