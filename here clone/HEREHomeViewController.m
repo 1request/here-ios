@@ -21,6 +21,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"setBeacon" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSDictionary *dict = [note userInfo];
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"parseId == %@", dict[kHEREBeaconParseIdKey]];
+        HEREBeacon *beacon = [[self.beacons filteredArrayUsingPredicate:pred] firstObject];
+        self.beacon = beacon;
+        self.locationLabel.text = beacon.name;
+        [self queryAudio];
+    }];
+    
     HEREFactory *factory = [[HEREFactory alloc] init];
     [factory queryBeacons];
     self.beacons = [factory returnBeacons];
@@ -70,21 +79,14 @@
     if (self.beacon) [self queryAudio];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"setBeacon" object:nil queue:nil usingBlock:^(NSNotification *note) {
-        NSDictionary *dict = [note userInfo];
-        NSPredicate *pred = [NSPredicate predicateWithFormat:@"parseId == %@", dict[kHEREBeaconParseIdKey]];
-        HEREBeacon *beacon = [[self.beacons filteredArrayUsingPredicate:pred] firstObject];
-        self.beacon = beacon;
-        self.locationLabel.text = beacon.name;
-        [self queryAudio];
-    }];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"setBeacon" object:nil];
 }
 
 #pragma mark - Navigation
