@@ -103,6 +103,11 @@
         
         [beacons removeObjectAtIndex:indexPath.row];
         
+        NSMutableArray *beaconsDict = [[[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconClassKey] mutableCopy];
+        [beaconsDict removeObjectAtIndex:indexPath.row];
+        [[NSUserDefaults standardUserDefaults] setObject:beaconsDict forKey:kHEREBeaconClassKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
