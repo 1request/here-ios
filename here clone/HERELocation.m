@@ -8,7 +8,9 @@
 
 #import "HERELocation.h"
 
-@interface HERELocation ()
+@interface HERELocation () {
+    NSTimer *timer;
+}
 @property (strong, nonatomic) NSMutableArray *beacons;
 @end
 
@@ -151,7 +153,17 @@
         [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
     }
     
-    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+    if (timer == nil) {
+        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+        
+        timer = [NSTimer timerWithTimeInterval:60 target:self selector:@selector(turnOnLocal) userInfo:nil repeats:NO];
+    }
+}
+
+- (void)turnOnLocal
+{
+    [timer invalidate];
+    timer = nil;
 }
 
 @end
