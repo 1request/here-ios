@@ -23,19 +23,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"setBeacon" object:nil queue:nil usingBlock:^(NSNotification *note) {
-        NSDictionary *dict = [note userInfo];
-        NSPredicate *pred = [NSPredicate predicateWithFormat:@"parseId == %@", dict[kHEREBeaconParseIdKey]];
-        HEREBeacon *beacon = [[self.beacons filteredArrayUsingPredicate:pred] firstObject];
-        self.beacon = beacon;
-        self.locationLabel.text = beacon.name;
-        [self queryAudio];
-    }];
-    
     HEREFactory *factory = [[HEREFactory alloc] init];
     [factory queryBeacons];
     self.beacons = [factory returnBeacons];
+
+    [self triggerBeacon];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"setBeacon" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [self.connectionManager cancel];
+        
+        [self triggerBeacon];
+    }];
     
     self.location = [HERELocation new];
 
@@ -79,8 +77,6 @@
     self.usernameLabel.text = [PFUser currentUser].username;
     
     [self.avatarButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-    
-    if (self.beacon) [self queryAudio];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -162,11 +158,7 @@
 
 - (void)didSelectBeacon:(HEREBeacon *)beacon
 {
-    NSLog(@"did select beacon, parseId: %@", beacon.parseId
-          );
-    self.beacon = beacon;
-    [self queryAudio];
-    self.locationLabel.text = beacon.name;
+    [self updateBeacon:beacon];
 }
 
 #pragma mark - helper methods
@@ -241,6 +233,21 @@
     self.activityView.hidden = state;
 }
 
+- (void)triggerBeacon
+{
+    NSString *parseId = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconTriggeredKey];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"parseId == %@", parseId];
+    HEREBeacon *beacon = [[self.beacons filteredArrayUsingPredicate:pred] firstObject];
+    if (beacon) [self updateBeacon:beacon];
+}
+
+- (void)updateBeacon:(HEREBeacon *)beacon
+{
+    self.beacon = beacon;
+    self.locationLabel.text = beacon.name;
+    [self queryAudio];
+}
+
 #pragma mark - activity indicator
 - (void) showActivityIndicator {
     [UIView animateWithDuration:0.3 animations:^{
@@ -306,6 +313,7 @@
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
     [self enableAvatarButton:YES];
+    self.audioData = nil;
 }
 
 @end

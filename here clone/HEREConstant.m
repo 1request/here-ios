@@ -11,19 +11,20 @@
 @implementation HEREConstant
 
 #pragma mark - Beacon Class
-NSString *const kHEREBeaconClassKey     = @"Beacon";
-NSString *const kHEREBeaconUserKey      = @"user";
-NSString *const kHEREBeaconUUIDKey      = @"uuid";
-NSString *const kHEREBeaconMajorKey     = @"major";
-NSString *const kHEREBeaconMinorKey     = @"minor";
-NSString *const kHEREBeaconNameKey      = @"name";
-NSString *const kHEREBeaconParseIdKey   = @"parseId";
+NSString *const kHEREBeaconClassKey         = @"Beacon";
+NSString *const kHEREBeaconUserKey          = @"user";
+NSString *const kHEREBeaconUUIDKey          = @"uuid";
+NSString *const kHEREBeaconMajorKey         = @"major";
+NSString *const kHEREBeaconMinorKey         = @"minor";
+NSString *const kHEREBeaconNameKey          = @"name";
+NSString *const kHEREBeaconParseIdKey       = @"parseId";
+NSString *const kHEREBeaconTriggeredKey     = @"beaconTriggered";
 
-#pragma mark - Beacon Class
-NSString *const kHEREAudioClassKey      = @"Audio";
-NSString *const kHEREAudioUserKey       = @"user";
-NSString *const kHEREAudioBeaconKey     = @"beacon";
-NSString *const kHEREAudioFileKey       = @"audioFile";
-NSString *const kHEREAudioIsReadKey     = @"isRead";
+#pragma mark - Audio Class
+NSString *const kHEREAudioClassKey          = @"Audio";
+NSString *const kHEREAudioUserKey           = @"user";
+NSString *const kHEREAudioBeaconKey     	= @"beacon";
+NSString *const kHEREAudioFileKey       	= @"audioFile";
+NSString *const kHEREAudioIsReadKey     	= @"isRead";
 
 @end

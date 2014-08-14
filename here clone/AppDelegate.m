@@ -24,7 +24,7 @@
     application.applicationIconBadgeNumber = 0;
     if (localNotification) {
         NSLog(@"localnotification in didfinishlaunching");
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil userInfo:localNotification.userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil];
     }
     
     return YES;
@@ -43,7 +43,7 @@
     else if (state == UIApplicationStateInactive) {
         NSLog(@"applicationinactive didreceivelocationnotification");
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil userInfo:notification.userInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -61,6 +61,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     NSLog(@"applicationWillEnterForeground");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

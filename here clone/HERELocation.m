@@ -111,8 +111,10 @@
         if (region.major && region.minor) {
             NSPredicate *pred = [NSPredicate predicateWithFormat:@"uuid.UUIDString == %@ AND major == %i AND minor == %i", region.proximityUUID.UUIDString, [region.major intValue], [region.minor intValue]];
             NSArray *filteredBeacons = [self.beacons filteredArrayUsingPredicate:pred];
-            if ([filteredBeacons count] > 0) {
-                HEREBeacon *beacon = [filteredBeacons firstObject];
+            HEREBeacon *beacon = [filteredBeacons firstObject];
+            NSString *previousTriggeredBeaconParseId = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconTriggeredKey];
+            if (beacon && beacon.parseId != previousTriggeredBeaconParseId) {
+                [[NSUserDefaults standardUserDefaults] setObject:beacon.parseId forKey:kHEREBeaconTriggeredKey];
                 [self.delegate notifyWhenEntryBeacon:beacon];
                 [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", beacon.name] withBeacon:beacon];
             }
@@ -177,17 +179,6 @@
         [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
     }
     
-    if (timer == nil) {
-        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
-        
-        timer = [NSTimer timerWithTimeInterval:60 target:self selector:@selector(turnOnLocal) userInfo:nil repeats:NO];
-    }
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
-
-- (void)turnOnLocal
-{
-    [timer invalidate];
-    timer = nil;
-}
-
 @end
