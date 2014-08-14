@@ -89,7 +89,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.location stopMonitoringBeacons];
 }
 
 #pragma mark - Navigation
