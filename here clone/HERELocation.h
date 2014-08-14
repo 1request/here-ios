@@ -28,5 +28,6 @@
 @property (assign, nonatomic) id <locationDelegate> delegate;
 
 - (void)monitorBeacons;
-
+- (void)stopMonitoringBeacons;
+- (void)stopMonitoringBeacon:(HEREBeacon *)beacon;
 @end

@@ -37,7 +37,8 @@
     self.location = [HERELocation new];
 
     self.location.delegate = self;
-
+    
+    [self.location stopMonitoringBeacons];
     [self.location monitorBeacons];
     
     [self.navigationController setNavigationBarHidden:NO];
