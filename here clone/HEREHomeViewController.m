@@ -23,24 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    HEREFactory *factory = [[HEREFactory alloc] init];
-    [factory queryBeacons];
-    self.beacons = [factory returnBeacons];
-
-    [self triggerBeacon];
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"setBeacon" object:nil queue:nil usingBlock:^(NSNotification *note) {
-        [self.connectionManager cancel];
-        
-        [self triggerBeacon];
-    }];
-    
-    self.location = [HERELocation new];
-
-    self.location.delegate = self;
-    
-    [self.location stopMonitoringBeacons];
-    [self.location monitorBeacons];
     
     [self.navigationController setNavigationBarHidden:NO];
     // Do any additional setup after loading the view.
@@ -87,11 +69,27 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.audioData = nil;
+    
+    HEREFactory *factory = [[HEREFactory alloc] init];
+    [factory queryBeacons];
+    self.beacons = [factory returnBeacons];
+    
+    [self triggerBeacon];
+    
+    self.location = [HERELocation new];
+    
+    self.location.delegate = self;
+    
+    [self.location stopMonitoringBeacons];
+    [self.location monitorBeacons];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerBeacon) name:@"setBeacon" object:nil];
 }
 
-- (void)dealloc
+- (void)viewWillDisappear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"setBeacon" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.location stopMonitoringBeacons];
 }
 
 #pragma mark - Navigation
