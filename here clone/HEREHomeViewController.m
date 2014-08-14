@@ -21,14 +21,6 @@
 
 @implementation HEREHomeViewController
 
-- (NSMutableData *)audioData
-{
-    if (!_audioData) {
-        _audioData = [[NSMutableData alloc] init];
-    }
-    return _audioData;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -96,6 +88,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.audioData = nil;
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"setBeacon" object:nil];
@@ -152,23 +149,11 @@
 - (IBAction)avatarButtonPressed:(UIButton *)sender
 {
     if (!self.audioRecorder.recording) {
-        PFObject *audio = [self.audioRecords lastObject];
-        NSError *error;
-        if (audio) {
-            NSLog(@"Play audio from parse");
-            PFFile *audioFile = audio[kHEREAudioFileKey];
-            NSURL *url = [[NSURL alloc] initWithString:[audioFile url]];
-            NSData *data = [NSData dataWithContentsOfURL:url];
-            self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
-        } else {
-            self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.audioRecorder.url error:&error];
-        }
-        if (!error) {
-            NSLog(@"no error, play audio");
+        if (self.audioData) {
             [self.audioPlayer play];
-        }
-        else {
-            NSLog(@"Error palying audio: %@", error.description);
+            [self showActivityIndicator];
+            self.activityLabel.text = @"Playing";
+            [self enableAvatarButton:NO];
         }
     }
 }
@@ -188,10 +173,9 @@
 
 - (void)uploadAudio
 {
-    self.activityView.hidden = NO;
     [self showActivityIndicator];
     self.activityLabel.text = @"Uploading";
-    self.avatarButton.enabled = NO;
+    [self enableAvatarButton:NO];
     
     NSData *audioData = [NSData dataWithContentsOfURL:self.audioRecorder.url];
     
@@ -218,8 +202,7 @@
 {
     [self showActivityIndicator];
     self.activityLabel.text = @"Processing";
-    self.activityView.hidden = NO;
-    self.avatarButton.enabled = NO;
+    [self enableAvatarButton:NO];
     
     PFQuery *query = [PFQuery queryWithClassName:kHEREAudioClassKey];
     [query whereKey:kHEREAudioBeaconKey equalTo:[PFObject objectWithoutDataWithClassName:kHEREBeaconClassKey objectId:self.beacon.parseId]];
@@ -229,11 +212,11 @@
             NSLog(@"queried audio records at location %@, count: %tu", self.beacon.name, [objects count]);
             self.audioRecords = [objects mutableCopy];
             PFObject *audio = [objects lastObject];
-            if (audio) [self downloadAudio:audio];
-            else {
-                [self hideActivityIndicator];
-                self.activityView.hidden = YES;
+            if (audio) {
+                self.audioData = [[NSMutableData alloc] init];
+                [self downloadAudio:audio];
             }
+            else [self enableAvatarButton:YES];
         }
         else {
             NSLog(@"error when querying audio in home view controller: %@", error.description);
@@ -249,6 +232,13 @@
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
     
     self.connectionManager = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
+}
+
+- (void)enableAvatarButton:(BOOL)state
+{
+    self.avatarButton.enabled = state;
+    self.avatarButton.selected = state;
+    self.activityView.hidden = state;
 }
 
 #pragma mark - activity indicator
@@ -297,27 +287,25 @@
 
 #pragma mark - NSURLConnection Delegate
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    NSLog(@"%lld", response.expectedContentLength);
-    self.urlResponse = response;
-}
-
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    NSLog(@"receiving data");
     [self.audioData appendData:data];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSError *error;
-    NSLog(@"Finished");
     [self hideActivityIndicator];
-    self.activityView.hidden = YES;
-    self.avatarButton.enabled = YES;
+    [self enableAvatarButton:YES];
     self.audioPlayer = [[AVAudioPlayer alloc] initWithData:self.audioData error:&error];
+    self.audioPlayer.delegate = self;
     if (error) NSLog(@"Error downloading audio: %@", error.description);
+}
+
+#pragma mark - AVAudioPlayer Delegate
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    [self enableAvatarButton:YES];
 }
 
 @end
