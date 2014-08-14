@@ -12,6 +12,7 @@
     NSTimer *timer;
 }
 @property (strong, nonatomic) NSMutableArray *beacons;
+@property (weak, nonatomic) NSString *previousTriggeredBeaconParseId;
 @end
 
 @implementation HERELocation
@@ -29,13 +30,9 @@
 
 #pragma mark - beacon notification
 
-- (NSMutableArray *)beacons
+- (void)loadBeacons
 {
-    HEREFactory *factory = [[HEREFactory alloc] init];
-    if (!_beacons) {
-        _beacons = [factory returnBeacons];
-    }
-    return _beacons;
+    self.beacons = [[[HEREFactory alloc] init] returnBeacons];
 }
 
 - (void)monitorBeacons
@@ -43,6 +40,8 @@
     if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
         [self.locationManager requestAlwaysAuthorization];
     }
+    
+    [self loadBeacons];
     
     for (HEREBeacon *beacon in self.beacons) {
         CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:beacon.uuid major:beacon.major minor:beacon.minor identifier:beacon.name];
@@ -107,14 +106,18 @@
 {
     NSLog(@"Did Entered region in HERELocation: %@", region);
     
+    [self loadBeacons];
+    
     if (self.delegate) {
         if (region.major && region.minor) {
             NSPredicate *pred = [NSPredicate predicateWithFormat:@"uuid.UUIDString == %@ AND major == %i AND minor == %i", region.proximityUUID.UUIDString, [region.major intValue], [region.minor intValue]];
             NSArray *filteredBeacons = [self.beacons filteredArrayUsingPredicate:pred];
             HEREBeacon *beacon = [filteredBeacons firstObject];
-            NSString *previousTriggeredBeaconParseId = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconTriggeredKey];
-            if (beacon && beacon.parseId != previousTriggeredBeaconParseId) {
+            
+//            self.previousTriggeredBeaconParseId = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconTriggeredKey];
+            if (beacon && beacon.parseId != self.previousTriggeredBeaconParseId) {
                 [[NSUserDefaults standardUserDefaults] setObject:beacon.parseId forKey:kHEREBeaconTriggeredKey];
+                self.previousTriggeredBeaconParseId = beacon.parseId;
                 [self.delegate notifyWhenEntryBeacon:beacon];
                 [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", beacon.name] withBeacon:beacon];
             }
