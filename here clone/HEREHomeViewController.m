@@ -13,14 +13,25 @@
 @property (strong, nonatomic) HEREBeacon *beacon;
 @property (strong, nonatomic) NSMutableArray *audioRecords;
 @property (strong, nonatomic) NSMutableArray *beacons;
+@property (strong, nonatomic) NSURLConnection *connectionManager;
+@property (strong, nonatomic) NSMutableData *audioData;
+@property (strong, nonatomic) NSURLResponse *urlResponse;
 
 @end
 
 @implementation HEREHomeViewController
 
+- (NSMutableData *)audioData
+{
+    if (!_audioData) {
+        _audioData = [[NSMutableData alloc] init];
+    }
+    return _audioData;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [[NSNotificationCenter defaultCenter] addObserverForName:@"setBeacon" object:nil queue:nil usingBlock:^(NSNotification *note) {
         NSDictionary *dict = [note userInfo];
         NSPredicate *pred = [NSPredicate predicateWithFormat:@"parseId == %@", dict[kHEREBeaconParseIdKey]];
@@ -196,8 +207,6 @@
             [audio saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
                     NSLog(@"save audio file and collection successfully");
-                    [self hideActivityIndicator];
-                    self.activityView.hidden = YES;
                     [self queryAudio];
                 }
             }];
@@ -208,7 +217,7 @@
 - (void)queryAudio
 {
     [self showActivityIndicator];
-    self.activityLabel.text = @"Querying";
+    self.activityLabel.text = @"Processing";
     self.activityView.hidden = NO;
     self.avatarButton.enabled = NO;
     
@@ -219,14 +228,27 @@
         if (!error) {
             NSLog(@"queried audio records at location %@, count: %tu", self.beacon.name, [objects count]);
             self.audioRecords = [objects mutableCopy];
-            [self hideActivityIndicator];
-            self.activityView.hidden = YES;
-            self.avatarButton.enabled = YES;
+            PFObject *audio = [objects lastObject];
+            if (audio) [self downloadAudio:audio];
+            else {
+                [self hideActivityIndicator];
+                self.activityView.hidden = YES;
+            }
         }
         else {
             NSLog(@"error when querying audio in home view controller: %@", error.description);
         }
     }];
+}
+
+- (void)downloadAudio:(PFObject *)audio
+{
+    NSLog(@"Download audio from parse");
+    PFFile *audioFile = audio[kHEREAudioFileKey];
+    NSURL *url = [[NSURL alloc] initWithString:[audioFile url]];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
+    
+    self.connectionManager = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
 }
 
 #pragma mark - activity indicator
@@ -271,6 +293,31 @@
 - (void)notifyWhenNear:(CLBeacon *)beacon
 {
 //    NSLog(@"Near beacon: %@", beacon);
+}
+
+#pragma mark - NSURLConnection Delegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSLog(@"%lld", response.expectedContentLength);
+    self.urlResponse = response;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSLog(@"receiving data");
+    [self.audioData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSError *error;
+    NSLog(@"Finished");
+    [self hideActivityIndicator];
+    self.activityView.hidden = YES;
+    self.avatarButton.enabled = YES;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithData:self.audioData error:&error];
+    if (error) NSLog(@"Error downloading audio: %@", error.description);
 }
 
 @end
