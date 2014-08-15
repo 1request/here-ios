@@ -223,12 +223,12 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username:" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8eB-gg-tgP">
                                 <rect key="frame" x="36" y="124" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password:" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7p7-d5-YsQ">
                                 <rect key="frame" x="36" y="174" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3gG-CJ-XzE">
                                 <rect key="frame" x="28" y="450" width="544" height="86"/>
@@ -316,7 +316,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="USERNAME" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HJ6-EC-jAu">
                                 <rect key="frame" x="20" y="358" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="36" y="295" width="328" height="30"/>
                                 </variation>
@@ -324,7 +324,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PASSWORD" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BA9-TX-Aru">
                                 <rect key="frame" x="20" y="408" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="36" y="345" width="328" height="30"/>
                                 </variation>
@@ -497,7 +497,7 @@
                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="name this beacon:" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9p5-h4-wBg">
                                 <rect key="frame" x="36" y="206" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PuB-mN-t4n" customClass="CSAnimationView">
                                 <rect key="frame" x="200" y="200" width="200" height="200"/>
@@ -681,8 +681,8 @@
         <image name="pin.png" width="38" height="38"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DUt-Op-gzX"/>
         <segue reference="KAy-Fq-QwP"/>
-        <segue reference="Ebv-hy-0z1"/>
+        <segue reference="DUt-Op-gzX"/>
+        <segue reference="aWV-Dy-yBl"/>
     </inferredMetricsTieBreakers>
 </document>
