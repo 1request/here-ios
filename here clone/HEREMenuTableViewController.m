@@ -114,6 +114,7 @@
             navigationController.viewControllers = @[beaconsTableViewController];
         } else {
             [PFUser logOut];
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kHEREBeaconClassKey];
         }
     }
     else {

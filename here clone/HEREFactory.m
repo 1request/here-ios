@@ -73,5 +73,4 @@
     return beaconObjects;
 }
 
-
 @end
