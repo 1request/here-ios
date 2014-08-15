@@ -163,8 +163,6 @@
 
 - (void)uploadAudio
 {
-    [self showActivityIndicator];
-    self.activityLabel.text = @"Uploading";
     [self enableAvatarButton:NO];
     
     NSData *audioData = [NSData dataWithContentsOfURL:self.audioRecorder.url];
@@ -185,13 +183,16 @@
                 }
             }];
         }
+    } progressBlock:^(int percentDone) {
+        [self showActivityIndicator];
+        self.activityLabel.text = [NSString stringWithFormat: @"Uploading %i%%", percentDone];
     }];
 }
 
 - (void)queryAudio
 {
     [self showActivityIndicator];
-    self.activityLabel.text = @"Processing";
+    self.activityLabel.text = @"Querying";
     [self enableAvatarButton:NO];
     
     PFQuery *query = [PFQuery queryWithClassName:kHEREAudioClassKey];
@@ -218,10 +219,22 @@
 {
     NSLog(@"Download audio from parse");
     PFFile *audioFile = audio[kHEREAudioFileKey];
-    NSURL *url = [[NSURL alloc] initWithString:[audioFile url]];
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
-    
-    self.connectionManager = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
+    [audioFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        if (error) {
+            NSLog(@"Error downloading audio: %@%%", error.description);
+            [self downloadAudio:audio];
+        }
+        else {
+            [self hideActivityIndicator];
+            self.activityLabel.text = nil;
+            [self enableAvatarButton:YES];
+            self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
+            self.audioPlayer.delegate = self;
+        }
+    } progressBlock:^(int percentDone) {
+        self.activityLabel.text = [NSString stringWithFormat:@"Downloading %i%%", percentDone];
+        [self.activityLabel sizeToFit];
+    }];
 }
 
 - (void)enableAvatarButton:(BOOL)state
@@ -252,6 +265,12 @@
     [factory queryBeacons];
     self.beacons = [factory returnBeacons];
 }
+
+//- (void)adjustActivityLabelWidth
+//{
+//    float widthIs = [self.activityLabel.text boundingRectWithSize:self.activityLabel.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName : self.activityLabel.font } context:nil].size.width;
+//    self.activityLabel.frame.size = CGSizeMake(widthIs, <#CGFloat height#>)
+//}
 
 #pragma mark - activity indicator
 - (void) showActivityIndicator {
@@ -297,27 +316,11 @@
 //    NSLog(@"Near beacon: %@", beacon);
 }
 
-#pragma mark - NSURLConnection Delegate
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [self.audioData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    NSError *error;
-    [self hideActivityIndicator];
-    [self enableAvatarButton:YES];
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithData:self.audioData error:&error];
-    self.audioPlayer.delegate = self;
-    if (error) NSLog(@"Error downloading audio: %@", error.description);
-}
-
 #pragma mark - AVAudioPlayer Delegate
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
     [self enableAvatarButton:YES];
+    self.activityLabel.text = nil;
 }
 
 @end
