@@ -14,7 +14,7 @@
 @property (strong, nonatomic) NSMutableArray *audioRecords;
 @property (strong, nonatomic) NSMutableArray *beacons;
 @property (strong, nonatomic) NSURLConnection *connectionManager;
-@property (strong, nonatomic) NSMutableData *audioData;
+@property (strong, nonatomic) NSData *audioData;
 @property (strong, nonatomic) NSURLResponse *urlResponse;
 
 @end
@@ -143,10 +143,15 @@
 {
     if (!self.audioRecorder.recording) {
         if (self.audioData) {
+            NSError *error;
+            self.audioPlayer = [[AVAudioPlayer alloc] initWithData:self.audioData error:&error];
+            self.audioPlayer.delegate = self;
             [self.audioPlayer play];
             [self showActivityIndicator];
             self.activityLabel.text = @"Playing";
-            [self enableAvatarButton:NO];
+//            [self enableAvatarButton:NO];
+            self.activityView.hidden = NO;
+            [self performSelector:@selector(highlightButton:) withObject:sender afterDelay:0.0];
         }
     }
 }
@@ -164,6 +169,8 @@
 - (void)uploadAudio
 {
     [self enableAvatarButton:NO];
+    self.activityLabel.text = @"Uploading";
+    [self showActivityIndicator];
     
     NSData *audioData = [NSData dataWithContentsOfURL:self.audioRecorder.url];
     
@@ -228,20 +235,22 @@
             [self hideActivityIndicator];
             self.activityLabel.text = nil;
             [self enableAvatarButton:YES];
-            self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
-            self.audioPlayer.delegate = self;
+            self.audioData = data;
         }
     } progressBlock:^(int percentDone) {
         self.activityLabel.text = [NSString stringWithFormat:@"Downloading %i%%", percentDone];
-        [self.activityLabel sizeToFit];
     }];
 }
 
 - (void)enableAvatarButton:(BOOL)state
 {
+    self.avatarButton.highlighted = !state;
     self.avatarButton.enabled = state;
-    self.avatarButton.selected = state;
     self.activityView.hidden = state;
+}
+
+- (void)highlightButton:(UIButton *)button {
+    button.highlighted = YES;
 }
 
 - (void)triggerBeacon
@@ -320,6 +329,7 @@
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
     [self enableAvatarButton:YES];
+    [self hideActivityIndicator];
     self.activityLabel.text = nil;
 }
 

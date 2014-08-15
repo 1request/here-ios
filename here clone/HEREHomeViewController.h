@@ -32,4 +32,5 @@
 - (IBAction)recordMessageButtonPressed:(UIButton *)sender;
 - (IBAction)recordMessageButtonTouchedDown:(UIButton *)sender;
 - (IBAction)avatarButtonPressed:(UIButton *)sender;
+
 @end
