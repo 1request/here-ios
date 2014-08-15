@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6205" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6198"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
@@ -64,7 +63,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSW-Lm-KWg">
-                                <rect key="frame" x="20" y="491" width="560" height="88.5"/>
+                                <rect key="frame" x="20" y="491" width="560" height="89"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="fSW-Lm-KWg" secondAttribute="height" multiplier="272:43" id="KsK-ju-Xa4"/>
                                 </constraints>
@@ -78,7 +77,7 @@
                                     <action selector="recordMessageButtonTouchedDown:" destination="6xc-lR-L0r" eventType="touchDown" id="aTC-Uu-wBA"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zzu-Tp-GNh">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zzu-Tp-GNh">
                                 <rect key="frame" x="217" y="144" width="167" height="195"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="195" id="ABR-hf-1jz"/>
@@ -113,15 +112,13 @@
                                 <rect key="frame" x="217" y="144" width="167" height="195"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYn-EE-CaC">
-                                        <rect key="frame" x="34" y="87" width="100" height="20.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="5wr-eA-hG9"/>
-                                        </constraints>
+                                        <rect key="frame" x="63" y="87" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="APe-Fd-Pxz">
-                                        <rect key="frame" x="11" y="87" width="20" height="20"/>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="APe-Fd-Pxz">
+                                        <rect key="frame" x="40" y="87" width="20" height="20"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -228,7 +225,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password:" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7p7-d5-YsQ">
                                 <rect key="frame" x="36" y="174" width="528" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3gG-CJ-XzE">
                                 <rect key="frame" x="28" y="450" width="544" height="86"/>
@@ -681,8 +678,8 @@
         <image name="pin.png" width="38" height="38"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KAy-Fq-QwP"/>
+        <segue reference="Ebv-hy-0z1"/>
         <segue reference="DUt-Op-gzX"/>
-        <segue reference="aWV-Dy-yBl"/>
+        <segue reference="KAy-Fq-QwP"/>
     </inferredMetricsTieBreakers>
 </document>
