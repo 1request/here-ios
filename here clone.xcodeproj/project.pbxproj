@@ -14,7 +14,6 @@
 		7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */; };
 		7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C1E199200D000C53C7B /* HERENavigationViewController.m */; };
 		7C3E5C221992033000C53C7B /* HEREBeaconsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C211992033000C53C7B /* HEREBeaconsTableViewController.m */; };
-		7C3E5C25199205A500C53C7B /* HEREStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C24199205A500C53C7B /* HEREStatusViewController.m */; };
 		7C3E5C28199207C100C53C7B /* HERECreateUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C27199207C100C53C7B /* HERECreateUserViewController.m */; };
 		7C3E5C6919920EA100C53C7B /* 1_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4019920EA000C53C7B /* 1_01.png */; };
 		7C3E5C6A19920EA100C53C7B /* 1_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4119920EA000C53C7B /* 1_03.png */; };
@@ -97,8 +96,6 @@
 		7C3E5C1E199200D000C53C7B /* HERENavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERENavigationViewController.m; sourceTree = "<group>"; };
 		7C3E5C201992033000C53C7B /* HEREBeaconsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREBeaconsTableViewController.h; sourceTree = "<group>"; };
 		7C3E5C211992033000C53C7B /* HEREBeaconsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREBeaconsTableViewController.m; sourceTree = "<group>"; };
-		7C3E5C23199205A500C53C7B /* HEREStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREStatusViewController.h; sourceTree = "<group>"; };
-		7C3E5C24199205A500C53C7B /* HEREStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREStatusViewController.m; sourceTree = "<group>"; };
 		7C3E5C26199207C100C53C7B /* HERECreateUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERECreateUserViewController.h; sourceTree = "<group>"; };
 		7C3E5C27199207C100C53C7B /* HERECreateUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERECreateUserViewController.m; sourceTree = "<group>"; };
 		7C3E5C4019920EA000C53C7B /* 1_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_01.png; sourceTree = "<group>"; };
@@ -229,8 +226,6 @@
 				7C9893D61993A53000A53029 /* HEREAddBeaconViewController.m */,
 				7C2B11AE1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.h */,
 				7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */,
-				7C3E5C23199205A500C53C7B /* HEREStatusViewController.h */,
-				7C3E5C24199205A500C53C7B /* HEREStatusViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -561,7 +556,6 @@
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
 				7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */,
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
-				7C3E5C25199205A500C53C7B /* HEREStatusViewController.m in Sources */,
 				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,
 				7CF4970A199B887B001AD29F /* HERELocation.m in Sources */,
 				7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */,

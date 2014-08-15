@@ -318,7 +318,6 @@
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
     [self enableAvatarButton:YES];
-    self.audioData = nil;
 }
 
 @end
