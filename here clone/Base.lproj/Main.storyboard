@@ -33,69 +33,6 @@
             </objects>
             <point key="canvasLocation" x="-765" y="1024"/>
         </scene>
-        <!--Status View Controller-->
-        <scene sceneID="d4q-5O-fGe">
-            <objects>
-                <viewController storyboardIdentifier="statusController" id="xVX-TB-MuZ" customClass="HEREStatusViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Dt4-sy-Svh"/>
-                        <viewControllerLayoutGuide type="bottom" id="qKN-Ay-iik"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="LmO-Au-q3P">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOz-nU-RzV">
-                                <rect key="frame" x="36" y="144" width="55" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zgq-D9-f5g">
-                                <rect key="frame" x="36" y="185" width="72" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CtM-fy-oOl">
-                                <rect key="frame" x="130" y="144" width="434" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5e-tM-Jub">
-                                <rect key="frame" x="130" y="179" width="434" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Zgq-D9-f5g" firstAttribute="top" secondItem="xOz-nU-RzV" secondAttribute="bottom" constant="20" id="B7N-ut-qso"/>
-                            <constraint firstItem="xOz-nU-RzV" firstAttribute="leading" secondItem="LmO-Au-q3P" secondAttribute="leadingMargin" constant="20" id="BHC-by-BCk"/>
-                            <constraint firstItem="xOz-nU-RzV" firstAttribute="leading" secondItem="Zgq-D9-f5g" secondAttribute="leading" id="DQz-85-LMx"/>
-                            <constraint firstItem="xOz-nU-RzV" firstAttribute="top" secondItem="Dt4-sy-Svh" secondAttribute="bottom" constant="80" id="G5Q-iL-pXM"/>
-                        </constraints>
-                    </view>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="l7b-Rr-DBj">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="rfQ-HX-M7O">
-                            <connections>
-                                <action selector="menuBarButtonItemPressed:" destination="xVX-TB-MuZ" id="Oh3-pc-UMC"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="add.png" id="rgO-kU-crX"/>
-                    </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="statusLabel" destination="CtM-fy-oOl" id="ZIi-gX-2lP"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ABE-R6-K39" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-81" y="1024"/>
-        </scene>
         <!--Root View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
@@ -722,7 +659,6 @@
                     <nil name="viewControllers"/>
                     <connections>
                         <segue destination="RWW-T4-Ocw" kind="show" identifier="toBeaconsTableViewControllerSegue" id="p1S-Hu-z4z"/>
-                        <segue destination="xVX-TB-MuZ" kind="show" identifier="toStatusViewControllerSegue" id="59y-0e-7Sx"/>
                         <segue destination="rjK-Sj-WAX" kind="relationship" relationship="rootViewController" id="yWy-a3-eO0"/>
                         <segue destination="6xc-lR-L0r" kind="show" identifier="navigationToHomeSegue" id="f7h-xH-kAF"/>
                         <segue destination="IUn-Gp-h4L" kind="show" identifier="toCreateUserViewControllerSegue" id="YfP-lJ-EHk"/>

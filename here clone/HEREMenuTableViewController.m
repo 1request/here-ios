@@ -9,7 +9,6 @@
 #import "HEREMenuTableViewController.h"
 #import "HEREHomeViewController.h"
 #import "HEREBeaconsTableViewController.h"
-#import "HEREStatusViewController.h"
 #import "HERECreateUserViewController.h"
 #import "HERESignInViewController.h"
 #import "UIViewController+REFrostedViewController.h"
@@ -113,11 +112,9 @@
         } else if (indexPath.row == 1) {
             HEREBeaconsTableViewController *beaconsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"beaconsController"];
             navigationController.viewControllers = @[beaconsTableViewController];
-        } else if (indexPath.row == 2) {
-            HEREStatusViewController *statusController = [self.storyboard instantiateViewControllerWithIdentifier:@"statusController"];
-            navigationController.viewControllers = @[statusController];
         } else {
             [PFUser logOut];
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kHEREBeaconClassKey];
         }
     }
     else {
@@ -150,7 +147,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
     if ([PFUser currentUser]) {
-        return 4;
+        return 3;
     }
     else {
         return 2;
@@ -168,7 +165,7 @@
     }
     
     if ([PFUser currentUser]) {
-        NSArray *titles = @[@"Home", @"Beacons", @"Status", @"Sign out"];
+        NSArray *titles = @[@"Home", @"Beacons", @"Sign out"];
         cell.textLabel.text = titles[indexPath.row];
     }
     else {
