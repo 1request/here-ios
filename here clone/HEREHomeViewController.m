@@ -8,8 +8,11 @@
 
 #import "HEREHomeViewController.h"
 
-@interface HEREHomeViewController ()
+@interface HEREHomeViewController () {
+    NSTimer *timer;
+}
 
+@property (strong, nonatomic) NSDate *startDate;
 @property (strong, nonatomic) HEREBeacon *beacon;
 @property (strong, nonatomic) NSMutableArray *audioRecords;
 @property (strong, nonatomic) NSMutableArray *beacons;
@@ -27,6 +30,8 @@
     [self updateBeacons];
     
     [self triggerBeacon];
+    
+    timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateTimer:) userInfo:nil repeats:YES];
     
     [self.navigationController setNavigationBarHidden:NO];
     // Do any additional setup after loading the view.
@@ -118,7 +123,10 @@
         
         [self.audioRecorder record];
         
+        self.startDate = [NSDate date];
+        
         [self.recordMessageButton setTitle:@"Recording..." forState:UIControlStateNormal];
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
     }
     else {
         [self.audioRecorder pause];
@@ -129,7 +137,11 @@
 - (IBAction)recordMessageButtonPressed:(UIButton *)sender
 {
     [self.audioRecorder stop];
+    [timer invalidate];
+    timer = nil;
     [self.recordMessageButton setTitle:@"Leave a message" forState:UIControlStateNormal];
+    [self.recordMessageButton setTitle:@"Recording..." forState:UIControlStateHighlighted];
+    
     if (self.beacon) {
         [self uploadAudio];
     }
@@ -165,6 +177,20 @@
 }
 
 #pragma mark - helper methods
+
+- (void)updateTimer
+{
+    NSDate *currentDate = [NSDate date];
+    NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:self.startDate];
+    NSDate *timerDate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"mm:ss"];
+    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0.0]];
+    
+    NSString *timeString = [formatter stringFromDate:timerDate];
+    [self.recordMessageButton setTitle:[NSString stringWithFormat: @"Recording...%@", timeString] forState:UIControlStateHighlighted];
+}
 
 - (void)uploadAudio
 {
