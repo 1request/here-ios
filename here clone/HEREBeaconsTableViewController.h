@@ -11,8 +11,9 @@
 #import "UIViewController+HEREMenu.h"
 #import "HEREAddBeaconViewController.h"
 #import "HEREFactory.h"
+#import <SWTableViewCell.h>
 
-@interface HEREBeaconsTableViewController : UITableViewController <addBeaconViewControllerDelegate, factoryDelegate>
+@interface HEREBeaconsTableViewController : UITableViewController <addBeaconViewControllerDelegate, factoryDelegate, SWTableViewCellDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 

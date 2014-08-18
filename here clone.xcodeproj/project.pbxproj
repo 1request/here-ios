@@ -67,6 +67,7 @@
 		7C9E81971991DFA100156B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81951991DFA100156B88 /* Main.storyboard */; };
 		7C9E81991991DFA100156B88 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81981991DFA100156B88 /* Images.xcassets */; };
 		7C9E81A51991DFA100156B88 /* here_cloneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E81A41991DFA100156B88 /* here_cloneTests.m */; };
+		7CAE354519A1C28100263241 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAE354419A1C28100263241 /* CustomCell.m */; };
 		7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */; };
 		7CF1A1BC1999CB04004300AF /* HEREBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A1BB1999CB04004300AF /* HEREBeacon.m */; };
 		7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF49702199B5CFF001AD29F /* HEREFactory.m */; };
@@ -160,6 +161,8 @@
 		7C9E819E1991DFA100156B88 /* here cloneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "here cloneTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C9E81A31991DFA100156B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C9E81A41991DFA100156B88 /* here_cloneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = here_cloneTests.m; sourceTree = "<group>"; };
+		7CAE354319A1C28100263241 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		7CAE354419A1C28100263241 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		7CDD6D8819922D5400138475 /* HEREMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREMenuTableViewController.h; sourceTree = "<group>"; };
 		7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREMenuTableViewController.m; sourceTree = "<group>"; };
 		7CF1A1BA1999CB04004300AF /* HEREBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREBeacon.h; sourceTree = "<group>"; };
@@ -226,6 +229,8 @@
 				7C9893D61993A53000A53029 /* HEREAddBeaconViewController.m */,
 				7C2B11AE1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.h */,
 				7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */,
+				7CAE354319A1C28100263241 /* CustomCell.h */,
+				7CAE354419A1C28100263241 /* CustomCell.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -554,6 +559,7 @@
 				7C9893D71993A53000A53029 /* HEREAddBeaconViewController.m in Sources */,
 				7C2B11B01998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m in Sources */,
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
+				7CAE354519A1C28100263241 /* CustomCell.m in Sources */,
 				7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */,
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
 				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,
