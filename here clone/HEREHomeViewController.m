@@ -10,6 +10,7 @@
 
 @interface HEREHomeViewController () {
     NSTimer *timer;
+    NSTimeInterval timeInterval;
 }
 
 @property (strong, nonatomic) NSDate *startDate;
@@ -30,8 +31,6 @@
     [self updateBeacons];
     
     [self triggerBeacon];
-    
-    timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateTimer:) userInfo:nil repeats:YES];
     
     [self.navigationController setNavigationBarHidden:NO];
     // Do any additional setup after loading the view.
@@ -142,13 +141,20 @@
     [self.recordMessageButton setTitle:@"Leave a message" forState:UIControlStateNormal];
     [self.recordMessageButton setTitle:@"Recording..." forState:UIControlStateHighlighted];
     
-    if (self.beacon) {
-        [self uploadAudio];
+    if (timeInterval > 2) {
+        if (self.beacon) {
+            [self uploadAudio];
+        }
+        else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location not selected" message:@"Location is not selected yet. Please press + sign on navigation bar to select one." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alertView show];
+        }
     }
     else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location not selected" message:@"Location is not selected yet. Please press + sign on navigation bar to select one." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alertView show];
+        NSLog(@"time interval less than 2 seconds");
     }
+    
+    timeInterval = 0;
 }
 
 - (IBAction)avatarButtonPressed:(UIButton *)sender
@@ -181,7 +187,8 @@
 - (void)updateTimer
 {
     NSDate *currentDate = [NSDate date];
-    NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:self.startDate];
+
+    timeInterval = [currentDate timeIntervalSinceDate:self.startDate];
     NSDate *timerDate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
