@@ -8,8 +8,12 @@
 
 #import "HEREHomeViewController.h"
 
-@interface HEREHomeViewController ()
+@interface HEREHomeViewController () {
+    NSTimer *timer;
+    NSTimeInterval timeInterval;
+}
 
+@property (strong, nonatomic) NSDate *startDate;
 @property (strong, nonatomic) HEREBeacon *beacon;
 @property (strong, nonatomic) NSMutableArray *audioRecords;
 @property (strong, nonatomic) NSMutableArray *beacons;
@@ -118,7 +122,10 @@
         
         [self.audioRecorder record];
         
+        self.startDate = [NSDate date];
+        
         [self.recordMessageButton setTitle:@"Recording..." forState:UIControlStateNormal];
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
     }
     else {
         [self.audioRecorder pause];
@@ -129,14 +136,25 @@
 - (IBAction)recordMessageButtonPressed:(UIButton *)sender
 {
     [self.audioRecorder stop];
+    [timer invalidate];
+    timer = nil;
     [self.recordMessageButton setTitle:@"Leave a message" forState:UIControlStateNormal];
-    if (self.beacon) {
-        [self uploadAudio];
+    [self.recordMessageButton setTitle:@"Recording..." forState:UIControlStateHighlighted];
+    
+    if (timeInterval > 2) {
+        if (self.beacon) {
+            [self uploadAudio];
+        }
+        else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location not selected" message:@"Location is not selected yet. Please press + sign on navigation bar to select one." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alertView show];
+        }
     }
     else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location not selected" message:@"Location is not selected yet. Please press + sign on navigation bar to select one." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alertView show];
+        NSLog(@"time interval less than 2 seconds");
     }
+    
+    timeInterval = 0;
 }
 
 - (IBAction)avatarButtonPressed:(UIButton *)sender
@@ -165,6 +183,21 @@
 }
 
 #pragma mark - helper methods
+
+- (void)updateTimer
+{
+    NSDate *currentDate = [NSDate date];
+
+    timeInterval = [currentDate timeIntervalSinceDate:self.startDate];
+    NSDate *timerDate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"mm:ss"];
+    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0.0]];
+    
+    NSString *timeString = [formatter stringFromDate:timerDate];
+    [self.recordMessageButton setTitle:[NSString stringWithFormat: @"Recording...%@", timeString] forState:UIControlStateHighlighted];
+}
 
 - (void)uploadAudio
 {
