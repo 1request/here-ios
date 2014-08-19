@@ -15,8 +15,10 @@
     NSNumber *major;
     NSNumber *minor;
     NSString *uuidString;
+    NSArray *uuidStrings;
     NSString *name;
 }
+@property (strong, nonatomic) NSMutableArray *beaconRegions;
 @property (strong, nonatomic) HERELocation *location;
 
 @end
@@ -36,9 +38,13 @@
     // Do any additional setup after loading the view.
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
-    uuidString = @"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0";
-    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
-    self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:@"beacon"];
+    uuidStrings = @[@{ kHEREBeaconNameKey: @"readbear", kHEREBeaconUUIDKey: @"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0" }, @{ kHEREBeaconNameKey: @"estimote", kHEREBeaconUUIDKey: @"B9407F30-F5F8-466E-AFF9-25556B57FE6D"}];
+    self.beaconRegions = [@[] mutableCopy];
+    for (NSDictionary *beacon in uuidStrings) {
+        NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:beacon[kHEREBeaconUUIDKey]];
+        CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:beacon[kHEREBeaconNameKey]];
+        [self.beaconRegions addObject:beaconRegion];
+    }
 
     // setup animation view
     self.animationView.layer.cornerRadius = self.animationView.frame.size.width / 2;
@@ -97,21 +103,31 @@
     self.scanBeaconButton.hidden = YES;
     self.scanningBeaconsLabel.hidden = NO;
     animationTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self.animationView selector:@selector(startCanvasAnimation) userInfo:nil repeats:YES];
-    [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
+    [self scanBeacons];
 }
 
 #pragma mark - CoreLocation Delegate
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
-    [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];
+    for (CLBeaconRegion *beaconRegion in self.beaconRegions) {
+        [self.locationManager stopRangingBeaconsInRegion:beaconRegion];
+    }
     CLBeacon *foundBeacon = [beacons firstObject];
     if (foundBeacon.major && foundBeacon.minor) {
+        uuidString = [foundBeacon.proximityUUID UUIDString];
         [self checkExistingBeacon:foundBeacon];
     }
 }
 
 #pragma mark - helper methods
+
+- (void)scanBeacons
+{
+    for (CLBeaconRegion *beaconRegion in self.beaconRegions) {
+        [self.locationManager startRangingBeaconsInRegion:beaconRegion];
+    }
+}
 
 - (void)foundNewBeacon:(CLBeacon *)beacon
 {
@@ -190,7 +206,7 @@
             [self.navigationController popViewControllerAnimated:YES];
             break;
         case 1:
-            [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
+            [self scanBeacons];
             break;
         default:
             break;
