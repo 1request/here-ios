@@ -125,6 +125,7 @@
 - (void)scanBeacons
 {
     for (CLBeaconRegion *beaconRegion in self.beaconRegions) {
+        [self.locationManager startMonitoringForRegion:beaconRegion];
         [self.locationManager startRangingBeaconsInRegion:beaconRegion];
     }
 }
