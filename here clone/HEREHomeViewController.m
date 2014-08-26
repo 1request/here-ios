@@ -7,6 +7,7 @@
 //
 
 #import "HEREHomeViewController.h"
+#import "HEREUploadHelper.h"
 
 @interface HEREHomeViewController () {
     NSTimer *timer;
@@ -17,9 +18,7 @@
 @property (strong, nonatomic) HEREBeacon *beacon;
 @property (strong, nonatomic) NSMutableArray *audioRecords;
 @property (strong, nonatomic) NSMutableArray *beacons;
-@property (strong, nonatomic) NSURLConnection *connectionManager;
 @property (strong, nonatomic) NSData *audioData;
-@property (strong, nonatomic) NSURLResponse *urlResponse;
 
 @end
 
@@ -199,6 +198,11 @@
     [self.recordMessageButton setTitle:[NSString stringWithFormat: @"Recording...%@", timeString] forState:UIControlStateHighlighted];
 }
 
+- (void)uploadAudioDataToServer:(NSData *)data
+{
+    [HEREUploadHelper uploadAudio:data Beacon:self.beacon];
+}
+
 - (void)uploadAudio
 {
     [self enableAvatarButton:NO];
@@ -227,6 +231,8 @@
         [self showActivityIndicator];
         self.activityLabel.text = [NSString stringWithFormat: @"Uploading %i%%", percentDone];
     }];
+    
+    [self uploadAudioDataToServer:audioData];
 }
 
 - (void)queryAudio

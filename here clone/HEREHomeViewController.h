@@ -14,7 +14,7 @@
 #import "HEREFactory.h"
 #import "HERELocation.h"
 
-@interface HEREHomeViewController : UIViewController <AVAudioPlayerDelegate, AVAudioRecorderDelegate, CLLocationManagerDelegate, beaconsMessagesTableViewControllerDelegate, locationDelegate, NSURLConnectionDataDelegate>
+@interface HEREHomeViewController : UIViewController <AVAudioPlayerDelegate, AVAudioRecorderDelegate, CLLocationManagerDelegate, beaconsMessagesTableViewControllerDelegate, locationDelegate>
 
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @property (strong, nonatomic)AVAudioRecorder *audioRecorder;
