@@ -13,7 +13,7 @@
 
 @implementation HEREUploadHelper
 
-+ (void)uploadAudio:(NSData *)data Beacon:(HEREBeacon *)beacon
+- (void)uploadAudio:(NSData *)data Beacon:(HEREBeacon *)beacon
 {
     NSDictionary *parameters = @{ kHEREAPIUUIDKey: [beacon.uuid UUIDString], kHEREAPIMajorKey: [NSString stringWithFormat:@"%tu", beacon.major], kHEREAPIMinorKey: [NSString stringWithFormat:@"%tu", beacon.minor], kHEREAPIDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIDeviceTypeKey: @"iOS" };
     
@@ -49,10 +49,13 @@
     NSString *postLength = [NSString stringWithFormat:@"%lu", [body length]];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
-    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
     
-    NSLog(@"%@", returnString);
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        NSString *returnString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"%@", returnString);
+        
+        [self.delegate didUploadAudio];
+    }];
 }
 
 @end

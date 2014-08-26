@@ -13,9 +13,11 @@
 #import "HEREBeaconsMessagesTableViewController.h"
 #import "HEREFactory.h"
 #import "HERELocation.h"
+#import "HEREUploadHelper.h"
 
-@interface HEREHomeViewController : UIViewController <AVAudioPlayerDelegate, AVAudioRecorderDelegate, CLLocationManagerDelegate, beaconsMessagesTableViewControllerDelegate, locationDelegate>
+@interface HEREHomeViewController : UIViewController <AVAudioPlayerDelegate, AVAudioRecorderDelegate, CLLocationManagerDelegate, beaconsMessagesTableViewControllerDelegate, locationDelegate, uploaderDelegate, NSURLSessionDelegate>
 
+@property (strong, nonatomic) NSURLSession *session;
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @property (strong, nonatomic)AVAudioRecorder *audioRecorder;
 @property (strong, nonatomic) IBOutlet UIButton *recordMessageButton;
@@ -27,6 +29,7 @@
 @property (strong, nonatomic) IBOutlet UIView *activityView;
 @property (strong, nonatomic) HERELocation *location;
 @property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) HEREUploadHelper *uploadHelper;
 
 - (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender;
 - (IBAction)recordMessageButtonPressed:(UIButton *)sender;

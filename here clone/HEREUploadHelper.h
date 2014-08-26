@@ -9,8 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "HEREBeacon.h"
 
+@protocol uploaderDelegate <NSObject>
+
+- (void)didUploadAudio;
+
+@end
+
+
 @interface HEREUploadHelper : NSObject
 
-+ (void)uploadAudio:(NSData *)data Beacon:(HEREBeacon *)beacon;
+@property (weak, nonatomic) id <uploaderDelegate> delegate;
+- (void)uploadAudio:(NSData *)data Beacon:(HEREBeacon *)beacon;
 
 @end
