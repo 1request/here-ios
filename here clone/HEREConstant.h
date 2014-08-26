@@ -27,4 +27,14 @@ extern NSString *const kHEREAudioBeaconKey;
 extern NSString *const kHEREAudioFileKey;
 extern NSString *const kHEREAudioIsReadKey;
 
+#pragma mark - API
+extern NSString *const kHEREAPIUploadLink;
+extern NSString *const kHEREAPIDownloadLink;
+extern NSString *const kHEREAPIAudioFileKey;
+extern NSString *const kHEREAPIUUIDKey;
+extern NSString *const kHEREAPIMajorKey;
+extern NSString *const kHEREAPIMinorKey;
+extern NSString *const kHEREAPIDeviceIdKey;
+extern NSString *const kHEREAPIDeviceTypeKey;
+extern NSString *const kHEREAPIBoundaryKey;
 @end
