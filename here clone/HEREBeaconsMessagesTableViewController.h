@@ -17,6 +17,8 @@
 
 @interface HEREBeaconsMessagesTableViewController : UITableViewController
 
+@property (strong, nonatomic) NSString *titleText;
+
 @property (weak, nonatomic) id <beaconsMessagesTableViewControllerDelegate> delegate;
 
 @end

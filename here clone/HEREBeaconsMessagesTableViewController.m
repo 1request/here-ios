@@ -30,6 +30,8 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     factory = [[HEREFactory alloc] init];
     beacons = [factory returnBeacons];
+
+    self.navigationItem.title = self.titleText;
 }
 
 - (void)didReceiveMemoryWarning {
