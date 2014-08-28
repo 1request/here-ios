@@ -10,6 +10,7 @@
 #import "HEREBeacon.h"
 #import "HERELocation.h"
 #import "CustomCell.h"
+#import <Parse/Parse.h>
 
 @interface HEREBeaconsTableViewController (){
     NSMutableArray *beacons;
@@ -187,6 +188,7 @@
             
             UITextField *textField = [alert textFieldAtIndex:0];
             textField.placeholder = @"New name";
+            textField.inputAccessoryView = [[UIView alloc] init];
             
             [alert show];
             
@@ -196,7 +198,6 @@
         case 1:
         {
             // Delete button was pressed
-
             HEREBeacon *beacon = beacons[indexPath.row];
             PFObject *beaconObject = [PFObject objectWithoutDataWithClassName:kHEREBeaconClassKey objectId:beacon.parseId];
             
