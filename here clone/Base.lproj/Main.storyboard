@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
@@ -101,25 +100,15 @@
         <scene sceneID="Mao-IG-hvj">
             <objects>
                 <tableViewController storyboardIdentifier="beaconsMessagesController" id="OVM-YR-lc3" customClass="HEREBeaconsMessagesTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9IT-4Z-NiS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BeaconsMessagesCell" id="5bz-jd-owF">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5bz-jd-owF" id="4Ug-M2-i5Q">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="OVM-YR-lc3" id="na8-Ry-736"/>
-                            <outlet property="delegate" destination="OVM-YR-lc3" id="CVW-nM-bbl"/>
-                        </connections>
-                    </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="XjC-6b-hR7"/>
+                    <navigationItem key="navigationItem" id="XjC-6b-hR7">
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="F68-w5-sln">
+                            <connections>
+                                <action selector="menuBarButtonItemPressed:" destination="OVM-YR-lc3" id="xBc-uN-XgC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VVq-uG-jE3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
