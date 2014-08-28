@@ -19,6 +19,4 @@
 @property (strong, nonatomic) UIImageView *outgoingBubbleImageView;
 @property (strong, nonatomic) UIImageView *incomingBubbleImageView;
 
-- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender;
-
 @end
