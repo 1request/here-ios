@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "HEREBeacon.h"
+#import <JSQMessages.h>
 
-@protocol beaconsMessagesTableViewControllerDelegate <NSObject>
+@interface HEREBeaconsMessagesTableViewController : JSQMessagesViewController
 
-- (void)didSelectBeacon:(HEREBeacon *)beacon;
+@property (strong, nonatomic) NSString *titleText;
+@property (strong, nonatomic) NSMutableArray *messages;
+@property (copy, nonatomic) NSDictionary *avatars;
 
-@end
-
-@interface HEREBeaconsMessagesTableViewController : UITableViewController
-
-@property (weak, nonatomic) id <beaconsMessagesTableViewControllerDelegate> delegate;
+@property (strong, nonatomic) UIImageView *outgoingBubbleImageView;
+@property (strong, nonatomic) UIImageView *incomingBubbleImageView;
 
 @end

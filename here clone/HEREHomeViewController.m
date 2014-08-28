@@ -26,45 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self triggerBeacon];
-    
     [self.navigationController setNavigationBarHidden:NO];
-    // Do any additional setup after loading the view.
-    UIImage *image = [UIImage imageNamed:@"here.png"];
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
-
-    // Set the audio file
-    NSArray *pathComponents = [NSArray arrayWithObjects:
-                               [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
-                               @"MyAudioMemo.m4a",
-                               nil];
-    NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
-    
-    // Setup audio session
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-    
-    NSError *error;
-    [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
-    
-    // Define the recorder setting
-    NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
-    
-    [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
-    [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
-    [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
-    
-    // Initiate and prepare the recorder
-    self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:outputFileURL settings:recordSetting error:nil];
-    self.audioRecorder.delegate = self;
-    self.audioRecorder.meteringEnabled = YES;
-    [self.audioRecorder prepareToRecord];
-    
-    self.usernameLabel.text = [PFUser currentUser].username;
-    
-    [self.avatarButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-    
-    self.uploadHelper = [[HEREUploadHelper alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,44 +34,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    self.audioData = nil;
-    
-    [self updateBeacons];
-    
-    self.location = [HERELocation new];
-    
-    self.location.delegate = self;
-    self.uploadHelper.delegate = self;
-    
-    [self.location stopMonitoringBeacons];
-    [self.location monitorBeacons];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerBeacon) name:@"setBeacon" object:nil];
-}
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.session finishTasksAndInvalidate];
-    self.session = nil;
-}
-
-- (NSURLSession *)session {
-    if (!_session) {
-        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        _session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
-    }
-    return _session;
-}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.destinationViewController isKindOfClass:[HEREBeaconsMessagesTableViewController class]]) {
-        HEREBeaconsMessagesTableViewController *beaconsMessagesTableViewController = segue.destinationViewController;
-        beaconsMessagesTableViewController.delegate = self;
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([sender isKindOfClass:[UITableViewCell class]]) {
+        UITableViewCell *cell = sender;
+        HEREBeaconsMessagesTableViewController *beaconsMessagesTableVC = segue.destinationViewController;
+        beaconsMessagesTableVC.titleText = cell.textLabel.text;
     }
 }
 
@@ -118,312 +52,46 @@
     [self showMenu];
 }
 
-- (IBAction)recordMessageButtonTouchedDown:(UIButton *)sender
+#pragma mark - UITableView Data Source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.audioPlayer.playing) {
-        [self.audioPlayer stop];
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 4;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"groupCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    switch (indexPath.row) {
+        case 0:
+            cell.textLabel.text = @"Home";
+            cell.detailTextLabel.text = @"2";
+            break;
+        case 1:
+            cell.textLabel.text = @"Garage Society";
+            cell.detailTextLabel.text = @"1";
+            break;
+        case 2:
+            cell.textLabel.text = @"Cyberport";
+            cell.detailTextLabel.text = @"4";
+            break;
+        case 3:
+            cell.textLabel.text = @"UNO";
+            cell.detailTextLabel.text = @"1";
+            break;
+        default:
+            break;
     }
     
-    if (!self.audioRecorder.recording) {
-        AVAudioSession *session = [AVAudioSession sharedInstance];
-        [session setActive:YES error:nil];
-        
-        [self.audioRecorder record];
-        
-        self.startDate = [NSDate date];
-        
-        [self.recordMessageButton setTitle:@"Recording..." forState:UIControlStateNormal];
-        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
-    }
-    else {
-        [self.audioRecorder pause];
-        [self.recordMessageButton setTitle:@"Pausing recorder..." forState:UIControlStateNormal];
-    }
-}
-
-- (IBAction)recordMessageButtonPressed:(UIButton *)sender
-{
-    NSLog(@"run recordMessageButtonPressed");
-    [self.audioRecorder stop];
-    [timer invalidate];
-    timer = nil;
-    [self.recordMessageButton setTitle:@"Leave a message" forState:UIControlStateNormal];
-    [self.recordMessageButton setTitle:@"Recording..." forState:UIControlStateHighlighted];
-    
-    if (timeInterval > 2) {
-        if (self.beacon) {
-            [self uploadAudio];
-        }
-        else {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location not selected" message:@"Location is not selected yet. Please press + sign on navigation bar to select one." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alertView show];
-        }
-    }
-    else {
-        NSLog(@"time interval less than 2 seconds");
-    }
-    
-    timeInterval = 0;
-}
-
-- (IBAction)avatarButtonPressed:(UIButton *)sender
-{
-    if (!self.audioRecorder.recording) {
-        if (self.audioData) [self playAudio];
-    }
-}
-
-#pragma mark - beaconsMessagesTableViewController Delegate
-
-- (void)didSelectBeacon:(HEREBeacon *)beacon
-{
-    NSLog(@"did select beacon, %@", beacon.name);
-    [self updateBeacon:beacon];
-}
-
-#pragma mark - helper methods
-
-- (void)updateTimer
-{
-    NSDate *currentDate = [NSDate date];
-
-    timeInterval = [currentDate timeIntervalSinceDate:self.startDate];
-    NSDate *timerDate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"mm:ss"];
-    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0.0]];
-    
-    NSString *timeString = [formatter stringFromDate:timerDate];
-    [self.recordMessageButton setTitle:[NSString stringWithFormat: @"Recording...%@", timeString] forState:UIControlStateHighlighted];
-}
-
-- (void)uploadAudioToParse:(NSData *)data Beacon:(HEREBeacon *)beacon
-{
-    PFFile *audioFile = [PFFile fileWithName:@"memo.m4a" data:data];
-    
-    [audioFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            PFObject *audio = [PFObject objectWithClassName:kHEREAudioClassKey];
-            [audio setObject:[PFUser currentUser] forKey:kHEREAudioUserKey];
-            [audio setObject:audioFile forKey:kHEREAudioFileKey];
-            [audio setObject:[NSNumber numberWithBool:NO] forKey:kHEREAudioIsReadKey];
-            audio[kHEREAudioBeaconKey] = [PFObject objectWithoutDataWithClassName:kHEREBeaconClassKey objectId:self.beacon.parseId];
-            [audio saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
-                    NSLog(@"save audio file and collection successfully");
-//                    [self queryAudio];
-                }
-            }];
-        }
-    } progressBlock:^(int percentDone) {
-        [self showActivityIndicator];
-        self.activityLabel.text = [NSString stringWithFormat: @"Uploading %i%%", percentDone];
-    }];
-}
-
-- (void)uploadAudio
-{
-    [self enableAvatarButton:NO];
-    self.activityLabel.text = @"Uploading";
-    [self showActivityIndicator];
-    
-    NSData *audioData = [NSData dataWithContentsOfURL:self.audioRecorder.url];
-    
-//    [self uploadAudioToParse:audioData Beacon:self.beacon];
-    [self.uploadHelper uploadAudio:audioData Beacon:self.beacon];
-    self.audioData = audioData;
-}
-
-- (void)queryAudioFromParse
-{
-    PFQuery *query = [PFQuery queryWithClassName:kHEREAudioClassKey];
-    [query whereKey:kHEREAudioBeaconKey equalTo:[PFObject objectWithoutDataWithClassName:kHEREBeaconClassKey objectId:self.beacon.parseId]];
-    [query whereKey:kHEREAudioUserKey equalTo:[PFUser currentUser]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            NSLog(@"queried audio records at location %@, count: %tu", self.beacon.name, [objects count]);
-            self.audioRecords = [objects mutableCopy];
-            PFObject *audio = [objects lastObject];
-            if (audio) {
-                self.audioData = [[NSMutableData alloc] init];
-                [self downloadAudioFromParse:audio];
-            }
-            else [self enableAvatarButton:YES];
-        }
-        else {
-            NSLog(@"error when querying audio in home view controller: %@", error.description);
-        }
-    }];
-}
-
-- (void)queryAudioFromServer
-{
-    NSURL *downloadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@=%@&%@=%tu&%@=%tu&%@=%@", kHEREAPIDownloadLink, kHEREAPIUUIDKey, [self.beacon.uuid UUIDString], kHEREAPIMajorKey, self.beacon.major, kHEREAPIMinorKey, self.beacon.minor, kHEREAPIDeviceIdKey, [[[UIDevice currentDevice] identifierForVendor] UUIDString]]];
-    
-    NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:downloadUrl completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        NSLog(@"%@", json);
-        [self downloadAudioFromServer:[NSURL URLWithString:json[@"data"]]];
-        self.activityLabel.text = @"Downloading";
-    }];
-    
-    [dataTask resume];
-}
-
-- (void)queryAudio
-{
-    [self showActivityIndicator];
-    self.activityLabel.text = @"Querying";
-    [self enableAvatarButton:NO];
-//    [self queryAudioFromParse];
-    [self queryAudioFromServer];
-}
-
-- (void)downloadAudioFromServer:(NSURL *)url
-{
-    NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"finished getting data");
-            self.audioData = data;
-            [self resetAvatarButton];
-        });
-    }];
-    
-    [dataTask resume];
-}
-
-- (void)downloadAudioFromParse:(PFObject *)audio
-{
-    NSLog(@"Download audio from parse");
-    PFFile *audioFile = audio[kHEREAudioFileKey];
-    [audioFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        if (error) {
-            NSLog(@"Error downloading audio: %@%%", error.description);
-            [self downloadAudioFromParse:audio];
-        }
-        else {
-            [self hideActivityIndicator];
-            self.activityLabel.text = nil;
-            [self enableAvatarButton:YES];
-            self.audioData = data;
-        }
-    } progressBlock:^(int percentDone) {
-        self.activityLabel.text = [NSString stringWithFormat:@"Downloading %i%%", percentDone];
-    }];
-}
-
-- (void)playAudio
-{
-    NSError *error;
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithData:self.audioData error:&error];
-    self.audioPlayer.delegate = self;
-    [self.audioPlayer play];
-    [self showActivityIndicator];
-    
-    self.activityLabel.text = @"Playing";
-//    [self enableAvatarButton:NO];
-    self.activityView.hidden = NO;
-    [self performSelector:@selector(highlightButton:) withObject:self.avatarButton afterDelay:0.0];
-}
-
-- (void)enableAvatarButton:(BOOL)state
-{
-    self.avatarButton.highlighted = !state;
-    self.avatarButton.enabled = state;
-    self.activityView.hidden = state;
-}
-
-- (void)highlightButton:(UIButton *)button {
-    button.highlighted = YES;
-}
-
-- (void)triggerBeacon
-{
-    NSString *parseId = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconTriggeredKey];
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"parseId == %@", parseId];
-    HEREBeacon *beacon = [[self.beacons filteredArrayUsingPredicate:pred] firstObject];
-    if (beacon) {
-        [self updateBeacon:beacon];
-        [self queryAudio];
-    }
-}
-
-- (void)updateBeacon:(HEREBeacon *)beacon
-{
-    self.beacon = beacon;
-    self.locationLabel.text = beacon.name;
-}
-
-- (void)updateBeacons
-{
-    HEREFactory *factory = [[HEREFactory alloc] init];
-    [factory queryBeacons];
-    self.beacons = [factory returnBeacons];
-}
-
-- (void)resetAvatarButton
-{
-    [self enableAvatarButton:YES];
-    [self hideActivityIndicator];
-    self.activityLabel.text = nil;
-}
-
-#pragma mark - activity indicator
-- (void) showActivityIndicator {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.activityIndicator.alpha = 1.0;
-    } completion:^(BOOL finished) {
-        [self.activityIndicator startAnimating];
-    }];
-}
-
-- (void) hideActivityIndicator {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.activityIndicator.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        [self.activityIndicator stopAnimating];
-    }];
-}
-
-#pragma mark - factory delegate
-
-- (void)notifyWhenEntryBeacon:(HEREBeacon *)beacon
-{
-    self.beacon = beacon;
-}
-
-- (void)notifyWhenExitBeacon:(CLBeaconRegion *)beaconRegion
-{
-    NSLog(@"exit region: %@", beaconRegion);
-}
-
-- (void)notifyWhenFar:(CLBeacon *)beacon
-{
-//    NSLog(@"far from beacon: %@", beacon);
-}
-
-- (void)notifyWhenImmediate:(CLBeacon *)beacon
-{
-//    NSLog(@"Immediate to beacon: %@", beacon);
-}
-
-- (void)notifyWhenNear:(CLBeacon *)beacon
-{
-//    NSLog(@"Near beacon: %@", beacon);
-}
-
-#pragma mark - AVAudioPlayer Delegate
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
-{
-    [self resetAvatarButton];
-}
-
-#pragma mark - uploader Delegate
-- (void)didUploadAudio
-{
-    NSLog(@"uploaded");
-    [self resetAvatarButton];
+    return cell;
 }
 
 @end
