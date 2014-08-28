@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		35470C42431644F88034A4CD /* libPods-here clone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4514242B13346C6B416A6E6 /* libPods-here clone.a */; };
 		7C01C03719989AD700124BEC /* HEREConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C01C03619989AD700124BEC /* HEREConstant.m */; };
+		7C06CFCB19AF139F00828692 /* HEREAudioPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C06CFCA19AF139F00828692 /* HEREAudioPlayerView.m */; };
+		7C06CFFF19AF605100828692 /* audio_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06CFFE19AF605100828692 /* audio_normal@2x.png */; };
+		7C06D00119AF606000828692 /* audio_play_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D00019AF606000828692 /* audio_play_0@2x.png */; };
+		7C06D00319AF606700828692 /* audio_play_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D00219AF606700828692 /* audio_play_1@2x.png */; };
+		7C06D00519AF606E00828692 /* audio_play_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D00419AF606E00828692 /* audio_play_2@2x.png */; };
+		7C06D00719AF65E700828692 /* RecordCancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D00619AF65E700828692 /* RecordCancel@2x.png */; };
+		7C06D00919AF660200828692 /* RecordingBkg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D00819AF660200828692 /* RecordingBkg@2x.png */; };
 		7C2B11B01998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */; };
 		7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C141991E1E900C53C7B /* HERERootViewController.m */; };
 		7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */; };
@@ -26,7 +33,7 @@
 		7C3E5C7119920EA100C53C7B /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4819920EA000C53C7B /* pin.png */; };
 		7C3E5C7219920EA100C53C7B /* 1_27.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4919920EA000C53C7B /* 1_27.png */; };
 		7C3E5C7319920EA100C53C7B /* 1_29.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4A19920EA000C53C7B /* 1_29.png */; };
-		7C3E5C7419920EA100C53C7B /* 1_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4B19920EA000C53C7B /* 1_32.png */; };
+		7C3E5C7419920EA100C53C7B /* left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4B19920EA000C53C7B /* left_arrow.png */; };
 		7C3E5C7519920EA100C53C7B /* 1_38.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4C19920EA100C53C7B /* 1_38.png */; };
 		7C3E5C7619920EA100C53C7B /* 1_41.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4D19920EA100C53C7B /* 1_41.png */; };
 		7C3E5C7719920EA100C53C7B /* mic.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4E19920EA100C53C7B /* mic.png */; };
@@ -88,6 +95,14 @@
 /* Begin PBXFileReference section */
 		7C01C03519989AD700124BEC /* HEREConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREConstant.h; sourceTree = "<group>"; };
 		7C01C03619989AD700124BEC /* HEREConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREConstant.m; sourceTree = "<group>"; };
+		7C06CFC919AF139F00828692 /* HEREAudioPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREAudioPlayerView.h; sourceTree = "<group>"; };
+		7C06CFCA19AF139F00828692 /* HEREAudioPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREAudioPlayerView.m; sourceTree = "<group>"; };
+		7C06CFFE19AF605100828692 /* audio_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "audio_normal@2x.png"; path = "../../JSQMessagesViewController/JSQMessagesDemo/Images.xcassets/DemoImages/demo_audio_normal.imageset/audio_normal@2x.png"; sourceTree = "<group>"; };
+		7C06D00019AF606000828692 /* audio_play_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "audio_play_0@2x.png"; path = "../../JSQMessagesViewController/JSQMessagesDemo/Images.xcassets/DemoImages/demo_audio_play_0.imageset/audio_play_0@2x.png"; sourceTree = "<group>"; };
+		7C06D00219AF606700828692 /* audio_play_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "audio_play_1@2x.png"; path = "../../JSQMessagesViewController/JSQMessagesDemo/Images.xcassets/DemoImages/demo_audio_play_1.imageset/audio_play_1@2x.png"; sourceTree = "<group>"; };
+		7C06D00419AF606E00828692 /* audio_play_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "audio_play_2@2x.png"; path = "../../JSQMessagesViewController/JSQMessagesDemo/Images.xcassets/DemoImages/demo_audio_play_2.imageset/audio_play_2@2x.png"; sourceTree = "<group>"; };
+		7C06D00619AF65E700828692 /* RecordCancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RecordCancel@2x.png"; path = "../../MessageDisplayKit/MessageDisplayKit/Resources/RecordCancel@2x.png"; sourceTree = "<group>"; };
+		7C06D00819AF660200828692 /* RecordingBkg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RecordingBkg@2x.png"; path = "../../MessageDisplayKit/MessageDisplayKit/Resources/RecordingBkg@2x.png"; sourceTree = "<group>"; };
 		7C2B11AE1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREBeaconsMessagesTableViewController.h; sourceTree = "<group>"; };
 		7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREBeaconsMessagesTableViewController.m; sourceTree = "<group>"; };
 		7C3E5C131991E1E900C53C7B /* HERERootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERERootViewController.h; sourceTree = "<group>"; };
@@ -111,7 +126,7 @@
 		7C3E5C4819920EA000C53C7B /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		7C3E5C4919920EA000C53C7B /* 1_27.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_27.png; sourceTree = "<group>"; };
 		7C3E5C4A19920EA000C53C7B /* 1_29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_29.png; sourceTree = "<group>"; };
-		7C3E5C4B19920EA000C53C7B /* 1_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_32.png; sourceTree = "<group>"; };
+		7C3E5C4B19920EA000C53C7B /* left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_arrow.png; sourceTree = "<group>"; };
 		7C3E5C4C19920EA100C53C7B /* 1_38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_38.png; sourceTree = "<group>"; };
 		7C3E5C4D19920EA100C53C7B /* 1_41.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_41.png; sourceTree = "<group>"; };
 		7C3E5C4E19920EA100C53C7B /* mic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic.png; sourceTree = "<group>"; };
@@ -228,6 +243,8 @@
 				7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */,
 				7C2B11AE1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.h */,
 				7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */,
+				7C06CFC919AF139F00828692 /* HEREAudioPlayerView.h */,
+				7C06CFCA19AF139F00828692 /* HEREAudioPlayerView.m */,
 				7C3E5C201992033000C53C7B /* HEREBeaconsTableViewController.h */,
 				7C3E5C211992033000C53C7B /* HEREBeaconsTableViewController.m */,
 				7C9893D51993A53000A53029 /* HEREAddBeaconViewController.h */,
@@ -251,9 +268,15 @@
 				7C3E5C4619920EA000C53C7B /* dark_button.png */,
 				7C3E5C4719920EA000C53C7B /* 1_21.png */,
 				7C3E5C4819920EA000C53C7B /* pin.png */,
+				7C06D00819AF660200828692 /* RecordingBkg@2x.png */,
+				7C06D00619AF65E700828692 /* RecordCancel@2x.png */,
+				7C06CFFE19AF605100828692 /* audio_normal@2x.png */,
+				7C06D00019AF606000828692 /* audio_play_0@2x.png */,
+				7C06D00219AF606700828692 /* audio_play_1@2x.png */,
+				7C06D00419AF606E00828692 /* audio_play_2@2x.png */,
 				7C3E5C4919920EA000C53C7B /* 1_27.png */,
 				7C3E5C4A19920EA000C53C7B /* 1_29.png */,
-				7C3E5C4B19920EA000C53C7B /* 1_32.png */,
+				7C3E5C4B19920EA000C53C7B /* left_arrow.png */,
 				7C3E5C4C19920EA100C53C7B /* 1_38.png */,
 				7C3E5C4D19920EA100C53C7B /* 1_41.png */,
 				7C3E5C4E19920EA100C53C7B /* mic.png */,
@@ -466,6 +489,7 @@
 				7C3E5C7B19920EA100C53C7B /* 1_55.png in Resources */,
 				7C3E5C8D19920EA100C53C7B /* 1_118.png in Resources */,
 				7C3E5C7819920EA100C53C7B /* add.png in Resources */,
+				7C06D00719AF65E700828692 /* RecordCancel@2x.png in Resources */,
 				7C3E5C7F19920EA100C53C7B /* underline.png in Resources */,
 				7C3E5C8519920EA100C53C7B /* 1_90.png in Resources */,
 				7C3E5C7619920EA100C53C7B /* 1_41.png in Resources */,
@@ -474,11 +498,12 @@
 				7C3E5C8319920EA100C53C7B /* 1_81.png in Resources */,
 				7C3E5C7219920EA100C53C7B /* 1_27.png in Resources */,
 				7C3E5C8219920EA100C53C7B /* 1_79.png in Resources */,
+				7C06D00319AF606700828692 /* audio_play_1@2x.png in Resources */,
 				7C3E5C8919920EA100C53C7B /* 1_102.png in Resources */,
 				7C3E5C6F19920EA100C53C7B /* dark_button.png in Resources */,
 				7C3E5C6C19920EA100C53C7B /* 1_09.png in Resources */,
 				7C3E5C7019920EA100C53C7B /* 1_21.png in Resources */,
-				7C3E5C7419920EA100C53C7B /* 1_32.png in Resources */,
+				7C3E5C7419920EA100C53C7B /* left_arrow.png in Resources */,
 				7C3E5C6E19920EA100C53C7B /* light_button.png in Resources */,
 				7C3E5C7119920EA100C53C7B /* pin.png in Resources */,
 				7C3E5C6919920EA100C53C7B /* 1_01.png in Resources */,
@@ -489,16 +514,20 @@
 				7C3E5C9019920EA100C53C7B /* 1_131.png in Resources */,
 				7C3E5C7A19920EA100C53C7B /* 1_49.png in Resources */,
 				7C3E5C6B19920EA100C53C7B /* empty_button.png in Resources */,
+				7C06D00919AF660200828692 /* RecordingBkg@2x.png in Resources */,
 				7C3E5C8819920EA100C53C7B /* 1_100.png in Resources */,
 				7C3E5C7D19920EA100C53C7B /* 1_60.png in Resources */,
 				7C3E5C6A19920EA100C53C7B /* 1_03.png in Resources */,
 				7C9E81991991DFA100156B88 /* Images.xcassets in Resources */,
+				7C06D00119AF606000828692 /* audio_play_0@2x.png in Resources */,
+				7C06D00519AF606E00828692 /* audio_play_2@2x.png in Resources */,
 				7C3E5C8A19920EA100C53C7B /* 1_109.png in Resources */,
 				7C3E5C8619920EA100C53C7B /* 1_94.png in Resources */,
 				7C3E5C8F19920EA100C53C7B /* 1_128.png in Resources */,
 				7C3E5C7519920EA100C53C7B /* 1_38.png in Resources */,
 				7C3E5C9119920EA100C53C7B /* 1_133.png in Resources */,
 				7C3E5C8E19920EA100C53C7B /* 1_121.png in Resources */,
+				7C06CFFF19AF605100828692 /* audio_normal@2x.png in Resources */,
 				7C3E5C8019920EA100C53C7B /* 1_75.png in Resources */,
 				7C3E5C7719920EA100C53C7B /* mic.png in Resources */,
 				7C3E5C6D19920EA100C53C7B /* 1_12.png in Resources */,
@@ -562,6 +591,7 @@
 				7CF1A1BC1999CB04004300AF /* HEREBeacon.m in Sources */,
 				7C8D6AE21994C1D0005A87C4 /* HERESignInUpViewController.m in Sources */,
 				7C9893D71993A53000A53029 /* HEREAddBeaconViewController.m in Sources */,
+				7C06CFCB19AF139F00828692 /* HEREAudioPlayerView.m in Sources */,
 				7C2B11B01998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m in Sources */,
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
 				7CAE354519A1C28100263241 /* CustomCell.m in Sources */,

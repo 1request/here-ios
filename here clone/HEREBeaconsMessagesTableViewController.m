@@ -10,12 +10,16 @@
 #import "HEREFactory.h"
 #import <Parse/Parse.h>
 #import "UIViewController+HEREMenu.h"
+#import "JSQMessagesActivityIndicatorView.h"
+#import "HEREAudioPlayerView.h"
 
 @interface HEREBeaconsMessagesTableViewController () {
     NSMutableArray *beacons;
     HEREFactory *factory;
 }
-
+@property (nonatomic) BOOL isRecording;
+@property (strong, nonatomic) JSQMessagesComposerTextView *textView;
+@property (strong, nonatomic) UIButton *recordButton;
 @end
 
 @implementation HEREBeaconsMessagesTableViewController
@@ -28,6 +32,28 @@
         _messages = [[NSMutableArray alloc] init];
     }
     return _messages;
+}
+
+- (UIButton *)recordButton
+{
+    if (!_recordButton) {
+        
+        CGFloat cornerRadius = 6.0f;
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+        [button setTitle:@"Hold and speak" forState:UIControlStateNormal];
+        [button setTitle:@"Release and finish" forState:UIControlStateHighlighted];
+        [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+        [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        button.frame = self.inputToolbar.contentView.textView.frame;
+        button.backgroundColor = [UIColor whiteColor];
+        button.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        button.layer.borderWidth = 0.5f;
+        button.layer.cornerRadius = cornerRadius;
+
+        _recordButton = button;
+    }
+    return _recordButton;
 }
 
 #pragma mark - View Lifecycle
@@ -52,12 +78,18 @@
     
     self.incomingBubbleImageView = [JSQMessagesBubbleImageFactory
                                     incomingMessageBubbleImageViewWithColor:[UIColor jsq_messageBubbleGreenColor]];
-    
+    self.isRecording = NO;
     self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
     
     UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCollectionTapRecognizer:)];
     [self.collectionView addGestureRecognizer:tapRecognizer];
-    
+    self.textView = self.inputToolbar.contentView.textView;
+
+    [self.recordButton addTarget:self action:@selector(holdDownButtonTouchDown:) forControlEvents:UIControlEventTouchDown];
+    [self.recordButton addTarget:self action:@selector(holdDownButtonTouchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
+    [self.recordButton addTarget:self action:@selector(holdDownButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+    [self.recordButton addTarget:self action:@selector(holdDownDragOutside:) forControlEvents:UIControlEventTouchDragExit];
+    [self.recordButton addTarget:self action:@selector(holdDownDragInside:) forControlEvents:UIControlEventTouchDragEnter];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,20 +101,63 @@
 
 - (UIButton *)accessoryButtonItem
 {
-    UIImage *micImage = [UIImage imageNamed:@"mic.png"];
-    UIImage *micNormal = [micImage jsq_imageMaskedWithColor:[UIColor lightGrayColor]];
-    UIImage *micHighlighted = [micImage jsq_imageMaskedWithColor:[UIColor darkGrayColor]];
+    UIImage *image = nil;
+    if (!self.isRecording) image = [UIImage imageNamed:@"mic.png"];
+    else image = [UIImage imageNamed:@"left_arrow.png"];
     
-    UIButton *micButton = [[UIButton alloc] initWithFrame:CGRectZero];
-    [micButton setImage:micNormal forState:UIControlStateNormal];
-    [micButton setImage:micHighlighted forState:UIControlStateHighlighted];
+    UIImage *normal = [image jsq_imageMaskedWithColor:[UIColor lightGrayColor]];
+    UIImage *highlighted = [image jsq_imageMaskedWithColor:[UIColor darkGrayColor]];
     
-    micButton.contentMode = UIViewContentModeScaleAspectFit;
-    micButton.backgroundColor = [UIColor clearColor];
-    micButton.tintColor = [UIColor lightGrayColor];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectZero];
+    [button setImage:normal forState:UIControlStateNormal];
+    [button setImage:highlighted forState:UIControlStateHighlighted];
     
-    return micButton;
+    button.contentMode = UIViewContentModeScaleAspectFit;
+    button.backgroundColor = [UIColor clearColor];
+    button.tintColor = [UIColor lightGrayColor];
+    
+    return button;
 }
+
+- (void)holdDownButtonTouchDown:(UIButton *)button
+{
+    [button setTitle:@"Release and finish" forState:UIControlStateNormal];
+    
+    button.backgroundColor = [UIColor lightGrayColor];
+}
+
+- (void)holdDownButtonTouchUpOutside:(UIButton *)button
+{
+    NSLog(@"didTouchUpOutside");
+    [button setTitle:@"Hold and speak" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)holdDownButtonTouchUpInside:(UIButton *)button
+{
+    NSLog(@"didTouchUpInside");
+    [button setTitle:@"Hold and speak" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor whiteColor];
+    
+}
+
+- (void)holdDownDragOutside:(UIButton *)button
+{
+    button.backgroundColor = [UIColor lightGrayColor];
+    [button setTitle:@"Release and cancel" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    NSLog(@"did drag outside, pause recording");
+}
+
+- (void)holdDownDragInside:(UIButton *)button
+{
+    button.backgroundColor = [UIColor lightGrayColor];
+    NSLog(@"did drag inside, resume recording");
+    
+}
+
 
 #pragma mark - navigation
 - (void) handleCollectionTapRecognizer:(UITapGestureRecognizer*)recognizer
@@ -118,10 +193,23 @@
 
 - (void)didPressAccessoryButton:(UIButton *)sender
 {
-    NSLog(@"Mic pressed!");
+    NSLog(@"AccessoryButton pressed!");
     /**
      *  Accessory button has no default functionality, yet.
      */
+    self.isRecording = !self.isRecording;
+    self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
+    self.inputToolbar.contentView.textView.text = nil;
+    
+    if (self.isRecording) {
+        [self.inputToolbar addSubview:self.recordButton];
+        if ([self.inputToolbar.contentView.textView isFirstResponder]) [self.inputToolbar.contentView.textView resignFirstResponder ];
+    }
+    else {
+        [self.recordButton removeFromSuperview];
+        [self.inputToolbar.contentView.textView becomeFirstResponder];
+        
+    }
 }
 
 #pragma mark - JSQMessages CollectionView DataSource
