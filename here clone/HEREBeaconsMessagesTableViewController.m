@@ -54,6 +54,10 @@
                                     incomingMessageBubbleImageViewWithColor:[UIColor jsq_messageBubbleGreenColor]];
     
     self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
+    
+    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCollectionTapRecognizer:)];
+    [self.collectionView addGestureRecognizer:tapRecognizer];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,10 +85,13 @@
 }
 
 #pragma mark - navigation
-
-- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender
+- (void) handleCollectionTapRecognizer:(UITapGestureRecognizer*)recognizer
 {
-    [self showMenu];
+    if(recognizer.state == UIGestureRecognizerStateEnded)
+    {
+        if([self.inputToolbar.contentView.textView isFirstResponder])
+            [self.inputToolbar.contentView.textView resignFirstResponder];
+    }
 }
 
 #pragma mark - JSQMessagesViewController method overrides
@@ -116,8 +123,6 @@
      *  Accessory button has no default functionality, yet.
      */
 }
-
-
 
 #pragma mark - JSQMessages CollectionView DataSource
 
@@ -265,8 +270,6 @@
     
     return cell;
 }
-
-
 
 #pragma mark - JSQMessages collection view flow layout delegate
 
