@@ -9,6 +9,7 @@
 #import "HEREAudioPlayerView.h"
 #import <AVFoundation/AVFoundation.h>
 #import "JSQMessage.h"
+#import "HEREAudioHelper.h"
 
 @interface HEREAudioPlayerView ()
 
@@ -31,7 +32,7 @@
         _durationLabel.font = [UIFont systemFontOfSize:12];
         [self addSubview:_durationLabel];
         
-        _animationContainer = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"demo_audio_normal"] highlightedImage:[UIImage imageNamed:@"demo_audio_press"]];
+        _animationContainer = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"audio_normal"] highlightedImage:[UIImage imageNamed:@"audio_press"]];
         _animationContainer.frame = CGRectZero;
         _animationContainer.userInteractionEnabled = YES;
         _animationContainer.animationImages = @[[UIImage imageNamed:@"audio_play_0"],
@@ -62,8 +63,8 @@
 {
     if (_message != message) {
         
-        //        CGFloat duration = [self durationFromAudioFileURL:message.sourceURL];
-        self.durationLabel.text = [NSString stringWithFormat:@"%tu\"", (NSUInteger)ceil(111)];
+        NSInteger duration = lroundf([HEREAudioHelper durationFromAudioFileURL:message.sourceURL]);
+        self.durationLabel.text = [NSString stringWithFormat:@"%tu\"", duration];
         [self.durationLabel sizeToFit];
         
         _message = message;
@@ -78,16 +79,6 @@
         
         _incomingMessage = incomingMessage;
     }
-}
-
-
-- (CGFloat)durationFromAudioFileURL:(NSURL *)url
-{
-    NSParameterAssert(url != nil);
-    
-    AVURLAsset* audioAsset = [AVURLAsset URLAssetWithURL:url options:nil];
-    CMTime audioDuration = audioAsset.duration;
-    return CMTimeGetSeconds(audioDuration);
 }
 
 - (void)startAnimation

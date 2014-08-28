@@ -76,6 +76,8 @@
 		7C9E81971991DFA100156B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81951991DFA100156B88 /* Main.storyboard */; };
 		7C9E81991991DFA100156B88 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81981991DFA100156B88 /* Images.xcassets */; };
 		7C9E81A51991DFA100156B88 /* here_cloneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E81A41991DFA100156B88 /* here_cloneTests.m */; };
+		7CA62F6719AF899800943F9C /* audio_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CA62F6619AF899800943F9C /* audio_press@2x.png */; };
+		7CA62F6A19AF920300943F9C /* HEREAudioHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA62F6919AF920300943F9C /* HEREAudioHelper.m */; };
 		7CAE354519A1C28100263241 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAE354419A1C28100263241 /* CustomCell.m */; };
 		7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */; };
 		7CF1A1BC1999CB04004300AF /* HEREBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A1BB1999CB04004300AF /* HEREBeacon.m */; };
@@ -181,6 +183,9 @@
 		7C9E819E1991DFA100156B88 /* here cloneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "here cloneTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C9E81A31991DFA100156B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C9E81A41991DFA100156B88 /* here_cloneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = here_cloneTests.m; sourceTree = "<group>"; };
+		7CA62F6619AF899800943F9C /* audio_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio_press@2x.png"; sourceTree = "<group>"; };
+		7CA62F6819AF920300943F9C /* HEREAudioHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREAudioHelper.h; sourceTree = "<group>"; };
+		7CA62F6919AF920300943F9C /* HEREAudioHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREAudioHelper.m; sourceTree = "<group>"; };
 		7CAE354319A1C28100263241 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		7CAE354419A1C28100263241 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		7CDD6D8819922D5400138475 /* HEREMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREMenuTableViewController.h; sourceTree = "<group>"; };
@@ -271,6 +276,7 @@
 				7C3E5C4719920EA000C53C7B /* 1_21.png */,
 				7C3E5C4819920EA000C53C7B /* pin.png */,
 				7C06D00A19AF69BF00828692 /* anonymous_user.png */,
+				7CA62F6619AF899800943F9C /* audio_press@2x.png */,
 				7C06D00B19AF69BF00828692 /* audio_normal@2x.png */,
 				7C06D00C19AF69BF00828692 /* audio_play_0@2x.png */,
 				7C06D00D19AF69BF00828692 /* audio_play_1@2x.png */,
@@ -342,6 +348,8 @@
 				7C01C03619989AD700124BEC /* HEREConstant.m */,
 				7C583F3819AB370400B62244 /* HEREUploadHelper.h */,
 				7C583F3919AB370400B62244 /* HEREUploadHelper.m */,
+				7CA62F6819AF920300943F9C /* HEREAudioHelper.h */,
+				7CA62F6919AF920300943F9C /* HEREAudioHelper.m */,
 				7CF49708199B887B001AD29F /* HERELocation.h */,
 				7CF49709199B887B001AD29F /* HERELocation.m */,
 				7CF1A1B91999CAF8004300AF /* Models */,
@@ -513,6 +521,7 @@
 				7C3E5C6919920EA100C53C7B /* 1_01.png in Resources */,
 				7C3E5C8B19920EA100C53C7B /* 1_112.png in Resources */,
 				7C3E5C7919920EA100C53C7B /* menu.png in Resources */,
+				7CA62F6719AF899800943F9C /* audio_press@2x.png in Resources */,
 				7C06D01419AF69BF00828692 /* audio_play_1@2x.png in Resources */,
 				7C9E81971991DFA100156B88 /* Main.storyboard in Resources */,
 				7C06D01219AF69BF00828692 /* audio_normal@2x.png in Resources */,
@@ -604,6 +613,7 @@
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
 				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,
 				7CF4970A199B887B001AD29F /* HERELocation.m in Sources */,
+				7CA62F6A19AF920300943F9C /* HEREAudioHelper.m in Sources */,
 				7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */,
 				7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */,
 				7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */,

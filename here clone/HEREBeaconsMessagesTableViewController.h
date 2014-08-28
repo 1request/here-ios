@@ -9,12 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "HEREBeacon.h"
 #import <JSQMessages.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface HEREBeaconsMessagesTableViewController : JSQMessagesViewController
+@interface HEREBeaconsMessagesTableViewController : JSQMessagesViewController <AVAudioPlayerDelegate, AVAudioRecorderDelegate>
 
 @property (strong, nonatomic) NSString *titleText;
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (copy, nonatomic) NSDictionary *avatars;
+
+@property (strong, nonatomic) AVAudioRecorder *audioRecorder;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 
 @property (strong, nonatomic) UIImageView *outgoingBubbleImageView;
 @property (strong, nonatomic) UIImageView *incomingBubbleImageView;

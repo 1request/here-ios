@@ -12,14 +12,21 @@
 #import "UIViewController+HEREMenu.h"
 #import "JSQMessagesActivityIndicatorView.h"
 #import "HEREAudioPlayerView.h"
+#import "HEREUploadHelper.h"
+#import "HEREAudioHelper.h"
 
 @interface HEREBeaconsMessagesTableViewController () {
-    NSMutableArray *beacons;
-    HEREFactory *factory;
+    NSTimer *timer;
+    NSTimeInterval timeInterval;
+    NSDate *startDate;
+    HEREAudioPlayerView *activePlayerView;
 }
 @property (nonatomic) BOOL isRecording;
 @property (strong, nonatomic) JSQMessagesComposerTextView *textView;
 @property (strong, nonatomic) UIButton *recordButton;
+@property (strong, nonatomic) HEREUploadHelper *uploadHelper;
+@property (strong, nonatomic) NSData *audioData;
+
 @end
 
 @implementation HEREBeaconsMessagesTableViewController
@@ -61,14 +68,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    factory = [[HEREFactory alloc] init];
-    beacons = [factory returnBeacons];
-
     self.title = self.titleText;
     
     self.sender = [[PFUser currentUser] username];
@@ -90,6 +89,34 @@
     [self.recordButton addTarget:self action:@selector(holdDownButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     [self.recordButton addTarget:self action:@selector(holdDownDragOutside:) forControlEvents:UIControlEventTouchDragExit];
     [self.recordButton addTarget:self action:@selector(holdDownDragInside:) forControlEvents:UIControlEventTouchDragEnter];
+    
+    // Set the audio file
+    NSArray *pathComponents = [NSArray arrayWithObjects:
+                               [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
+                               @"MyAudioMemo.m4a",
+                               nil];
+    NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
+    
+    // Setup audio session
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    
+    NSError *error;
+    [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
+    
+    // Define the recorder setting
+    NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
+    
+    [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
+    [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
+    [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
+    
+    // Initiate and prepare the recorder
+    self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:outputFileURL settings:recordSetting error:nil];
+    self.audioRecorder.delegate = self;
+    self.audioRecorder.meteringEnabled = YES;
+    [self.audioRecorder prepareToRecord];
+    self.uploadHelper = [[HEREUploadHelper alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -124,23 +151,20 @@
     [button setTitle:@"Release and finish" forState:UIControlStateNormal];
     
     button.backgroundColor = [UIColor lightGrayColor];
+    
+    [self recordAudio];
 }
 
 - (void)holdDownButtonTouchUpOutside:(UIButton *)button
 {
-    NSLog(@"didTouchUpOutside");
-    [button setTitle:@"Hold and speak" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor whiteColor];
+    [self resetRecordButton];
+    [self cancelRecordAudio];
 }
 
 - (void)holdDownButtonTouchUpInside:(UIButton *)button
 {
-    NSLog(@"didTouchUpInside");
-    [button setTitle:@"Hold and speak" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor whiteColor];
-    
+    [self resetRecordButton];
+    [self finishRecordAudio];
 }
 
 - (void)holdDownDragOutside:(UIButton *)button
@@ -155,9 +179,94 @@
 {
     button.backgroundColor = [UIColor lightGrayColor];
     NSLog(@"did drag inside, resume recording");
-    
 }
 
+- (void)resetRecordButton
+{
+    [self.recordButton setTitle:@"Hold and speak" forState:UIControlStateNormal];
+    [self.recordButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.recordButton.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)recordAudio
+{
+    if (self.audioPlayer.playing) {
+        [self.audioPlayer stop];
+    }
+    
+    if (!self.audioRecorder.recording) {
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setActive:YES error:nil];
+        
+        [self.audioRecorder record];
+        
+        startDate = [NSDate date];
+        
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
+    }
+    else {
+        [self.audioRecorder pause];
+    }
+}
+
+- (void)updateTimer
+{
+    NSDate *currentDate = [NSDate date];
+    
+    timeInterval = [currentDate timeIntervalSinceDate:startDate];
+}
+
+- (void)finishRecordAudio
+{
+    [self.audioRecorder stop];
+    [timer invalidate];
+    timer = nil;
+    
+    if (timeInterval > 2) {
+        NSData *audioData = [NSData dataWithContentsOfURL:self.audioRecorder.url];
+        self.audioData = audioData;
+        [self saveAudio];
+        [self uploadAudio];
+    }
+    else {
+        NSLog(@"Record is too short");
+    }
+    
+    timeInterval = 0;
+}
+
+- (void)cancelRecordAudio
+{
+    NSLog(@"cancel record audio");
+}
+
+- (void)saveAudio
+{
+    NSURL *documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyy-mm-dd HH-mm-ss"];
+    NSDate *currentDate = [NSDate date];
+    NSString *dateString = [formatter stringFromDate:currentDate];
+    documentsURL = [documentsURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.m4a", dateString]];
+    [self.audioData writeToURL:documentsURL atomically:YES];
+    JSQMessage *audioMessage = [JSQMessage messageWithAudioURL:documentsURL sender:self.sender];
+    audioMessage.sourceURL = documentsURL;
+    [self.messages addObject:audioMessage];
+    [self finishSendingMessage];
+}
+
+- (void)uploadAudio
+{
+    NSLog(@"upload audio to server");
+}
+
+- (void)playAudio:(NSData *)data
+{
+    NSError *error = nil;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
+    self.audioPlayer.delegate = self;
+    [self.audioPlayer play];
+}
 
 #pragma mark - navigation
 - (void) handleCollectionTapRecognizer:(UITapGestureRecognizer*)recognizer
@@ -191,7 +300,7 @@
     [self finishSendingMessage];
 }
 
-- (void)didPressAccessoryButton:(UIButton *)sender
+- (void)didPressAccessoryButton:(UIButton *)sensder
 {
     NSLog(@"AccessoryButton pressed!");
     /**
@@ -208,7 +317,6 @@
     else {
         [self.recordButton removeFromSuperview];
         [self.inputToolbar.contentView.textView becomeFirstResponder];
-        
     }
 }
 
@@ -316,6 +424,165 @@
     return nil;
 }
 
+- (UIView *)collectionView:(JSQMessagesCollectionView *)collectionView viewForVideoOverlayViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    /**
+     *  Return `nil` here if you do not want overlay view for incoming video message.
+     *  If you do return `nil`, be sure to do the following in `viewDidLoad`:
+     *
+     *  self.collectionView.collectionViewLayout.incomingVideoOverlayViewSize = CGSizeZero;
+     */
+    
+    /**
+     *  You should create new view to add to each cell
+     *  Otherwise, each cell would be referencing the same view.
+     *
+     *  Note: these views will be sized according to these values:
+     *
+     *  self.collectionView.collectionViewLayout.incomingVideoOverlayViewSize
+     *
+     *  Override the defaults in `viewDidLoad`
+     */
+    
+    UIImageView *incomingVideoOverlayView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"demo_play_button_in"] highlightedImage:nil];
+    return incomingVideoOverlayView;
+}
+
+- (UIView *)collectionView:(JSQMessagesCollectionView *)collectionView outgoingVideoOverlayViewForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    /**
+     *  Return `nil` here if you do not want overlay view for outgoing video message.
+     *  If you do return `nil`, be sure to do the following in `viewDidLoad`:
+     *
+     *  self.collectionView.collectionViewLayout.outgoingVideoOverlayViewSize = CGSizeZero;
+     */
+    
+    /**
+     *  You should create new view to add to each cell
+     *  Otherwise, each cell would be referencing the same view.
+     *
+     *  Note: these views will be sized according to these values:
+     *
+     *  self.collectionView.collectionViewLayout.outgoingVideoOverlayViewSize
+     *
+     *  Override the defaults in `viewDidLoad`
+     */
+    UIImageView *outgoingVideoOverlayView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"demo_play_button_out"] highlightedImage:nil];
+    return outgoingVideoOverlayView;
+}
+
+- (UIView *)collectionView:(JSQMessagesCollectionView *)collectionView viewForAudioPlayerViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    JSQMessage *message = self.messages[indexPath.item];
+    HEREAudioPlayerView *player = [HEREAudioPlayerView new];
+    player.message = message;
+    player.incomingMessage = ![message.sender isEqual:self.sender];
+    
+    return player;
+}
+
+- (UIView <JSQMessagesActivityIndicator> *)collectionView:(JSQMessagesCollectionView *)collectionView viewForPhotoActivityIndicatorViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [JSQMessagesActivityIndicatorView new];
+}
+
+- (UIView <JSQMessagesActivityIndicator> *)collectionView:(JSQMessagesCollectionView *)collectionView viewForVideoActivityIndicatorViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [JSQMessagesActivityIndicatorView new];
+}
+
+- (UIView<JSQMessagesActivityIndicator> *)collectionView:(JSQMessagesCollectionView *)collectionView viewForAudioActivityIndicatorViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [JSQMessagesActivityIndicatorView new];
+}
+
+- (CGSize)collectionView:(JSQMessagesCollectionView *)collectionView sizeForAudioPlayerViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    CGFloat duration = [HEREAudioHelper durationFromAudioFileURL:message.sourceURL];
+    CGFloat width = (duration / 60.0) * 100.0;
+    return CGSizeMake(100 + width, 40);
+}
+
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView
+  wantsThumbnailForURL:(NSURL *)sourceURL thumbnailImageViewForItemAtIndexPath:(NSIndexPath *)indexPath
+       completionBlock:(JSQMessagesCollectionViewDataSourceCompletionBlock)completionBlock {
+    
+    JSQMessage *message = self.messages[indexPath.item];
+    BOOL isOutgoingMessage = [[message sender] isEqualToString:self.sender];
+    
+    /**
+     *  Here you can download images from the Internet.
+     */
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        UIImage *thumbnail = nil;
+        
+        if (message.type == JSQMessageRemotePhoto) {
+            NSData *imageData = [NSData dataWithContentsOfURL:sourceURL];
+            
+            if (imageData) {
+                UIImage *sourceImage = [UIImage imageWithData:imageData];
+                message.sourceImage = sourceImage;
+                
+                /**
+                 *  Before the image display you should generate a thumbnail to improve performance.
+                 */
+                CGFloat screenScale = [[UIScreen mainScreen] scale];
+                CGSize mediaImageViewSize = isOutgoingMessage
+                ? collectionView.collectionViewLayout.outgoingThumbnailImageSize
+                : collectionView.collectionViewLayout.incomingThumbnailImageSize;
+                
+                CGRect contextBounds = CGRectMake(0.f, 0.f, mediaImageViewSize.width * screenScale, mediaImageViewSize.height * screenScale);
+                
+                UIGraphicsBeginImageContext(contextBounds.size);
+                [sourceImage drawInRect:contextBounds];
+                thumbnail = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                message.thumbnailImage = thumbnail;
+                message.type = JSQMessagePhoto;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionBlock(thumbnail);
+                });
+            }
+            else {
+                NSLog(@"Error, Can not download image for URL:%@", message.sourceURL);
+            }
+        }
+        else if (message.type == JSQMessageRemoteVideo) {
+            
+            /**
+             *  Generate thumbnails from remote url.
+             */
+            UIImage *remoteThumbnail = [JSQMessagesThumbnailFactory thumbnailFromVideoURL:sourceURL];
+            
+            /**
+             *  May not support this format or video encoding is incorrect or network error.
+             */
+            if (!remoteThumbnail) {
+                NSLog(@"Error, Can not generate thumbnail for URL: %@", sourceURL);
+            }
+            else {
+                thumbnail = remoteThumbnail;
+                
+                message.videoThumbnail = remoteThumbnail;
+                message.videoThumbnailPlaceholder = nil;
+                
+                /**
+                 *  Change the message type, so next time we will not need to ask the data source method.
+                 */
+                message.type = JSQMessageVideo;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionBlock(thumbnail);
+                });
+            }
+        }
+    });
+}
+
 #pragma mark - UICollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -346,22 +613,23 @@
     
     JSQMessage *msg = [self.messages objectAtIndex:indexPath.item];
     
-    if ([msg.sender isEqualToString:self.sender]) {
-        cell.textView.textColor = [UIColor blackColor];
+    if (cell.textView) {
+        if ([msg.sender isEqualToString:self.sender]) {
+            cell.textView.textColor = [UIColor blackColor];
+        }
+        else {
+            cell.textView.textColor = [UIColor whiteColor];
+        }
+        
+        cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
+                                              NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
-    else {
-        cell.textView.textColor = [UIColor whiteColor];
-    }
-    
-    cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
-                                          NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     
     return cell;
 }
 
-#pragma mark - JSQMessages collection view flow layout delegate
 
-#pragma mark - Adjusting cell label heights
+#pragma mark - JSQMessages collection view flow layout delegate
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
@@ -410,27 +678,57 @@
     return 0.0f;
 }
 
-#pragma mark - Responding to collection view tap events
-
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
                 header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
 {
     NSLog(@"Load earlier messages!");
 }
 
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAvatarImageView:(UIImageView *)avatarImageView atIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapPhoto:(UIImageView *)imageView atIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Tapped avatar!");
+    NSLog(@"");
 }
 
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapVideoForURL:(NSURL *)videoURL atIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Tapped message bubble!");
+    NSLog(@"");
 }
 
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapCellAtIndexPath:(NSIndexPath *)indexPath touchLocation:(CGPoint)touchLocation
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAudio:(NSData *)audioData atIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Tapped cell at %@!", NSStringFromCGPoint(touchLocation));
+    NSLog(@"hello didTapAudio data");
+    JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
+    HEREAudioPlayerView *player = (HEREAudioPlayerView *)incomingAudioCell.playerView;
+    if (activePlayerView) [activePlayerView stopAnimation];
+    activePlayerView = player;
+    if ([player isAnimating]) {
+        [player stopAnimation];
+        [self.audioPlayer stop];
+        self.audioPlayer = nil;
+    }
+    else {
+        [player startAnimation];
+        [self playAudio:audioData];
+    }
+}
+
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAudioForURL:(NSURL *)audioURL atIndexPath:(NSIndexPath *)indexPath
+{
+    JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
+    HEREAudioPlayerView *player = (HEREAudioPlayerView *)incomingAudioCell.playerView;
+    if ([player isAnimating]) {
+        [player stopAnimation];
+    }
+    else {
+        [player startAnimation];
+    }
+}
+
+#pragma mark - AVAudioPlayer Delegate
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    [activePlayerView stopAnimation];
+    activePlayerView = nil;
 }
 
 @end
