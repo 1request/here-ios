@@ -66,6 +66,8 @@
 		7C3E5C9119920EA100C53C7B /* 1_133.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6819920EA100C53C7B /* 1_133.png */; };
 		7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C931992109300C53C7B /* HERESignInViewController.m */; };
 		7C583F3A19AB370400B62244 /* HEREUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C583F3919AB370400B62244 /* HEREUploadHelper.m */; };
+		7C6F424519B0403800EE1B1B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6F424419B0403800EE1B1B /* CoreData.framework */; };
+		7C6F424B19B0409300EE1B1B /* Here.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */; };
 		7C7EBC4B19933E850078BE2F /* here.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C7EBC4A19933E850078BE2F /* here.png */; };
 		7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8D6AD3199485DC005A87C4 /* UIViewController+HEREMenu.m */; };
 		7C8D6AE21994C1D0005A87C4 /* HERESignInUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8D6AE11994C1D0005A87C4 /* HERESignInUpViewController.m */; };
@@ -164,6 +166,8 @@
 		7C3E5C931992109300C53C7B /* HERESignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESignInViewController.m; sourceTree = "<group>"; };
 		7C583F3819AB370400B62244 /* HEREUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREUploadHelper.h; sourceTree = "<group>"; };
 		7C583F3919AB370400B62244 /* HEREUploadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREUploadHelper.m; sourceTree = "<group>"; };
+		7C6F424419B0403800EE1B1B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Here.xcdatamodel; sourceTree = "<group>"; };
 		7C7EBC4A19933E850078BE2F /* here.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = here.png; sourceTree = "<group>"; };
 		7C8D6AD2199485DC005A87C4 /* UIViewController+HEREMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HEREMenu.h"; sourceTree = "<group>"; };
 		7C8D6AD3199485DC005A87C4 /* UIViewController+HEREMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+HEREMenu.m"; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C6F424519B0403800EE1B1B /* CoreData.framework in Frameworks */,
 				7C9893D91993AD8F00A53029 /* CoreLocation.framework in Frameworks */,
 				35470C42431644F88034A4CD /* libPods-here clone.a in Frameworks */,
 			);
@@ -223,6 +228,7 @@
 		152EE7DA0D30420BB89BFA61 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7C6F424419B0403800EE1B1B /* CoreData.framework */,
 				7C9893D81993AD8F00A53029 /* CoreLocation.framework */,
 				B4514242B13346C6B416A6E6 /* libPods-here clone.a */,
 			);
@@ -395,6 +401,7 @@
 				7CF49704199B5D04001AD29F /* Factory */,
 				7CF1A1BA1999CB04004300AF /* HEREBeacon.h */,
 				7CF1A1BB1999CB04004300AF /* HEREBeacon.m */,
+				7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -615,6 +622,7 @@
 				7CF4970A199B887B001AD29F /* HERELocation.m in Sources */,
 				7CA62F6A19AF920300943F9C /* HEREAudioHelper.m in Sources */,
 				7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */,
+				7C6F424B19B0409300EE1B1B /* Here.xcdatamodeld in Sources */,
 				7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */,
 				7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */,
 				7C3E5C28199207C100C53C7B /* HERECreateUserViewController.m in Sources */,
@@ -826,6 +834,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */,
+			);
+			currentVersion = 7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */;
+			path = Here.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7C9E81801991DFA100156B88 /* Project object */;
 }
