@@ -17,7 +17,7 @@
 @interface HEREMenuTableViewController ()
 
 @property (strong, nonatomic) UILabel *usernameLabel;
-
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @end
 
 @implementation HEREMenuTableViewController
@@ -108,6 +108,7 @@
     if ([PFUser currentUser]) {
         if (indexPath.row == 0) {
             HEREHomeViewController *homeViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
+            
             navigationController.viewControllers = @[homeViewController];
         } else if (indexPath.row == 1) {
             HEREBeaconsTableViewController *beaconsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"beaconsController"];

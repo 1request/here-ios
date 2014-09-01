@@ -2,7 +2,7 @@
 //  Location.h
 //  here clone
 //
-//  Created by Joseph Cheung on 29/8/14.
+//  Created by Joseph Cheung on 1/9/14.
 //  Copyright (c) 2014 Reque.st. All rights reserved.
 //
 
@@ -14,8 +14,9 @@
 @interface Location : NSManagedObject
 
 @property (nonatomic, retain) NSString * accessId;
-@property (nonatomic, retain) NSString * serverId;
+@property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSNumber * latitude;
+@property (nonatomic, retain) NSString * locationId;
 @property (nonatomic, retain) NSNumber * longitude;
 @property (nonatomic, retain) NSString * macAddress;
 @property (nonatomic, retain) NSNumber * major;

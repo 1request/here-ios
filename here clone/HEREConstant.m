@@ -28,13 +28,24 @@ NSString *const kHEREAudioFileKey       	= @"audioFile";
 NSString *const kHEREAudioIsReadKey     	= @"isRead";
 
 #pragma mark - API
+#pragma mark - Location API
+NSString *const kHEREAPILocationsUrl            = @"http://here.zuohaisu.cn/api/locations";
+NSString *const kHEREAPILocationIdGETKey        = @"id";
+NSString *const kHEREAPILocationIdPOSTKey       = @"locId";
+NSString *const kHEREAPILocationAccessIdKey     = @"accessId";
+NSString *const kHEREAPILocationLatitudeKey     = @"lat";
+NSString *const kHEREAPILocationLongitudeKey    = @"lng";
+NSString *const kHEREAPILocationMacAddressKey   = @"macAddr";
+NSString *const kHEREAPILocationNameKey         = @"name";
+NSString *const kHEREAPILocationUUIDKey         = @"uuid";
+NSString *const kHEREAPILocationMajorKey        = @"major";
+NSString *const kHEREAPILocationMinorKey        = @"minor";
+
+#pragma mark - User API
+
+#pragma mark - Message API
 NSString *const kHEREAPIMessagesUrl         = @"http://here.zuohaisu.cn/api/messages";
-NSString *const kHEREAPILocationsUrl        = @"http://here.zuohaisu.cn/api/locations";
-NSString *const kHEREAPILocationIdKey       = @"locId";
 NSString *const kHEREAPIAudioFileKey        = @"audio";
-NSString *const kHEREAPIUUIDKey             = @"uuid";
-NSString *const kHEREAPIMajorKey            = @"major";
-NSString *const kHEREAPIMinorKey            = @"minor";
 NSString *const kHEREAPIDeviceIdKey         = @"deviceId";
 NSString *const kHEREAPIDeviceTypeKey       = @"deviceType";
 NSString *const kHEREAPIBoundaryKey         = @"testboundaryblablabla";

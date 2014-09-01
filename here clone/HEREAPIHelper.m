@@ -7,6 +7,8 @@
 //
 
 #import "HEREAPIHelper.h"
+#import "Location.h"
+#import "HERECoreDataHelper.h"
 
 @interface HEREAPIHelper ()
 @end
@@ -15,7 +17,7 @@
 
 - (void)uploadAudio:(NSData *)data Beacon:(HEREBeacon *)beacon
 {
-    NSDictionary *parameters = @{ kHEREAPIUUIDKey: [beacon.uuid UUIDString], kHEREAPIMajorKey: [NSString stringWithFormat:@"%tu", beacon.major], kHEREAPIMinorKey: [NSString stringWithFormat:@"%tu", beacon.minor], kHEREAPIDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIDeviceTypeKey: @"iOS" };
+    NSDictionary *parameters = @{ kHEREAPILocationUUIDKey: [beacon.uuid UUIDString], kHEREAPILocationMajorKey: [NSString stringWithFormat:@"%tu", beacon.major], kHEREAPILocationMinorKey: [NSString stringWithFormat:@"%tu", beacon.minor], kHEREAPIDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIDeviceTypeKey: @"iOS" };
     
     NSString *url = kHEREAPIMessagesUrl;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
@@ -46,7 +48,7 @@
 
     [request setHTTPBody:body];
     
-    NSString *postLength = [NSString stringWithFormat:@"%lu", [body length]];
+    NSString *postLength = [NSString stringWithFormat:@"%tu", [body length]];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -56,34 +58,150 @@
         [self.delegate didUploadAudio];
     }];
 }
+//
+//- (void)updateLocation:(NSDictionary *)data
+//{
+//    if (data[kHEREBeaconUUIDKey]) {
+//        NSLog(@"upload beacon location");
+//        
+//        NSData *postData = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
+//        
+//        NSString *postLength = [NSString stringWithFormat:@"%tu", [postData length]];
+//        
+//        NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kHEREAPILocationsUrl, data[kHEREAPILocationIdGETKey]]]];
+//        
+//        [urlRequest setHTTPMethod:@"PUT"];
+//        
+//        [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//        [urlRequest setValue:postLength forHTTPHeaderField:@"Content-Length"];
+//        [urlRequest setHTTPBody:postData];
+//        
+//        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+//        
+//        NSURLSessionDataTask *task = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+//            NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+//            NSLog(@"Dictionary: %@", parsedObject);
+//            if ([parsedObject[@"ok"] boolValue]) [self.delegate didUpdateLocation];
+//            [session invalidateAndCancel];
+//        }];
+//        
+//        [task resume];
+//    }
+//}
 
-- (void)updateLocation:(NSDictionary *)data
+- (void)fetchLocation
 {
-    if (data[kHEREBeaconUUIDKey]) {
-        NSLog(@"upload beacon location");
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:kHEREAPILocationsUrl]];
+    
+    [urlRequest setHTTPMethod:@"GET"];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSLog(@"fetchLocation result: %@", parsedObject);
+        [self saveLocationsToCoreData:parsedObject[@"data"]];
+        [session invalidateAndCancel];
+    }];
+    [task resume];
+}
+
+- (void)saveLocationsToCoreData:(NSDictionary *)locations
+{
+    for (NSDictionary *data in locations) {
         
-        NSData *postData = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHERELocationClassKey];
         
-        NSString *postLength = [NSString stringWithFormat:@"%tu", [postData length]];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"locationId", data[kHEREAPILocationIdGETKey]];
         
-        NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kHEREAPILocationsUrl, data[kHEREAPILocationIdKey]]]];
+        fetchRequest.predicate = predicate;
         
-        [urlRequest setHTTPMethod:@"PUT"];
+        NSError *fetchError = nil;
         
-        [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [urlRequest setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        [urlRequest setHTTPBody:postData];
+        NSArray *result = [[HERECoreDataHelper managedObjectContext] executeFetchRequest:fetchRequest error:&fetchError];
         
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        
-        NSURLSessionDataTask *task = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-            NSLog(@"Dictionary: %@", parsedObject);
-            if ([parsedObject[@"ok"] boolValue]) [self.delegate didUpdateLocation];
-        }];
-        
-        [task resume];
+        if (!fetchError) {
+            if ([result count] == 0) {
+                [self createLocationWithData:data];
+            }
+            else {
+                Location *location = [result firstObject];
+                [self updateCoreData:location data:data];
+            }
+        }
     }
+}
+
+- (void)createLocationWithData:(NSDictionary *)data
+{
+    NSManagedObjectContext *context = [HERECoreDataHelper managedObjectContext];
+    
+    Location *location = [NSEntityDescription insertNewObjectForEntityForName:kHERELocationClassKey inManagedObjectContext:context];
+
+    location = [self updateLocationAttributes:location data:data];
+    
+    location.createdAt = [NSDate date];
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"error in createLocationWithData: %@", error);
+    }
+}
+
+- (void)updateCoreData:(Location *)location data:(NSDictionary *)data
+{
+    location = [self updateLocationAttributes:location data:data];
+    
+    NSError *error = nil;
+    if (![location.managedObjectContext save:&error]) {
+        NSLog(@"updateCoreDataLocation error: %@", error);
+    }
+}
+
+- (Location *)updateLocationAttributes:(Location *)location data:(NSDictionary *)data
+{
+    location.locationId = data[kHEREAPILocationIdGETKey];
+    
+    if (![data[kHEREAPILocationNameKey] isKindOfClass:[NSNull class]]) location.name = data[kHEREAPILocationNameKey];
+    if (![data[kHEREAPILocationAccessIdKey] isKindOfClass:[NSNull class]]) location.accessId = data[kHEREAPILocationAccessIdKey];
+    if (![data[kHEREAPILocationLatitudeKey] isKindOfClass:[NSNull class]]) location.latitude = data[kHEREAPILocationLatitudeKey];
+    if (![data[kHEREAPILocationLongitudeKey] isKindOfClass:[NSNull class]]) location.longitude = data[kHEREAPILocationLongitudeKey];
+    if (![data[kHEREAPILocationMacAddressKey] isKindOfClass:[NSNull class]]) location.macAddress = data[kHEREAPILocationMacAddressKey];
+    if (![data[kHEREAPILocationMajorKey] isKindOfClass:[NSNull class]]) location.major = data[kHEREAPILocationMajorKey];
+    if (![data[kHEREAPILocationMinorKey] isKindOfClass:[NSNull class]]) location.minor = data[kHEREAPILocationMinorKey];
+    if (![data[kHEREAPILocationUUIDKey] isKindOfClass:[NSNull class]]) location.uuid = data[kHEREAPILocationUUIDKey];
+    
+    return location;
+}
+
+- (void)createLocationInServer:(NSDictionary *)data
+{
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
+    
+    NSString *postLength = [NSString stringWithFormat:@"%tu", [postData length]];
+    
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:kHEREAPILocationsUrl]];
+    
+    [urlRequest setHTTPMethod:@"POST"];
+    
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [urlRequest setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [urlRequest setHTTPBody:postData];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if (parsedObject[@"ok"]) {
+            NSLog(@"parsedObject: %@", parsedObject);
+            NSLog(@"created location, location Id = %@", parsedObject[kHEREAPILocationIdPOSTKey]);
+            [self.delegate didUpdateLocation];
+        }
+        else {
+            NSLog(@"cannot create the location. perhaps someone has created it");
+        }
+        [session invalidateAndCancel];
+    }];
+    [task resume];
 }
 
 @end

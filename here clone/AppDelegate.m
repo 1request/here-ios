@@ -43,7 +43,7 @@
     } else {
         [app registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert];
     }
-    
+        
     return YES;
 }
 
