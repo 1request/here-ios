@@ -20,7 +20,7 @@
 
 @property (weak, nonatomic) id <apiDelegate> delegate;
 - (void)uploadAudio:(NSData *)data Beacon:(HEREBeacon *)beacon;
-- (void)updateLocation:(NSDictionary *)data;
+//- (void)updateLocation:(NSDictionary *)data;
 - (void)fetchLocation;
 - (void)createLocationInServer:(NSDictionary *)data;
 @end

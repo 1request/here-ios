@@ -1,23 +1,31 @@
 //
-//  HERELocation.m
+//  HERELocationHelper.m
 //  here clone
 //
 //  Created by Joseph Cheung on 13/8/14.
 //  Copyright (c) 2014 Reque.st. All rights reserved.
 //
 
-#import "HERELocation.h"
+#import "HERELocationHelper.h"
+#import "Location.h"
+#import "HERECoreDataHelper.h"
 
-@interface HERELocation () {
+@interface HERELocationHelper () {
     NSTimer *timer;
 }
-@property (strong, nonatomic) NSMutableArray *beacons;
+@property (strong, nonatomic) NSMutableArray *beaconRegions;
 @property (weak, nonatomic) NSString *previousTriggeredBeaconParseId;
 @end
 
-@implementation HERELocation
+@implementation HERELocationHelper
 
 #pragma mark - instantiation
+
+- (NSMutableArray *)beaconRegions
+{
+    if (!_beaconRegions) _beaconRegions = [[NSMutableArray alloc] init];
+    return _beaconRegions;
+}
 
 - (CLLocationManager *)locationManager
 {
@@ -32,7 +40,19 @@
 
 - (void)loadBeacons
 {
-    self.beacons = [[[HEREFactory alloc] init] returnBeacons];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
+    
+    NSArray *locations = [[HERECoreDataHelper managedObjectContext] executeFetchRequest:fetchRequest error:nil];
+    
+    for (Location *location in locations) {
+        if (location.uuid && location.major && location.minor && location.name) {
+            CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:location.uuid] major:[location.major integerValue] minor:[location.minor integerValue] identifier:location.name];
+            beaconRegion.notifyEntryStateOnDisplay = YES;
+            beaconRegion.notifyOnEntry = YES;
+            beaconRegion.notifyOnExit = YES;
+            [self.beaconRegions addObject:beaconRegion];
+        }
+    }
 }
 
 - (void)monitorBeacons
@@ -43,11 +63,7 @@
     
     [self loadBeacons];
     
-    for (HEREBeacon *beacon in self.beacons) {
-        CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:beacon.uuid major:beacon.major minor:beacon.minor identifier:beacon.name];
-        beaconRegion.notifyEntryStateOnDisplay = YES;
-        beaconRegion.notifyOnEntry = YES;
-        beaconRegion.notifyOnExit = YES;
+    for (CLBeaconRegion *beaconRegion in self.beaconRegions) {
         [self.locationManager startRangingBeaconsInRegion:beaconRegion];
         [self.locationManager startMonitoringForRegion:beaconRegion];
     }
@@ -61,12 +77,12 @@
     }
 }
 
-- (void)stopMonitoringBeacon:(HEREBeacon *)beacon
-{
-    CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:beacon.uuid major:beacon.major minor:beacon.minor identifier:beacon.name];
-    [self.locationManager stopMonitoringForRegion:beaconRegion];
-    [self.locationManager stopRangingBeaconsInRegion:beaconRegion];
-}
+//- (void)stopMonitoringBeacon:(HEREBeacon *)beacon
+//{
+//    CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:beacon.uuid major:beacon.major minor:beacon.minor identifier:beacon.name];
+//    [self.locationManager stopMonitoringForRegion:beaconRegion];
+//    [self.locationManager stopRangingBeaconsInRegion:beaconRegion];
+//}
 
 #pragma mark - CLocationManager Delegate
 
@@ -110,17 +126,9 @@
     
     if (self.delegate) {
         if (region.major && region.minor) {
-            NSPredicate *pred = [NSPredicate predicateWithFormat:@"uuid.UUIDString == %@ AND major == %i AND minor == %i", region.proximityUUID.UUIDString, [region.major intValue], [region.minor intValue]];
-            NSArray *filteredBeacons = [self.beacons filteredArrayUsingPredicate:pred];
-            HEREBeacon *beacon = [filteredBeacons firstObject];
-            
 //            self.previousTriggeredBeaconParseId = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconTriggeredKey];
-            if (beacon && beacon.parseId != self.previousTriggeredBeaconParseId) {
-                [[NSUserDefaults standardUserDefaults] setObject:beacon.parseId forKey:kHEREBeaconTriggeredKey];
-                self.previousTriggeredBeaconParseId = beacon.parseId;
-                [self.delegate notifyWhenEntryBeacon:beacon];
-                [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", beacon.name] withBeacon:beacon];
-            }
+            [self.delegate notifyWhenEntryBeacon:region];
+            [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", region.identifier]];
         }
     }
 }
@@ -158,7 +166,7 @@
     NSLog(@"%@", message);
 }
 
-- (void)sendLocalNotificationWithMessage:(NSString*)message withBeacon:(HEREBeacon *)beacon
+- (void)sendLocalNotificationWithMessage:(NSString *)message
 {
     UILocalNotification *notification = [UILocalNotification new];
     
@@ -170,8 +178,6 @@
     notification.soundName = UILocalNotificationDefaultSoundName;
     notification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
     
-    notification.userInfo = @{kHEREBeaconParseIdKey: beacon.parseId};
-    
     if ([notification respondsToSelector:@selector(regionTriggersOnce)]) {
         notification.regionTriggersOnce = YES;
     }
@@ -181,6 +187,8 @@
         UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
     }
+    
+    NSLog(@"notification: %@", notification);
     
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }

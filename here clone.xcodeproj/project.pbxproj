@@ -88,7 +88,7 @@
 		7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */; };
 		7CF1A1BC1999CB04004300AF /* HEREBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A1BB1999CB04004300AF /* HEREBeacon.m */; };
 		7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF49702199B5CFF001AD29F /* HEREFactory.m */; };
-		7CF4970A199B887B001AD29F /* HERELocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF49709199B887B001AD29F /* HERELocation.m */; };
+		7CF4970A199B887B001AD29F /* HERELocationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF49709199B887B001AD29F /* HERELocationHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -212,8 +212,8 @@
 		7CF1A1BB1999CB04004300AF /* HEREBeacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREBeacon.m; sourceTree = "<group>"; };
 		7CF49701199B5CFF001AD29F /* HEREFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREFactory.h; sourceTree = "<group>"; };
 		7CF49702199B5CFF001AD29F /* HEREFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREFactory.m; sourceTree = "<group>"; };
-		7CF49708199B887B001AD29F /* HERELocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERELocation.h; sourceTree = "<group>"; };
-		7CF49709199B887B001AD29F /* HERELocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERELocation.m; sourceTree = "<group>"; };
+		7CF49708199B887B001AD29F /* HERELocationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERELocationHelper.h; sourceTree = "<group>"; };
+		7CF49709199B887B001AD29F /* HERELocationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERELocationHelper.m; sourceTree = "<group>"; };
 		AF475C44CD5C49859A81FAD0 /* Pods-here clone.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-here clone.xcconfig"; path = "Pods/Pods-here clone.xcconfig"; sourceTree = "<group>"; };
 		B4514242B13346C6B416A6E6 /* libPods-here clone.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-here clone.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -372,8 +372,8 @@
 				7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */,
 				7CA62F6819AF920300943F9C /* HEREAudioHelper.h */,
 				7CA62F6919AF920300943F9C /* HEREAudioHelper.m */,
-				7CF49708199B887B001AD29F /* HERELocation.h */,
-				7CF49709199B887B001AD29F /* HERELocation.m */,
+				7CF49708199B887B001AD29F /* HERELocationHelper.h */,
+				7CF49709199B887B001AD29F /* HERELocationHelper.m */,
 				7CF1A1B91999CAF8004300AF /* Models */,
 				7C3E5C161991E1F100C53C7B /* Controllers */,
 				7C9E81951991DFA100156B88 /* Main.storyboard */,
@@ -646,7 +646,7 @@
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
 				7CBA788719B4987D000CFEC8 /* Message.m in Sources */,
 				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,
-				7CF4970A199B887B001AD29F /* HERELocation.m in Sources */,
+				7CF4970A199B887B001AD29F /* HERELocationHelper.m in Sources */,
 				7CA62F6A19AF920300943F9C /* HEREAudioHelper.m in Sources */,
 				7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */,
 				7C6F424B19B0409300EE1B1B /* Here.xcdatamodeld in Sources */,

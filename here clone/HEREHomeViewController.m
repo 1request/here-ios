@@ -10,9 +10,9 @@
 #import "HEREAPIHelper.h"
 #import "HERECoreDataHelper.h"
 #import "Location.h"
-#import "HERELocation.h"
+#import "HERELocationHelper.h"
 
-@interface HEREHomeViewController () <apiDelegate, NSFetchedResultsControllerDelegate>
+@interface HEREHomeViewController () <apiDelegate, NSFetchedResultsControllerDelegate, locationDelegate>
 
 {
     NSTimer *timer;
@@ -25,7 +25,8 @@
 @property (strong, nonatomic) NSMutableArray *beacons;
 @property (strong, nonatomic) NSData *audioData;
 @property (strong, nonatomic) NSMutableArray *locations;
-@property (strong, nonatomic) HERELocation *locationHelper;
+@property (strong, nonatomic) HERELocationHelper *locationHelper;
+@property (strong, nonatomic) HEREAPIHelper *apiHelper;
 
 @end
 
@@ -59,7 +60,10 @@
         NSLog(@"%@, %@", error, error.localizedDescription);
     }
     
-    self.locationHelper = [[HERELocation alloc] init];
+    self.locationHelper = [[HERELocationHelper alloc] init];
+    self.locationHelper.delegate = self;
+    
+    self.apiHelper = [[HEREAPIHelper alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,6 +74,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self.apiHelper fetchLocation];
+    
+    [self.locationHelper stopMonitoringBeacons];
+    [self.locationHelper monitorBeacons];
     
     [self fetchLocations];
 }
@@ -131,6 +140,34 @@
     self.locations = [fetchedLocations mutableCopy];
     
     [self.tableView reloadData];
+}
+
+
+#pragma mark - locationHelper delegate
+
+- (void)notifyWhenEntryBeacon:(CLBeaconRegion *)beaconRegion
+{
+    NSLog(@"Enter region: %@", beaconRegion);
+}
+
+- (void)notifyWhenExitBeacon:(CLBeaconRegion *)beaconRegion
+{
+    NSLog(@"exit region: %@", beaconRegion);
+}
+
+- (void)notifyWhenFar:(CLBeacon *)beacon
+{
+    //    NSLog(@"far from beacon: %@", beacon);
+}
+
+- (void)notifyWhenImmediate:(CLBeacon *)beacon
+{
+    //    NSLog(@"Immediate to beacon: %@", beacon);
+}
+
+- (void)notifyWhenNear:(CLBeacon *)beacon
+{
+    //    NSLog(@"Near beacon: %@", beacon);
 }
 
 @end

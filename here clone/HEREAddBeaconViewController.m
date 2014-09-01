@@ -7,14 +7,14 @@
 //
 
 #import "HEREAddBeaconViewController.h"
-#import "HERELocation.h"
+#import "HERELocationHelper.h"
 #import "Location.h"
 #import "HERECoreDataHelper.h"
 
 @interface HEREAddBeaconViewController ()
 @property (weak, nonatomic) NSTimer *animationTimer;
 @property (strong, nonatomic) NSMutableArray *beaconRegions;
-@property (strong, nonatomic) HERELocation *location;
+@property (strong, nonatomic) HERELocationHelper *locationHelper;
 @property (strong, nonatomic) CLBeacon *foundBeacon;
 @end
 
@@ -28,12 +28,12 @@
     return _session;
 }
 
-- (HERELocation *)location
+- (HERELocationHelper *)locationHelper
 {
-    if (!_location) {
-        _location = [[HERELocation alloc] init];
+    if (!_locationHelper) {
+        _locationHelper = [[HERELocationHelper alloc] init];
     }
-    return _location;
+    return _locationHelper;
 }
 
 - (HEREAPIHelper *)apiHelper
@@ -77,7 +77,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [self.location monitorBeacons];
+    [self.locationHelper monitorBeacons];
 }
 
 /*
@@ -109,7 +109,7 @@
 
 - (IBAction)scanBeaconButtonPressed:(UIButton *)sender
 {
-    [self.location stopMonitoringBeacons];
+    [self.locationHelper stopMonitoringBeacons];
     
     self.scanBeaconButton.hidden = YES;
     self.scanningBeaconsLabel.hidden = NO;
