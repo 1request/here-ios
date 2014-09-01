@@ -12,7 +12,7 @@
 #import "UIViewController+HEREMenu.h"
 #import "JSQMessagesActivityIndicatorView.h"
 #import "HEREAudioPlayerView.h"
-#import "HEREUploadHelper.h"
+#import "HEREAPIHelper.h"
 #import "HEREAudioHelper.h"
 
 @interface HEREBeaconsMessagesTableViewController () {
@@ -24,7 +24,7 @@
 @property (nonatomic) BOOL isRecording;
 @property (strong, nonatomic) JSQMessagesComposerTextView *textView;
 @property (strong, nonatomic) UIButton *recordButton;
-@property (strong, nonatomic) HEREUploadHelper *uploadHelper;
+@property (strong, nonatomic) HEREAPIHelper *apiHelper;
 @property (strong, nonatomic) NSData *audioData;
 
 @end
@@ -116,7 +116,7 @@
     self.audioRecorder.delegate = self;
     self.audioRecorder.meteringEnabled = YES;
     [self.audioRecorder prepareToRecord];
-    self.uploadHelper = [[HEREUploadHelper alloc] init];
+    self.apiHelper = [[HEREAPIHelper alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {

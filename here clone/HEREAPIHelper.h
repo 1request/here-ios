@@ -1,5 +1,5 @@
 //
-//  HEREUploadHelper.h
+//  HEREAPIHelper.h
 //  here clone
 //
 //  Created by Joseph Cheung on 25/8/14.
@@ -9,16 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "HEREBeacon.h"
 
-@protocol uploaderDelegate <NSObject>
-
+@protocol apiDelegate <NSObject>
+@optional
 - (void)didUploadAudio;
-
+- (void)didUpdateLocation;
 @end
 
 
-@interface HEREUploadHelper : NSObject
+@interface HEREAPIHelper : NSObject
 
-@property (weak, nonatomic) id <uploaderDelegate> delegate;
+@property (weak, nonatomic) id <apiDelegate> delegate;
 - (void)uploadAudio:(NSData *)data Beacon:(HEREBeacon *)beacon;
-
+- (void)updateLocation:(NSDictionary *)data;
 @end

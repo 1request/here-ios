@@ -12,6 +12,7 @@
 #import "Canvas.h"
 #import "UIViewController+HEREMenu.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "HEREAPIHelper.h"
 
 @protocol addBeaconViewControllerDelegate <NSObject>
 
@@ -19,7 +20,7 @@
 
 @end
 
-@interface HEREAddBeaconViewController : UIViewController <CLLocationManagerDelegate, UIAlertViewDelegate>
+@interface HEREAddBeaconViewController : UIViewController <CLLocationManagerDelegate, UIAlertViewDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate, apiDelegate>
 
 @property (weak, nonatomic) id <addBeaconViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UILabel *majorLabel;
@@ -31,6 +32,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *scanBeaconButton;
 @property (strong, nonatomic) IBOutlet UIButton *addBeaconButton;
 @property (strong, nonatomic) IBOutlet UILabel *scanningBeaconsLabel;
+@property (strong, nonatomic) NSURLSession *session;
+@property (strong, nonatomic) HEREAPIHelper *apiHelper;
 
 @property (strong, nonatomic) CLBeaconRegion *beaconRegion;
 @property (strong, nonatomic) CLLocationManager *locationManager;

@@ -28,8 +28,9 @@ NSString *const kHEREAudioFileKey       	= @"audioFile";
 NSString *const kHEREAudioIsReadKey     	= @"isRead";
 
 #pragma mark - API
-NSString *const kHEREAPIUploadLink          = @"http://here.zuohaisu.cn/api/messages/upload";
-NSString *const kHEREAPIDownloadLink        = @"http://here.zuohaisu.cn/api/messages/download";
+NSString *const kHEREAPIMessagesUrl         = @"http://here.zuohaisu.cn/api/messages";
+NSString *const kHEREAPILocationsUrl        = @"http://here.zuohaisu.cn/api/locations";
+NSString *const kHEREAPILocationIdKey       = @"locId";
 NSString *const kHEREAPIAudioFileKey        = @"audio";
 NSString *const kHEREAPIUUIDKey             = @"uuid";
 NSString *const kHEREAPIMajorKey            = @"major";
@@ -37,4 +38,9 @@ NSString *const kHEREAPIMinorKey            = @"minor";
 NSString *const kHEREAPIDeviceIdKey         = @"deviceId";
 NSString *const kHEREAPIDeviceTypeKey       = @"deviceType";
 NSString *const kHEREAPIBoundaryKey         = @"testboundaryblablabla";
+
+#pragma mark - Core Data Classes
+NSString *const kHERELocationClassKey       = @"Location";
+NSString *const kHEREMessageClassKey        = @"Message";
+
 @end

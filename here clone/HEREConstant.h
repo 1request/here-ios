@@ -28,8 +28,9 @@ extern NSString *const kHEREAudioFileKey;
 extern NSString *const kHEREAudioIsReadKey;
 
 #pragma mark - API
-extern NSString *const kHEREAPIUploadLink;
-extern NSString *const kHEREAPIDownloadLink;
+extern NSString *const kHEREAPIMessagesUrl;
+extern NSString *const kHEREAPILocationsUrl;
+extern NSString *const kHEREAPILocationIdKey;
 extern NSString *const kHEREAPIAudioFileKey;
 extern NSString *const kHEREAPIUUIDKey;
 extern NSString *const kHEREAPIMajorKey;
@@ -37,4 +38,9 @@ extern NSString *const kHEREAPIMinorKey;
 extern NSString *const kHEREAPIDeviceIdKey;
 extern NSString *const kHEREAPIDeviceTypeKey;
 extern NSString *const kHEREAPIBoundaryKey;
+
+#pragma mark - Core Data Classes
+extern NSString *const kHERELocationClassKey;
+extern NSString *const kHEREMessageClassKey;
+
 @end

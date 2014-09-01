@@ -65,9 +65,13 @@
 		7C3E5C9019920EA100C53C7B /* 1_131.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6719920EA100C53C7B /* 1_131.png */; };
 		7C3E5C9119920EA100C53C7B /* 1_133.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6819920EA100C53C7B /* 1_133.png */; };
 		7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C931992109300C53C7B /* HERESignInViewController.m */; };
-		7C583F3A19AB370400B62244 /* HEREUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C583F3919AB370400B62244 /* HEREUploadHelper.m */; };
+		7C583F3A19AB370400B62244 /* HEREAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C583F3919AB370400B62244 /* HEREAPIHelper.m */; };
 		7C6F424519B0403800EE1B1B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6F424419B0403800EE1B1B /* CoreData.framework */; };
 		7C6F424B19B0409300EE1B1B /* Here.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */; };
+		7C6F428319B0562100EE1B1B /* HEREMessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F428219B0562100EE1B1B /* HEREMessageFactory.m */; };
+		7C6F428619B0562C00EE1B1B /* HERELocationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F428519B0562C00EE1B1B /* HERELocationFactory.m */; };
+		7C6F428A19B05B1000EE1B1B /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F428919B05B1000EE1B1B /* Message.m */; };
+		7C6F429019B05D5C00EE1B1B /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F428F19B05D5C00EE1B1B /* Location.m */; };
 		7C7EBC4B19933E850078BE2F /* here.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C7EBC4A19933E850078BE2F /* here.png */; };
 		7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8D6AD3199485DC005A87C4 /* UIViewController+HEREMenu.m */; };
 		7C8D6AE21994C1D0005A87C4 /* HERESignInUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8D6AE11994C1D0005A87C4 /* HERESignInUpViewController.m */; };
@@ -164,10 +168,18 @@
 		7C3E5C6819920EA100C53C7B /* 1_133.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_133.png; sourceTree = "<group>"; };
 		7C3E5C921992109300C53C7B /* HERESignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERESignInViewController.h; sourceTree = "<group>"; };
 		7C3E5C931992109300C53C7B /* HERESignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESignInViewController.m; sourceTree = "<group>"; };
-		7C583F3819AB370400B62244 /* HEREUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREUploadHelper.h; sourceTree = "<group>"; };
-		7C583F3919AB370400B62244 /* HEREUploadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREUploadHelper.m; sourceTree = "<group>"; };
+		7C583F3819AB370400B62244 /* HEREAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREAPIHelper.h; sourceTree = "<group>"; };
+		7C583F3919AB370400B62244 /* HEREAPIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREAPIHelper.m; sourceTree = "<group>"; };
 		7C6F424419B0403800EE1B1B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Here.xcdatamodel; sourceTree = "<group>"; };
+		7C6F428119B0562100EE1B1B /* HEREMessageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREMessageFactory.h; sourceTree = "<group>"; };
+		7C6F428219B0562100EE1B1B /* HEREMessageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREMessageFactory.m; sourceTree = "<group>"; };
+		7C6F428419B0562C00EE1B1B /* HERELocationFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERELocationFactory.h; sourceTree = "<group>"; };
+		7C6F428519B0562C00EE1B1B /* HERELocationFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERELocationFactory.m; sourceTree = "<group>"; };
+		7C6F428819B05B1000EE1B1B /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		7C6F428919B05B1000EE1B1B /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		7C6F428E19B05D5C00EE1B1B /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		7C6F428F19B05D5C00EE1B1B /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		7C7EBC4A19933E850078BE2F /* here.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = here.png; sourceTree = "<group>"; };
 		7C8D6AD2199485DC005A87C4 /* UIViewController+HEREMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HEREMenu.h"; sourceTree = "<group>"; };
 		7C8D6AD3199485DC005A87C4 /* UIViewController+HEREMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+HEREMenu.m"; sourceTree = "<group>"; };
@@ -352,8 +364,8 @@
 				7C9E81901991DFA100156B88 /* AppDelegate.m */,
 				7C01C03519989AD700124BEC /* HEREConstant.h */,
 				7C01C03619989AD700124BEC /* HEREConstant.m */,
-				7C583F3819AB370400B62244 /* HEREUploadHelper.h */,
-				7C583F3919AB370400B62244 /* HEREUploadHelper.m */,
+				7C583F3819AB370400B62244 /* HEREAPIHelper.h */,
+				7C583F3919AB370400B62244 /* HEREAPIHelper.m */,
 				7CA62F6819AF920300943F9C /* HEREAudioHelper.h */,
 				7CA62F6919AF920300943F9C /* HEREAudioHelper.m */,
 				7CF49708199B887B001AD29F /* HERELocation.h */,
@@ -401,7 +413,10 @@
 				7CF49704199B5D04001AD29F /* Factory */,
 				7CF1A1BA1999CB04004300AF /* HEREBeacon.h */,
 				7CF1A1BB1999CB04004300AF /* HEREBeacon.m */,
-				7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */,
+				7C6F428E19B05D5C00EE1B1B /* Location.h */,
+				7C6F428F19B05D5C00EE1B1B /* Location.m */,
+				7C6F428819B05B1000EE1B1B /* Message.h */,
+				7C6F428919B05B1000EE1B1B /* Message.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -409,8 +424,13 @@
 		7CF49704199B5D04001AD29F /* Factory */ = {
 			isa = PBXGroup;
 			children = (
+				7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */,
 				7CF49701199B5CFF001AD29F /* HEREFactory.h */,
 				7CF49702199B5CFF001AD29F /* HEREFactory.m */,
+				7C6F428119B0562100EE1B1B /* HEREMessageFactory.h */,
+				7C6F428219B0562100EE1B1B /* HEREMessageFactory.m */,
+				7C6F428419B0562C00EE1B1B /* HERELocationFactory.h */,
+				7C6F428519B0562C00EE1B1B /* HERELocationFactory.m */,
 			);
 			name = Factory;
 			sourceTree = "<group>";
@@ -605,6 +625,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C6F428319B0562100EE1B1B /* HEREMessageFactory.m in Sources */,
 				7C3E5C221992033000C53C7B /* HEREBeaconsTableViewController.m in Sources */,
 				7C9E81911991DFA100156B88 /* AppDelegate.m in Sources */,
 				7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */,
@@ -616,7 +637,9 @@
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
 				7CAE354519A1C28100263241 /* CustomCell.m in Sources */,
 				7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */,
-				7C583F3A19AB370400B62244 /* HEREUploadHelper.m in Sources */,
+				7C6F428A19B05B1000EE1B1B /* Message.m in Sources */,
+				7C583F3A19AB370400B62244 /* HEREAPIHelper.m in Sources */,
+				7C6F429019B05D5C00EE1B1B /* Location.m in Sources */,
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
 				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,
 				7CF4970A199B887B001AD29F /* HERELocation.m in Sources */,
@@ -625,6 +648,7 @@
 				7C6F424B19B0409300EE1B1B /* Here.xcdatamodeld in Sources */,
 				7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */,
 				7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */,
+				7C6F428619B0562C00EE1B1B /* HERELocationFactory.m in Sources */,
 				7C3E5C28199207C100C53C7B /* HERECreateUserViewController.m in Sources */,
 				7C01C03719989AD700124BEC /* HEREConstant.m in Sources */,
 			);
@@ -742,6 +766,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "here clone/HEREPrefix.pch";
@@ -749,6 +774,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "here clone/here clone-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -758,6 +785,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: STAY REAL LIMITED";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "here clone/HEREPrefix.pch";
@@ -766,6 +794,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "48f30ea3-e116-45b8-9314-b8264875d5c8";
+				SWIFT_OBJC_BRIDGING_HEADER = "here clone/here clone-Bridging-Header.h";
 			};
 			name = Release;
 		};
