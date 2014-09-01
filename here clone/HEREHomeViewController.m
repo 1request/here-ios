@@ -10,6 +10,7 @@
 #import "HEREAPIHelper.h"
 #import "HERECoreDataHelper.h"
 #import "Location.h"
+#import "HERELocation.h"
 
 @interface HEREHomeViewController () <apiDelegate, NSFetchedResultsControllerDelegate>
 
@@ -23,37 +24,42 @@
 @property (strong, nonatomic) NSMutableArray *audioRecords;
 @property (strong, nonatomic) NSMutableArray *beacons;
 @property (strong, nonatomic) NSData *audioData;
-@property (strong, nonatomic) NSArray *locations;
-@property (strong, nonatomic) HEREAPIHelper *apiHelper;
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSMutableArray *locations;
+@property (strong, nonatomic) HERELocation *locationHelper;
 
 @end
 
 @implementation HEREHomeViewController
 
+#pragma mark - instantiation
+
+- (NSMutableArray *)locations
+{
+    if (!_locations) _locations = [[NSMutableArray alloc] init];
+    return _locations;
+}
+
+#pragma mark - View Lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self.navigationController setNavigationBarHidden:NO];
-    
-    self.apiHelper = [[HEREAPIHelper alloc] init];
-    self.apiHelper.delegate = self;
     
     self.managedObjectContext = [HERECoreDataHelper managedObjectContext];
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHERELocationClassKey];
     
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES]];
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    self.fetchedResultsController.delegate = self;
+    
     
     NSError *error = nil;
-    [self.fetchedResultsController performFetch:&error];
     
     if (error) {
         NSLog(@"Unabled to perform core data fetch at home view controller.");
         NSLog(@"%@, %@", error, error.localizedDescription);
     }
+    
+    self.locationHelper = [[HERELocation alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,7 +71,7 @@
 {
     [super viewDidAppear:animated];
     
-    [self.apiHelper fetchLocation];
+    [self fetchLocations];
 }
 
 #pragma mark - Navigation
@@ -89,15 +95,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [[self.fetchedResultsController sections] count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSArray *sections = [self.fetchedResultsController sections];
-    id<NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
-    
-    return [sectionInfo numberOfObjects];
+    return [self.locations count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -106,54 +109,28 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    [self configureCell:cell atIndexPath:indexPath];
+    Location *location = [self.locations objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = location.name;
     
     return cell;
 }
 
-#pragma mark - Fetched Results Controller Delegate Methods
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-    NSLog(@"controllerwillchangecontent; begin update cell");
-    [self.tableView beginUpdates];
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    NSLog(@"controllerdidchangecontent; end update cell");
-    [self.tableView endUpdates];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
-{
-    NSLog(@"didChangeObject in home view controller, type: %tu, row: %tu, object: %@", type, indexPath.row,anObject);
-    switch (type) {
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-            break;
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            break;
-        case NSFetchedResultsChangeUpdate:
-            [self configureCell:[self.tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
-            break;
-        case NSFetchedResultsChangeMove:
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-        default:
-            break;
-    }
-}
-
 #pragma mark - helper methods
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)fetchLocations
 {
-    Location *location = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
     
-    cell.textLabel.text = location.name;
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES]];
+    
+    NSError *error = nil;
+    
+    NSArray *fetchedLocations = [[HERECoreDataHelper managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    
+    self.locations = [fetchedLocations mutableCopy];
+    
+    [self.tableView reloadData];
 }
 
 @end
