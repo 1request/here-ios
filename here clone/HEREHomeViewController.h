@@ -14,6 +14,10 @@
 
 @interface HEREHomeViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 - (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender;
 
 @end

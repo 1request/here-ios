@@ -1,5 +1,5 @@
 //
-//  HERELocation.h
+//  HERELocationHelper.h
 //  here clone
 //
 //  Created by Joseph Cheung on 13/8/14.
@@ -8,13 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import "HEREFactory.h"
 #import "HEREBeacon.h"
 
 @protocol locationDelegate <NSObject>
-
-- (void)notifyWhenEntryBeacon:(HEREBeacon *)beacon;
-- (void)notifyWhenExitBeacon:(CLBeaconRegion*)beaconRegion;
+@optional
+- (void)notifyWhenEntryBeacon:(CLBeaconRegion *)beaconRegion;
+- (void)notifyWhenExitBeacon:(CLBeaconRegion *)beaconRegion;
 
 - (void)notifyWhenImmediate:(CLBeacon *)beacon;
 - (void)notifyWhenNear:(CLBeacon *)beacon;
@@ -22,12 +21,12 @@
 
 @end
 
-@interface HERELocation : NSObject <CLLocationManagerDelegate>
+@interface HERELocationHelper : NSObject <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (assign, nonatomic) id <locationDelegate> delegate;
 
 - (void)monitorBeacons;
 - (void)stopMonitoringBeacons;
-- (void)stopMonitoringBeacon:(HEREBeacon *)beacon;
+//- (void)stopMonitoringBeacon:(HEREBeacon *)beacon;
 @end

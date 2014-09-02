@@ -4,9 +4,10 @@ PODS:
   - Facebook-iOS-SDK (3.17.0):
     - Bolts
   - IQKeyboardManager (3.0.6)
-  - JSQMessagesViewController (5.2.5):
+  - JSQMessagesViewController (5.0.4):
     - JSQSystemSoundPlayer
   - JSQSystemSoundPlayer (1.5.2)
+  - MBProgressHUD (0.9)
   - Parse (1.2.20):
     - Facebook-iOS-SDK (~> 3.11)
   - REFrostedViewController (2.4.6)
@@ -15,12 +16,16 @@ PODS:
 DEPENDENCIES:
   - Canvas (~> 0.1.2)
   - IQKeyboardManager
-  - JSQMessagesViewController
+  - JSQMessagesViewController (from `git@github.com:VincentSit/JSQMessagesViewController.git`, branch `media`)
+  - MBProgressHUD (~> 0.8)
   - Parse
   - REFrostedViewController (~> 2.4.6)
   - SWTableViewCell (from `https://github.com/CEWendel/SWTableViewCell.git`, tag `0.3.2`)
 
 EXTERNAL SOURCES:
+  JSQMessagesViewController:
+    :branch: media
+    :git: git@github.com:VincentSit/JSQMessagesViewController.git
   SWTableViewCell:
     :git: https://github.com/CEWendel/SWTableViewCell.git
     :tag: 0.3.2
@@ -30,8 +35,9 @@ SPEC CHECKSUMS:
   Canvas: ae2faca05a15c4d6659fb3ae5e2a14817df4449a
   Facebook-iOS-SDK: f20274d809f112ba540842e2b6cbe50128d51b7b
   IQKeyboardManager: 3381092a6728e3565a6ad5051c44386be36bd990
-  JSQMessagesViewController: ca64d32c789ac8e95b3bfb28171ff0afecf2b27b
+  JSQMessagesViewController: 39c28fe197b22caeff250ed88805ed37e3ad0d4a
   JSQSystemSoundPlayer: c24914bc96ff5365b5d28b59d7ecffd60d1c5587
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   Parse: 28c0dc54f30201a369d29a2f76c09fa43b2add16
   REFrostedViewController: 0f6bb16aeb4b384da25cc3c97bc1a16926583c62
   SWTableViewCell: 2de502bc3db518f495ef65f55074f7732dce6099

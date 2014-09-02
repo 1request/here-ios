@@ -7,30 +7,41 @@
 //
 
 #import "HEREAddBeaconViewController.h"
-#import "HERELocation.h"
+#import "HERELocationHelper.h"
+#import "Location.h"
+#import "HERECoreDataHelper.h"
 
 @interface HEREAddBeaconViewController ()
-{
-    NSTimer *animationTimer;
-    NSNumber *major;
-    NSNumber *minor;
-    NSString *uuidString;
-    NSArray *uuidStrings;
-    NSString *name;
-}
+@property (weak, nonatomic) NSTimer *animationTimer;
 @property (strong, nonatomic) NSMutableArray *beaconRegions;
-@property (strong, nonatomic) HERELocation *location;
-
+@property (strong, nonatomic) HERELocationHelper *locationHelper;
+@property (strong, nonatomic) CLBeacon *foundBeacon;
 @end
 
 @implementation HEREAddBeaconViewController
 
-- (HERELocation *)location
+- (NSURLSession *)session
 {
-    if (!_location) {
-        _location = [[HERELocation alloc] init];
+    if (!_session) {
+        _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     }
-    return _location;
+    return _session;
+}
+
+- (HERELocationHelper *)locationHelper
+{
+    if (!_locationHelper) {
+        _locationHelper = [[HERELocationHelper alloc] init];
+    }
+    return _locationHelper;
+}
+
+- (HEREAPIHelper *)apiHelper
+{
+    if (!_apiHelper) {
+        _apiHelper = [[HEREAPIHelper alloc] init];
+    }
+    return _apiHelper;
 }
 
 - (void)viewDidLoad {
@@ -38,7 +49,12 @@
     // Do any additional setup after loading the view.
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
-    uuidStrings = @[@{ kHEREBeaconNameKey: @"readbear", kHEREBeaconUUIDKey: @"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0" }, @{ kHEREBeaconNameKey: @"estimote", kHEREBeaconUUIDKey: @"B9407F30-F5F8-466E-AFF9-25556B57FE6D"}];
+    
+    if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        [self.locationManager requestAlwaysAuthorization];
+    }
+    
+    NSArray *uuidStrings = @[@{ kHEREBeaconNameKey: @"readbear", kHEREBeaconUUIDKey: @"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0" }, @{ kHEREBeaconNameKey: @"estimote", kHEREBeaconUUIDKey: @"B9407F30-F5F8-466E-AFF9-25556B57FE6D"}];
     self.beaconRegions = [@[] mutableCopy];
     for (NSDictionary *beacon in uuidStrings) {
         NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:beacon[kHEREBeaconUUIDKey]];
@@ -51,6 +67,7 @@
     self.animationView.duration = 0.5;
     self.animationView.delay = 0;
     self.animationView.type = CSAnimationTypeZoomIn;
+    self.apiHelper.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,7 +77,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [self.location monitorBeacons];
+    [self.locationHelper monitorBeacons];
 }
 
 /*
@@ -80,15 +97,9 @@
 
 - (IBAction)addBeaconButtonPressed:(UIButton *)sender
 {
-    name = self.beaconNameTextField.text;
-    if (major && minor && uuidString && name) {
-        [self addBeaconToParse];
-        [self.delegate didAddBeacon];
-    }
-    else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Missing Information" message:@"Beacon UUID/major/minor/name is missing" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertView show];
-    }
+    NSDictionary *data = @{ kHEREAPILocationNameKey : self.beaconNameTextField.text, kHEREAPILocationUUIDKey : [self.foundBeacon.proximityUUID UUIDString], kHEREAPILocationMajorKey : self.foundBeacon.major, kHEREAPILocationMinorKey : self.foundBeacon.minor };
+    [self.apiHelper createLocationInServer:data];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)cancelButtonPressed:(UIButton *)sender
@@ -98,11 +109,11 @@
 
 - (IBAction)scanBeaconButtonPressed:(UIButton *)sender
 {
-    [self.location stopMonitoringBeacons];
+    [self.locationHelper stopMonitoringBeacons];
     
     self.scanBeaconButton.hidden = YES;
     self.scanningBeaconsLabel.hidden = NO;
-    animationTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self.animationView selector:@selector(startCanvasAnimation) userInfo:nil repeats:YES];
+    self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self.animationView selector:@selector(startCanvasAnimation) userInfo:nil repeats:YES];
     [self scanBeacons];
 }
 
@@ -110,13 +121,10 @@
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
-    for (CLBeaconRegion *beaconRegion in self.beaconRegions) {
-        [self.locationManager stopRangingBeaconsInRegion:beaconRegion];
-    }
-    CLBeacon *foundBeacon = [beacons firstObject];
-    if (foundBeacon.major && foundBeacon.minor) {
-        uuidString = [foundBeacon.proximityUUID UUIDString];
-        [self checkExistingBeacon:foundBeacon];
+    for (CLBeacon *foundBeacon in beacons) {
+        if (foundBeacon.major && foundBeacon.minor) {
+            [self checkExistingBeaconInCoreData:foundBeacon];
+        }
     }
 }
 
@@ -130,15 +138,13 @@
     }
 }
 
-- (void)foundNewBeacon:(CLBeacon *)beacon
+- (void)foundNewBeacon
 {
-    major = beacon.major;
-    minor = beacon.minor;
-    self.majorNumberLabel.text = [NSString stringWithFormat:@"%@", major];
-    self.minorNumberLabel.text = [NSString stringWithFormat:@"%@", minor];
+    self.majorNumberLabel.text = [NSString stringWithFormat:@"%@", self.foundBeacon.major];
+    self.minorNumberLabel.text = [NSString stringWithFormat:@"%@", self.foundBeacon.minor];
     
-    [animationTimer invalidate];
-    animationTimer = nil;
+    [self.animationTimer invalidate];
+    self.animationTimer = nil;
     
     self.animationView.hidden = YES;
     self.majorLabel.hidden = NO;
@@ -150,52 +156,37 @@
 
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Detected iBeacon" message:@"Detected a new iBeacon. You can name and add it to your beacon collection" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Detected iBeacon" message:@"Detected a new iBeacon" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     
     [alertView show];
 }
 
-- (void)checkExistingBeacon:(CLBeacon *)beacon
+- (void)checkExistingBeaconInCoreData:(CLBeacon *)beacon
 {
-    PFQuery *query = [PFQuery queryWithClassName:kHEREBeaconClassKey];
-    [query whereKey:kHEREBeaconUserKey equalTo:[PFUser currentUser]];
-    [query whereKey:kHEREBeaconUUIDKey equalTo:uuidString];
-    [query whereKey:kHEREBeaconMajorKey equalTo:beacon.major];
-    [query whereKey:kHEREBeaconMinorKey equalTo:beacon.minor];
-    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-        if (number == 0) {
-            if (!error) {
-                NSLog(@"New beacon");
-                [self foundNewBeacon:beacon];
-            }
-            else {
-                NSLog(@"Error: %@", error.description);
-            }
-        } else {
-            NSLog(@"Beacon already exists");
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Existing Beacon" message:@"This beacon has been added before. Please place a new beacon near the device and press rescan." delegate:self cancelButtonTitle:@"Back to beacons list" otherButtonTitles:@"Rescan", nil];
-            [alertView show];
-        }
-    }];
-}
-
-- (void)addBeaconToParse
-{
-    PFObject *beacon = [PFObject objectWithClassName:kHEREBeaconClassKey];
-    [beacon setObject:[PFUser currentUser] forKey:kHEREBeaconUserKey];
-    [beacon setObject:uuidString forKey:kHEREBeaconUUIDKey];
-    [beacon setObject:major forKey:kHEREBeaconMajorKey];
-    [beacon setObject:minor forKey:kHEREBeaconMinorKey];
-    [beacon setObject:name forKey:kHEREBeaconNameKey];
-    [beacon saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            NSLog(@"Save beacon successfully");
-            [self.navigationController popViewControllerAnimated:YES];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@ AND %K == %@ AND %K == %@", kHEREAPILocationUUIDKey, [beacon.proximityUUID UUIDString], kHEREAPILocationMajorKey, beacon.major, kHEREAPILocationMinorKey, beacon.minor];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHERELocationClassKey];
+    fetchRequest.predicate = predicate;
+    
+    NSError *fetchError = nil;
+    NSArray *result = [[HERECoreDataHelper managedObjectContext] executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if (!fetchError) {
+        if ([result count] != 0) {
+            NSLog(@"exist in database");
         }
         else {
-            NSLog(@"Cannot save");
+            NSLog(@"New beacon");
+            self.foundBeacon = beacon;
+            [self foundNewBeacon];
+            for (CLBeaconRegion *beaconRegion in self.beaconRegions) {
+                [self.locationManager stopRangingBeaconsInRegion:beaconRegion];
+            }
         }
-    }];
+    }
+    else {
+        NSLog(@"fetch error in add beacon view controller: %@", fetchError);
+    }
 }
 
 #pragma mark - UIAlertView Delegate
@@ -212,6 +203,14 @@
         default:
             break;
     }
+}
+
+#pragma mark - api Delegate
+
+- (void)didUpdateLocation
+{
+    NSLog(@"updated location in add beacon view controller");
+    [self.apiHelper fetchLocations];
 }
 
 @end

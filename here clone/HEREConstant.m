@@ -28,13 +28,33 @@ NSString *const kHEREAudioFileKey       	= @"audioFile";
 NSString *const kHEREAudioIsReadKey     	= @"isRead";
 
 #pragma mark - API
-NSString *const kHEREAPIUploadLink          = @"http://here.zuohaisu.cn/api/messages/upload";
-NSString *const kHEREAPIDownloadLink        = @"http://here.zuohaisu.cn/api/messages/download";
-NSString *const kHEREAPIAudioFileKey        = @"audio";
-NSString *const kHEREAPIUUIDKey             = @"uuid";
-NSString *const kHEREAPIMajorKey            = @"major";
-NSString *const kHEREAPIMinorKey            = @"minor";
-NSString *const kHEREAPIDeviceIdKey         = @"deviceId";
-NSString *const kHEREAPIDeviceTypeKey       = @"deviceType";
-NSString *const kHEREAPIBoundaryKey         = @"testboundaryblablabla";
+#pragma mark - Location API
+NSString *const kHEREAPILocationsUrl            = @"http://here.zuohaisu.cn/api/locations";
+NSString *const kHEREAPILocationIdGETKey        = @"id";
+NSString *const kHEREAPILocationIdPOSTKey       = @"locId";
+NSString *const kHEREAPILocationAccessIdKey     = @"accessId";
+NSString *const kHEREAPILocationLatitudeKey     = @"lat";
+NSString *const kHEREAPILocationLongitudeKey    = @"lng";
+NSString *const kHEREAPILocationMacAddressKey   = @"macAddr";
+NSString *const kHEREAPILocationNameKey         = @"name";
+NSString *const kHEREAPILocationUUIDKey         = @"uuid";
+NSString *const kHEREAPILocationMajorKey        = @"major";
+NSString *const kHEREAPILocationMinorKey        = @"minor";
+
+#pragma mark - User API
+
+#pragma mark - Message API
+NSString *const kHEREAPIMessagesGETUrl              = @"http://here.zuohaisu.cn/api/messages";
+NSString *const kHEREAPIMessagesPOSTUrl             = @"http://here.zuohaisu.cn/api/messages/upload";
+NSString *const kHEREAPIMessagesAudioFileKey        = @"audio";
+NSString *const kHEREAPIMessagesTextKey             = @"text";
+NSString *const kHEREAPIMessagesLocationIdKey       = @"locId";
+NSString *const kHEREAPIMessagesDeviceIdKey         = @"deviceId";
+NSString *const kHEREAPIMessagesDeviceTypeKey       = @"deviceType";
+NSString *const kHEREAPIMessagesBoundaryKey         = @"testboundaryblablabla";
+
+#pragma mark - Core Data Classes
+NSString *const kHERELocationClassKey       = @"Location";
+NSString *const kHEREMessageClassKey        = @"Message";
+
 @end
