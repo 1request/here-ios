@@ -72,7 +72,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = self.titleText;
+    self.title = self.location.name;
     
     self.sender = [[PFUser currentUser] username];
     
@@ -245,9 +245,7 @@
 
 - (void)finishRecordAudio
 {
-    [self.audioRecorder stop];
-    [timer invalidate];
-    timer = nil;
+    [self cancelRecordAudio];
     
     if (timeInterval > 2) {
         NSData *audioData = [NSData dataWithContentsOfURL:self.audioRecorder.url];
@@ -265,6 +263,9 @@
 - (void)cancelRecordAudio
 {
     NSLog(@"cancel record audio");
+    [self.audioRecorder stop];
+    [timer invalidate];
+    timer = nil;
 }
 
 - (void)saveAudio
@@ -284,7 +285,7 @@
 
 - (void)uploadAudio
 {
-    NSLog(@"upload audio to server");
+
 }
 
 - (void)playAudio:(NSData *)data
@@ -325,6 +326,8 @@
     [self.messages addObject:message];
     
     [self finishSendingMessage];
+    
+    NSLog(@"Push text message to server");
 }
 
 - (void)didPressAccessoryButton:(UIButton *)sensder

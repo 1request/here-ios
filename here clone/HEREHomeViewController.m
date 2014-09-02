@@ -91,7 +91,8 @@
     if ([sender isKindOfClass:[UITableViewCell class]]) {
         UITableViewCell *cell = sender;
         HEREBeaconsMessagesTableViewController *beaconsMessagesTableVC = segue.destinationViewController;
-        beaconsMessagesTableVC.titleText = cell.textLabel.text;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+        beaconsMessagesTableVC.location = [self.locations objectAtIndex:indexPath.row];
     }
 }
 
