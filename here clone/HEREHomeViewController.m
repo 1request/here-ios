@@ -7,10 +7,10 @@
 //
 
 #import "HEREHomeViewController.h"
-#import "HEREAPIHelper.h"
 #import "HERECoreDataHelper.h"
 #import "Location.h"
 #import "HERELocationHelper.h"
+#import "HEREAPIHelper.h"
 
 @interface HEREHomeViewController () <apiDelegate, NSFetchedResultsControllerDelegate, locationDelegate>
 
@@ -64,6 +64,7 @@
     self.locationHelper.delegate = self;
     
     self.apiHelper = [[HEREAPIHelper alloc] init];
+    self.apiHelper.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,12 +76,10 @@
 {
     [super viewDidAppear:animated];
     
-    [self.apiHelper fetchLocation];
+    [self.apiHelper fetchLocations];
     
     [self.locationHelper stopMonitoringBeacons];
     [self.locationHelper monitorBeacons];
-    
-    [self fetchLocations];
 }
 
 #pragma mark - Navigation
@@ -140,9 +139,8 @@
     
     self.locations = [fetchedLocations mutableCopy];
     
-    [self.tableView reloadData];
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
 }
-
 
 #pragma mark - locationHelper delegate
 
@@ -169,6 +167,14 @@
 - (void)notifyWhenNear:(CLBeacon *)beacon
 {
     //    NSLog(@"Near beacon: %@", beacon);
+}
+
+#pragma mark - api Delegate
+
+- (void)didFetchLocations
+{
+    NSLog(@"did fetched locations in home view controller");
+    [self fetchLocations];
 }
 
 @end

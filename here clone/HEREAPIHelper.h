@@ -14,6 +14,7 @@
 @optional
 - (void)didUploadAudio;
 - (void)didUpdateLocation;
+- (void)didFetchLocations;
 @end
 
 @interface HEREAPIHelper : NSObject
@@ -23,6 +24,7 @@ typedef void (^HERECompletionBlock)(BOOL success, NSDictionary *response, NSErro
 @property (weak, nonatomic) id <apiDelegate> delegate;
 - (void)pushAudioMessageToServer:(NSData *)data Location:(Location *)location;
 - (void)pushTextMessageToServer:(NSString *)text Location:(Location *)location;
-- (void)fetchLocation;
+- (void)fetchLocations;
+- (void)fetchMessagesForLocation:(Location *)location;
 - (void)createLocationInServer:(NSDictionary *)data;
 @end

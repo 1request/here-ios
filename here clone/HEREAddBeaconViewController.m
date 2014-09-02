@@ -210,7 +210,7 @@
 - (void)didUpdateLocation
 {
     NSLog(@"updated location in add beacon view controller");
-    [self.apiHelper fetchLocation];
+    [self.apiHelper fetchLocations];
 }
 
 @end
