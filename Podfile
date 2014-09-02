@@ -8,6 +8,7 @@ target "here clone" do
   pod 'IQKeyboardManager'
   pod 'SWTableViewCell', :git => 'https://github.com/CEWendel/SWTableViewCell.git', :tag => '0.3.2'
   pod 'JSQMessagesViewController', :git => 'git@github.com:VincentSit/JSQMessagesViewController.git', :branch => 'media'
+  pod 'MBProgressHUD', '~> 0.8'
 end
 
 target "here cloneTests" do

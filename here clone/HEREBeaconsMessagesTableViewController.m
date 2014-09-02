@@ -14,13 +14,17 @@
 #import "HEREAudioPlayerView.h"
 #import "HEREAPIHelper.h"
 #import "HEREAudioHelper.h"
+#import "MBProgressHUD.h"
 
-@interface HEREBeaconsMessagesTableViewController () {
+@interface HEREBeaconsMessagesTableViewController () <MBProgressHUDDelegate>
+{
     NSTimer *timer;
     NSTimeInterval timeInterval;
     NSDate *startDate;
     HEREAudioPlayerView *activePlayerView;
+    MBProgressHUD *HUD;
 }
+
 @property (nonatomic) BOOL isRecording;
 @property (strong, nonatomic) JSQMessagesComposerTextView *textView;
 @property (strong, nonatomic) UIButton *recordButton;
@@ -152,6 +156,17 @@
     
     button.backgroundColor = [UIColor lightGrayColor];
     
+    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    
+    [self.navigationController.view addSubview:HUD];
+    
+    HUD.delegate = self;
+    HUD.mode = MBProgressHUDModeCustomView;
+    HUD.square = YES;
+    [HUD show:YES];
+    
+    [self normalHUD];
+    
     [self recordAudio];
 }
 
@@ -159,26 +174,38 @@
 {
     [self resetRecordButton];
     [self cancelRecordAudio];
+    [HUD hide:YES];
 }
 
 - (void)holdDownButtonTouchUpInside:(UIButton *)button
 {
     [self resetRecordButton];
     [self finishRecordAudio];
+    [HUD hide:YES];
 }
 
 - (void)holdDownDragOutside:(UIButton *)button
 {
-    button.backgroundColor = [UIColor lightGrayColor];
-    [button setTitle:@"Release and cancel" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    NSLog(@"did drag outside, pause recording");
+    [self cancelHUD];
 }
 
 - (void)holdDownDragInside:(UIButton *)button
 {
-    button.backgroundColor = [UIColor lightGrayColor];
-    NSLog(@"did drag inside, resume recording");
+    [self normalHUD];
+}
+
+- (void)normalHUD
+{
+    HUD.labelText = @"Slide up to cancel";
+    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RecordingBkg"]];
+    HUD.labelColor = [UIColor whiteColor];
+}
+
+- (void)cancelHUD
+{
+    HUD.labelText = @"Release and cancel";
+    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RecordCancel"]];
+    HUD.labelColor = [UIColor redColor];
 }
 
 - (void)resetRecordButton
