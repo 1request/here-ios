@@ -723,20 +723,18 @@
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAudio:(NSData *)audioData atIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"hello didTapAudio data");
     JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
     HEREAudioPlayerView *player = (HEREAudioPlayerView *)incomingAudioCell.playerView;
-    if (activePlayerView) [activePlayerView stopAnimation];
-    activePlayerView = player;
-    if ([player isAnimating]) {
-        [player stopAnimation];
+    
+    if (activePlayerView == player && [self.audioPlayer isPlaying]) {
+        [activePlayerView stopAnimation];
         [self.audioPlayer stop];
         self.audioPlayer = nil;
+        return;
     }
-    else {
-        [player startAnimation];
-        [self playAudio:audioData];
-    }
+    activePlayerView = player;
+    [player startAnimation];
+    [self playAudio:audioData];
 }
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAudioForURL:(NSURL *)audioURL atIndexPath:(NSIndexPath *)indexPath
