@@ -14,4 +14,5 @@
 #import <Parse/Parse.h>
 #import "HEREConstant.h"
 #import <CoreData/CoreData.h>
+#import "User.h"
 #endif
