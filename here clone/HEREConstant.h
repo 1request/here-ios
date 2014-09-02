@@ -44,11 +44,14 @@ extern NSString *const kHEREAPILocationMinorKey;
 #pragma mark - User API
 
 #pragma mark - Message API
-extern NSString *const kHEREAPIMessagesUrl;
-extern NSString *const kHEREAPIAudioFileKey;
-extern NSString *const kHEREAPIDeviceIdKey;
-extern NSString *const kHEREAPIDeviceTypeKey;
-extern NSString *const kHEREAPIBoundaryKey;
+extern NSString *const kHEREAPIMessagesGETUrl;
+extern NSString *const kHEREAPIMessagesPOSTUrl;
+extern NSString *const kHEREAPIMessagesAudioFileKey;
+extern NSString *const kHEREAPIMessagesTextKey;
+extern NSString *const kHEREAPIMessagesLocationIdKey;
+extern NSString *const kHEREAPIMessagesDeviceIdKey;
+extern NSString *const kHEREAPIMessagesDeviceTypeKey;
+extern NSString *const kHEREAPIMessagesBoundaryKey;
 
 #pragma mark - Core Data Classes
 extern NSString *const kHERELocationClassKey;

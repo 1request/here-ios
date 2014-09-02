@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HEREBeacon.h"
+#import "Location.h"
 
 @protocol apiDelegate <NSObject>
 @optional
@@ -15,12 +16,13 @@
 - (void)didUpdateLocation;
 @end
 
-
 @interface HEREAPIHelper : NSObject
 
+typedef void (^HERECompletionBlock)(BOOL success, NSDictionary *response, NSError *error);
+
 @property (weak, nonatomic) id <apiDelegate> delegate;
-- (void)uploadAudio:(NSData *)data Beacon:(HEREBeacon *)beacon;
-//- (void)updateLocation:(NSDictionary *)data;
+- (void)pushAudioMessageToServer:(NSData *)data Location:(Location *)location;
+- (void)pushTextMessageToServer:(NSString *)text Location:(Location *)location;
 - (void)fetchLocation;
 - (void)createLocationInServer:(NSDictionary *)data;
 @end

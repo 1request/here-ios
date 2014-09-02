@@ -285,7 +285,7 @@
 
 - (void)uploadAudio
 {
-
+    [self.apiHelper pushAudioMessageToServer:self.audioData Location:self.location];
 }
 
 - (void)playAudio:(NSData *)data
@@ -327,7 +327,7 @@
     
     [self finishSendingMessage];
     
-    NSLog(@"Push text message to server");
+    [self.apiHelper pushTextMessageToServer:text Location:self.location];
 }
 
 - (void)didPressAccessoryButton:(UIButton *)sensder

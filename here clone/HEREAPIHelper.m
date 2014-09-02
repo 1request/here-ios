@@ -10,16 +10,17 @@
 #import "Location.h"
 #import "HERECoreDataHelper.h"
 
+
 @interface HEREAPIHelper ()
 @end
 
 @implementation HEREAPIHelper
 
-- (void)uploadAudio:(NSData *)data Beacon:(HEREBeacon *)beacon
+- (void)pushAudioMessageToServer:(NSData *)data Location:(Location *)location
 {
-    NSDictionary *parameters = @{ kHEREAPILocationUUIDKey: [beacon.uuid UUIDString], kHEREAPILocationMajorKey: [NSString stringWithFormat:@"%tu", beacon.major], kHEREAPILocationMinorKey: [NSString stringWithFormat:@"%tu", beacon.minor], kHEREAPIDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIDeviceTypeKey: @"iOS" };
+    NSDictionary *parameters = @{ kHEREAPIMessagesLocationIdKey: location.locationId, kHEREAPIMessagesDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIMessagesDeviceTypeKey: @"iOS" };
     
-    NSString *url = kHEREAPIMessagesUrl;
+    NSString *url = kHEREAPIMessagesPOSTUrl;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
 
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
@@ -27,24 +28,24 @@
     [request setTimeoutInterval:30];
     [request setHTTPMethod:@"POST"];
     
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kHEREAPIBoundaryKey];
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kHEREAPIMessagesBoundaryKey];
     [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
     
     NSMutableData *body = [NSMutableData data];
     
     for (NSString *param in parameters) {
-        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", kHEREAPIBoundaryKey] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", kHEREAPIMessagesBoundaryKey] dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:[[NSString stringWithFormat:@"%@\r\n", [parameters objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
     }
     
-    [body appendData:[[NSString stringWithFormat:@"--%@\r\n", kHEREAPIBoundaryKey] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"test.m4a\"\r\n", kHEREAPIAudioFileKey] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"--%@\r\n", kHEREAPIMessagesBoundaryKey] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"test.m4a\"\r\n", kHEREAPIMessagesAudioFileKey] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[@"Content-Type: audio/m4a\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:data];
     [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     
-    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", kHEREAPIBoundaryKey] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", kHEREAPIMessagesBoundaryKey] dataUsingEncoding:NSUTF8StringEncoding]];
 
     [request setHTTPBody:body];
     
@@ -58,6 +59,21 @@
         [self.delegate didUploadAudio];
     }];
 }
+
+- (void)pushTextMessageToServer:(NSString *)text Location:(Location *)location
+{
+    NSDictionary *parameters = @{ kHEREAPIMessagesLocationIdKey: location.locationId, kHEREAPIMessagesDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIMessagesDeviceTypeKey: @"iOS", kHEREAPIMessagesTextKey: text };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLRequest *urlRequest = [self urlRequestWithParams:parameters Url:[NSURL URLWithString:kHEREAPIMessagesPOSTUrl]];
+    
+    [self postToServer:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+        if (success) {
+            NSLog(@"successfully posted text message to server");
+        }
+    }];
+}
+
 //
 //- (void)updateLocation:(NSDictionary *)data
 //{
@@ -177,11 +193,24 @@
 - (void)createLocationInServer:(NSDictionary *)data
 {
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLRequest *urlRequest = [self urlRequestWithParams:data Url:[NSURL URLWithString:kHEREAPILocationsUrl]];
+    
+    [self postToServer:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+        if (success) {
+            NSLog(@"successfully posted location to server");
+            [self.delegate didUpdateLocation];
+        }
+    }];
+}
+
+- (NSURLRequest *)urlRequestWithParams:(NSDictionary *)data Url:(NSURL *)url
+{
     NSData *postData = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
     
     NSString *postLength = [NSString stringWithFormat:@"%tu", [postData length]];
     
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:kHEREAPILocationsUrl]];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     
     [urlRequest setHTTPMethod:@"POST"];
     
@@ -189,17 +218,23 @@
     [urlRequest setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [urlRequest setHTTPBody:postData];
     
+    return urlRequest;
+}
+
+- (void)postToServer:(NSURLSession *)session urlRequest:(NSURLRequest *)urlRequest withCallback:(HERECompletionBlock)callback
+{
     NSURLSessionDataTask *task = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        BOOL success;
         if (parsedObject[@"ok"]) {
-            NSLog(@"parsedObject: %@", parsedObject);
-            NSLog(@"created location, location Id = %@", parsedObject[kHEREAPILocationIdPOSTKey]);
-            [self.delegate didUpdateLocation];
+            success = YES;
         }
         else {
-            NSLog(@"cannot create the location. perhaps someone has created it");
+            NSLog(@"cannot post to server.");
+            success = NO;
         }
         [session invalidateAndCancel];
+        callback(success, parsedObject, error);
     }];
     [task resume];
 }

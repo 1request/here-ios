@@ -44,11 +44,14 @@ NSString *const kHEREAPILocationMinorKey        = @"minor";
 #pragma mark - User API
 
 #pragma mark - Message API
-NSString *const kHEREAPIMessagesUrl         = @"http://here.zuohaisu.cn/api/messages";
-NSString *const kHEREAPIAudioFileKey        = @"audio";
-NSString *const kHEREAPIDeviceIdKey         = @"deviceId";
-NSString *const kHEREAPIDeviceTypeKey       = @"deviceType";
-NSString *const kHEREAPIBoundaryKey         = @"testboundaryblablabla";
+NSString *const kHEREAPIMessagesGETUrl              = @"http://here.zuohaisu.cn/api/messages";
+NSString *const kHEREAPIMessagesPOSTUrl             = @"http://here.zuohaisu.cn/api/messages/upload";
+NSString *const kHEREAPIMessagesAudioFileKey        = @"audio";
+NSString *const kHEREAPIMessagesTextKey             = @"text";
+NSString *const kHEREAPIMessagesLocationIdKey       = @"locId";
+NSString *const kHEREAPIMessagesDeviceIdKey         = @"deviceId";
+NSString *const kHEREAPIMessagesDeviceTypeKey       = @"deviceType";
+NSString *const kHEREAPIMessagesBoundaryKey         = @"testboundaryblablabla";
 
 #pragma mark - Core Data Classes
 NSString *const kHERELocationClassKey       = @"Location";
