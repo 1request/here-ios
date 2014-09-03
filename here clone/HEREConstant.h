@@ -28,9 +28,12 @@ extern NSString *const kHEREAudioFileKey;
 extern NSString *const kHEREAudioIsReadKey;
 
 #pragma mark - API
+extern NSString *const kHEREAPICreatedAtKey;
+extern NSString *const kHEREAPIDataKey;
+extern NSString *const kHEREAPIIdKey;
+
 #pragma mark - Location API
 extern NSString *const kHEREAPILocationsUrl;
-extern NSString *const kHEREAPILocationIdGETKey;
 extern NSString *const kHEREAPILocationIdPOSTKey;
 extern NSString *const kHEREAPILocationAccessIdKey;
 extern NSString *const kHEREAPILocationLatitudeKey;
@@ -49,6 +52,7 @@ extern NSString *const kHEREAPIMessagesPOSTUrl;
 extern NSString *const kHEREAPIMessagesAudioFileKey;
 extern NSString *const kHEREAPIMessagesTextKey;
 extern NSString *const kHEREAPIMessagesLocationIdKey;
+extern NSString *const kHEREAPIMessagesUsernameKey;
 extern NSString *const kHEREAPIMessagesDeviceIdKey;
 extern NSString *const kHEREAPIMessagesDeviceTypeKey;
 extern NSString *const kHEREAPIMessagesBoundaryKey;
