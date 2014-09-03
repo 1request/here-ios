@@ -12,6 +12,7 @@
 
 + (NSString *)username;
 + (void)currentInstallation;
++ (void)setUser:(NSString *)name;
 + (void)setDeviceTokenFromData:(NSData *)deviceToken;
 
 @end

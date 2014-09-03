@@ -21,12 +21,17 @@
     [HEREAPIHelper updateUser:nil username:nil];
 }
 
++ (void)setUser:(NSString *)name
+{
+    [HEREAPIHelper updateUser:nil username:name];
+}
+
 + (void)setDeviceTokenFromData:(NSData *)deviceToken
 {
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    [HEREAPIHelper updateUser:token username:@"harry"];
+    [HEREAPIHelper updateUser:token username:nil];
 }
 
 @end
