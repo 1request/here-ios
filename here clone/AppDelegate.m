@@ -47,22 +47,6 @@
     return YES;
 }
 
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-    application.applicationIconBadgeNumber = 0;
-    
-    UIApplicationState state = [application applicationState];
-    if (state == UIApplicationStateActive) {
-        NSLog(@"applicationactive didreceivelocationnotification");
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:notification.alertBody delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-    }
-    else if (state == UIApplicationStateInactive) {
-        NSLog(@"applicationinactive didreceivelocationnotification");
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil];
-}
-
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -91,6 +75,24 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     NSLog(@"applicationWillTerminate");
     [self saveContext];
+}
+
+#pragma mark - Notifications
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    application.applicationIconBadgeNumber = 0;
+    
+    UIApplicationState state = [application applicationState];
+    if (state == UIApplicationStateActive) {
+        NSLog(@"application active didreceivelocationnotification");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:notification.alertBody delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
+    else if (state == UIApplicationStateInactive) {
+        NSLog(@"application inactive didreceivelocationnotification");
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
