@@ -11,5 +11,7 @@
 @interface User : NSObject
 
 + (NSString *)username;
++ (void)currentInstallation;
++ (void)setDeviceTokenFromData:(NSData *)deviceToken;
 
 @end

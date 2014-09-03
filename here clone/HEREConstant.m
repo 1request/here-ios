@@ -42,6 +42,9 @@ NSString *const kHEREAPILocationMajorKey        = @"major";
 NSString *const kHEREAPILocationMinorKey        = @"minor";
 
 #pragma mark - User API
+NSString *const kHEREAPIUserPOSTUrl              = @"http://here.zuohaisu.cn/api/users";
+NSString *const kHEREAPIUserNameKey              = @"username";
+NSString *const kHEREAPIUserDeviceTokenKey       = @"deviceToken";
 
 #pragma mark - Message API
 NSString *const kHEREAPIMessagesGETUrl              = @"http://here.zuohaisu.cn/api/messages";

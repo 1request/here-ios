@@ -22,6 +22,7 @@
 typedef void (^HERECompletionBlock)(BOOL success, NSDictionary *response, NSError *error);
 
 @property (weak, nonatomic) id <apiDelegate> delegate;
++ (void)updateUser:(NSString *)token username:(NSString *)name;
 - (void)pushAudioMessageToServer:(NSData *)data Location:(Location *)location;
 - (void)pushTextMessageToServer:(NSString *)text Location:(Location *)location;
 - (void)fetchLocations;

@@ -16,6 +16,26 @@
 
 @implementation HEREAPIHelper
 
++ (void)updateUser:(NSString *)token username:(NSString *)name
+{
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:@{ kHEREAPIMessagesDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIMessagesDeviceTypeKey: @"iOS" }];
+    if (token != nil) {
+        [parameters setObject:token forKey:kHEREAPIUserDeviceTokenKey];
+    }
+    if (name != nil) {
+        [parameters setObject:name forKey:kHEREAPIUserNameKey];
+    }
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLRequest *urlRequest = [self urlPostRequestWithParams:parameters Url:[NSURL URLWithString:kHEREAPIUserPOSTUrl]];
+    
+    [self serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+        if (success) {
+            NSLog(@"successfully posted user update to server");
+        }
+    }];
+}
+
 - (void)pushAudioMessageToServer:(NSData *)data Location:(Location *)location
 {
     NSDictionary *parameters = @{ kHEREAPIMessagesLocationIdKey: location.locationId, kHEREAPIMessagesDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIMessagesDeviceTypeKey: @"iOS" };
@@ -65,9 +85,9 @@
     NSDictionary *parameters = @{ kHEREAPIMessagesLocationIdKey: location.locationId, kHEREAPIMessagesDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIMessagesDeviceTypeKey: @"iOS", kHEREAPIMessagesTextKey: text };
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
-    NSURLRequest *urlRequest = [self urlPostRequestWithParams:parameters Url:[NSURL URLWithString:kHEREAPIMessagesPOSTUrl]];
+    NSURLRequest *urlRequest = [self.class urlPostRequestWithParams:parameters Url:[NSURL URLWithString:kHEREAPIMessagesPOSTUrl]];
     
-    [self serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+    [self.class serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
             NSLog(@"successfully posted text message to server");
         }
@@ -113,7 +133,7 @@
     
     [urlRequest setHTTPMethod:@"GET"];
     
-    [self serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+    [self.class serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
             NSLog(@"fetched location successfully, response: %@", response);
             [self saveLocationsToCoreData:response[@"data"]];
@@ -158,7 +178,7 @@
     
     [urlRequest setHTTPMethod:@"GET"];
     
-    [self serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+    [self.class serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
             NSLog(@"fetched messages for location %@ successfully", location.name);
             NSLog(@"response: %@", response);
@@ -213,9 +233,9 @@
 {
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
-    NSURLRequest *urlRequest = [self urlPostRequestWithParams:data Url:[NSURL URLWithString:kHEREAPILocationsUrl]];
+    NSURLRequest *urlRequest = [self.class urlPostRequestWithParams:data Url:[NSURL URLWithString:kHEREAPILocationsUrl]];
     
-    [self serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+    [self.class serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
             NSLog(@"successfully posted location to server");
             [self.delegate didUpdateLocation];
@@ -223,7 +243,7 @@
     }];
 }
 
-- (NSURLRequest *)urlPostRequestWithParams:(NSDictionary *)data Url:(NSURL *)url
++ (NSURLRequest *)urlPostRequestWithParams:(NSDictionary *)data Url:(NSURL *)url
 {
     NSData *postData = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
     
@@ -240,7 +260,7 @@
     return urlRequest;
 }
 
-- (void)serverRequest:(NSURLSession *)session urlRequest:(NSURLRequest *)urlRequest withCallback:(HERECompletionBlock)callback
++ (void)serverRequest:(NSURLSession *)session urlRequest:(NSURLRequest *)urlRequest withCallback:(HERECompletionBlock)callback
 {
     NSURLSessionDataTask *task = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
