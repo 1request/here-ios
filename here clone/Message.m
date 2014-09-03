@@ -2,7 +2,7 @@
 //  Message.m
 //  here clone
 //
-//  Created by Joseph Cheung on 1/9/14.
+//  Created by Joseph Cheung on 3/9/14.
 //  Copyright (c) 2014 Reque.st. All rights reserved.
 //
 
@@ -14,9 +14,10 @@
 
 @dynamic createdAt;
 @dynamic deviceId;
-@dynamic filePath;
+@dynamic audioFilePath;
 @dynamic text;
-@dynamic type;
+@dynamic username;
+@dynamic messageId;
 @dynamic location;
 
 @end
