@@ -14,6 +14,8 @@
 
 @interface HEREBeaconsMessagesTableViewController : JSQMessagesViewController <AVAudioPlayerDelegate, AVAudioRecorderDelegate>
 
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (copy, nonatomic) NSDictionary *avatars;
 @property (strong, nonatomic) Location *location;

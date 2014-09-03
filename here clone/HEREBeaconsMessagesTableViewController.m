@@ -15,8 +15,9 @@
 #import "HEREAPIHelper.h"
 #import "HEREAudioHelper.h"
 #import "MBProgressHUD.h"
+#import "Message.h"
 
-@interface HEREBeaconsMessagesTableViewController () <MBProgressHUDDelegate>
+@interface HEREBeaconsMessagesTableViewController () <MBProgressHUDDelegate, NSFetchedResultsControllerDelegate>
 {
     NSTimer *timer;
     NSTimeInterval timeInterval;
@@ -30,7 +31,7 @@
 @property (strong, nonatomic) UIButton *recordButton;
 @property (strong, nonatomic) HEREAPIHelper *apiHelper;
 @property (strong, nonatomic) NSData *audioData;
-
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @end
 
 @implementation HEREBeaconsMessagesTableViewController
@@ -121,12 +122,19 @@
     self.audioRecorder.meteringEnabled = YES;
     [self.audioRecorder prepareToRecord];
     self.apiHelper = [[HEREAPIHelper alloc] init];
+    
+    [self setUpFetchedResultsController];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+//- (void)viewDidUnload
+//{
+//    self.fetchedResultsController = nil;
+//}
 
 #pragma mark - helper methods
 
@@ -294,6 +302,53 @@
     self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
     self.audioPlayer.delegate = self;
     [self.audioPlayer play];
+}
+
+- (void)playAudioWithUrl:(NSURL *)url
+{
+    NSError *error = nil;
+    
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
+    self.audioPlayer.delegate = self;
+    [self.audioPlayer play];
+}
+
+- (JSQMessage *)jsqMessageFromCoreData:(Message *)coreDataMessage
+{
+    JSQMessage *message = nil;
+    if (coreDataMessage.text) {
+        message = [[JSQMessage alloc] initWithText:coreDataMessage.text sender:coreDataMessage.username date:coreDataMessage.createdAt];
+    }
+    else if (coreDataMessage.audioFilePath) {
+        message = [[JSQMessage alloc] initWithAudioURL:[NSURL URLWithString:coreDataMessage.audioFilePath] sender:coreDataMessage.username date:coreDataMessage.createdAt];
+    }
+    return message;
+}
+
+- (void)setUpFetchedResultsController
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHEREMessageClassKey];
+    
+    [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:YES]]];
+    
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"location == %@", self.location]];
+    
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    
+    self.fetchedResultsController.delegate = self;
+    
+    NSError *fetchError = nil;
+    [self.fetchedResultsController performFetch:&fetchError];
+    
+    if (fetchError) {
+        NSLog(@"Unable to perform fetch in beacon message view controller");
+        NSLog(@"%@, %@", fetchError, fetchError.localizedDescription);
+    }
+    
+    for (Message *message in [self.fetchedResultsController fetchedObjects]) {
+        [self.messages addObject:[self jsqMessageFromCoreData:message]];
+    }
 }
 
 #pragma mark - navigation
@@ -744,12 +799,16 @@
 {
     JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
     HEREAudioPlayerView *player = (HEREAudioPlayerView *)incomingAudioCell.playerView;
-    if ([player isAnimating]) {
-        [player stopAnimation];
+    if (activePlayerView == player && [self.audioPlayer isPlaying]) {
+        [activePlayerView stopAnimation];
+        [self.audioPlayer stop];
+        self.audioPlayer = nil;
+        return;
     }
-    else {
-        [player startAnimation];
-    }
+    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    activePlayerView = player;
+    [player startAnimation];
+    [self playAudioWithUrl:message.sourceURL];
 }
 
 #pragma mark - AVAudioPlayer Delegate
@@ -757,6 +816,35 @@
 {
     [activePlayerView stopAnimation];
     activePlayerView = nil;
+}
+
+#pragma mark - NSFetchedResultsController Delegate
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    if (type == NSFetchedResultsChangeInsert) {
+        NSLog(@"didAddObject, object: %@", anObject);
+        Message *coreDataMessage = anObject;
+        if (![coreDataMessage.username isEqualToString:[[PFUser currentUser] username]]) {
+            JSQMessage *message = [self jsqMessageFromCoreData:coreDataMessage];
+            [self.messages addObject:message];
+            [self finishReceivingMessage];
+        }
+    }
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    NSLog(@"NSFetchedResultsController will change content");
+
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    NSArray *sections = [controller sections];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:0];
+    
+    NSLog(@"NSFetchedResultsController did change content");
+    NSLog(@"NSFetchedResultsController object count: %tu", [sectionInfo numberOfObjects]);
 }
 
 @end

@@ -12,7 +12,6 @@
 
 @protocol apiDelegate <NSObject>
 @optional
-- (void)didUploadAudio;
 - (void)didUpdateLocation;
 - (void)didFetchLocations;
 @end

@@ -92,6 +92,7 @@
         HEREBeaconsMessagesTableViewController *beaconsMessagesTableVC = segue.destinationViewController;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         beaconsMessagesTableVC.location = [self.locations objectAtIndex:indexPath.row];
+        beaconsMessagesTableVC.managedObjectContext = self.managedObjectContext;
     }
 }
 
@@ -175,6 +176,9 @@
 {
     NSLog(@"did fetched locations in home view controller");
     [self fetchLocations];
+    for (Location *location in self.locations) {
+        [self.apiHelper fetchMessagesForLocation:location];
+    }
 }
 
 @end
