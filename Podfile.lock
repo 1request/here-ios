@@ -4,6 +4,7 @@ PODS:
   - Facebook-iOS-SDK (3.17.0):
     - Bolts
   - IQKeyboardManager (3.0.6)
+  - ISO8601DateFormatter (0.7)
   - JSQMessagesViewController (5.0.4):
     - JSQSystemSoundPlayer
   - JSQSystemSoundPlayer (1.5.2)
@@ -16,6 +17,7 @@ PODS:
 DEPENDENCIES:
   - Canvas (~> 0.1.2)
   - IQKeyboardManager
+  - ISO8601DateFormatter
   - JSQMessagesViewController (from `git@github.com:VincentSit/JSQMessagesViewController.git`, branch `media`)
   - MBProgressHUD (~> 0.8)
   - Parse
@@ -35,6 +37,7 @@ SPEC CHECKSUMS:
   Canvas: ae2faca05a15c4d6659fb3ae5e2a14817df4449a
   Facebook-iOS-SDK: f20274d809f112ba540842e2b6cbe50128d51b7b
   IQKeyboardManager: 3381092a6728e3565a6ad5051c44386be36bd990
+  ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   JSQMessagesViewController: 39c28fe197b22caeff250ed88805ed37e3ad0d4a
   JSQSystemSoundPlayer: c24914bc96ff5365b5d28b59d7ecffd60d1c5587
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
