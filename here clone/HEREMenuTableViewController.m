@@ -35,7 +35,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if ([PFUser currentUser]) {
+    if ([User username]) {
         self.tableView.tableHeaderView = ({
             UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 100, 100)];
@@ -49,7 +49,7 @@
             imageView.clipsToBounds = YES;
             
             self.usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
-            self.usernameLabel.text = [PFUser currentUser].username;
+            self.usernameLabel.text = [User username];
             self.usernameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
             self.usernameLabel.backgroundColor = [UIColor clearColor];
             self.usernameLabel.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
@@ -105,7 +105,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HERENavigationViewController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentController"];
     
-    if ([PFUser currentUser]) {
+    if ([User username]) {
         if (indexPath.row == 0) {
             HEREHomeViewController *homeViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
             
@@ -147,7 +147,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    if ([PFUser currentUser]) {
+    if ([User username]) {
         return 3;
     }
     else {
@@ -165,7 +165,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    if ([PFUser currentUser]) {
+    if ([User username]) {
         NSArray *titles = @[@"Home", @"Beacons", @"Sign out"];
         cell.textLabel.text = titles[indexPath.row];
     }

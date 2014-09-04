@@ -42,6 +42,9 @@ extern NSString *const kHEREAPILocationMajorKey;
 extern NSString *const kHEREAPILocationMinorKey;
 
 #pragma mark - User API
+extern NSString *const kHEREAPIUserPOSTUrl;
+extern NSString *const kHEREAPIUserNameKey;
+extern NSString *const kHEREAPIUserDeviceTokenKey;
 
 #pragma mark - Message API
 extern NSString *const kHEREAPIMessagesGETUrl;

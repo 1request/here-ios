@@ -128,7 +128,11 @@
         if (region.major && region.minor) {
 //            self.previousTriggeredBeaconParseId = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconTriggeredKey];
             [self.delegate notifyWhenEntryBeacon:region];
-            [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", region.identifier]];
+            
+            // Check when to send notification
+            if ([self shouldSendNotification:region]) {
+                [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", region.identifier]];
+            }
         }
     }
 }
@@ -166,6 +170,8 @@
     NSLog(@"%@", message);
 }
 
+#pragma mark - About Notification
+
 - (void)sendLocalNotificationWithMessage:(NSString *)message
 {
     UILocalNotification *notification = [UILocalNotification new];
@@ -192,4 +198,15 @@
     
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
+
+- (BOOL)shouldSendNotification:(CLBeaconRegion *)region
+{
+    NSString *lastBeaconId = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastBeaconId"];
+    NSString *currentBeaconId = [NSString stringWithFormat:@"%@-%@-%@", [region.proximityUUID UUIDString], [region major], [region minor]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:currentBeaconId forKey:@"lastBeaconId"];
+    
+    return ![currentBeaconId isEqualToString:lastBeaconId];
+}
+
 @end

@@ -28,7 +28,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if ([PFUser currentUser]) {
+    if ([User username]) {
         HEREHomeViewController *homeController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
         [self.navigationController setViewControllers:@[homeController] animated:NO];
     }

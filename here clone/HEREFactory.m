@@ -20,7 +20,7 @@
 - (void)queryBeacons
 {
     PFQuery *query = [PFQuery queryWithClassName:@"Beacon"];
-    [query whereKey:kHEREBeaconUserKey equalTo:[PFUser currentUser]];
+//    [query whereKey:kHEREBeaconUserKey equalTo:[PFUser currentUser]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             self.beacons = [objects mutableCopy];
