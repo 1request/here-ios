@@ -125,6 +125,13 @@
     self.apiHelper = [[HEREAPIHelper alloc] init];
     
     [self fetchMessages];
+    
+    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    [self.navigationController.view addSubview:HUD];
+    
+    HUD.delegate = self;
+    HUD.labelText = @"loading";
+    [HUD show:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -362,6 +369,7 @@
         
         [mainContext performBlock:^{
             [self.collectionView reloadData];
+            [HUD hide:YES];
             [self scrollToBottomAnimated:NO];
         }];
     }];
