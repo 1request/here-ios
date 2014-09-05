@@ -11,5 +11,5 @@
 @interface HERECoreDataHelper : NSObject
 
 + (NSManagedObjectContext *)managedObjectContext;
-
++ (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
 @end

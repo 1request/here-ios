@@ -16,6 +16,7 @@
 #import "HEREAudioHelper.h"
 #import "MBProgressHUD.h"
 #import "Message.h"
+#import "HERECoreDataHelper.h"
 
 @interface HEREBeaconsMessagesTableViewController () <MBProgressHUDDelegate, NSFetchedResultsControllerDelegate>
 {
@@ -123,7 +124,7 @@
     [self.audioRecorder prepareToRecord];
     self.apiHelper = [[HEREAPIHelper alloc] init];
     
-    [self setUpFetchedResultsController];
+    [self fetchMessages];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -326,29 +327,44 @@
     return message;
 }
 
-- (void)setUpFetchedResultsController
+- (void)fetchMessages
 {
+    NSManagedObjectContext *mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    
+    NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    
+    privateContext.persistentStoreCoordinator = [HERECoreDataHelper persistentStoreCoordinator];
+    mainContext.persistentStoreCoordinator = [HERECoreDataHelper persistentStoreCoordinator];
+    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHEREMessageClassKey];
     
-    [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:YES]]];
+    [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:NO]]];
     
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"location == %@", self.location]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", self.location];
     
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    fetchRequest.predicate = predicate;
     
-    self.fetchedResultsController.delegate = self;
+    fetchRequest.fetchBatchSize = 10;
+    fetchRequest.fetchLimit = 10;
     
-    NSError *fetchError = nil;
-    [self.fetchedResultsController performFetch:&fetchError];
-    
-    if (fetchError) {
-        NSLog(@"Unable to perform fetch in beacon message view controller");
-        NSLog(@"%@, %@", fetchError, fetchError.localizedDescription);
-    }
-    
-    for (Message *message in [self.fetchedResultsController fetchedObjects]) {
-        [self.messages addObject:[self jsqMessageFromCoreData:message]];
-    }
+    [privateContext performBlock:^{
+        
+        NSArray *results = [privateContext executeFetchRequest:fetchRequest error:nil];
+        
+        NSArray *sortedResults = [results sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:YES]]];
+        for (NSManagedObject *message in sortedResults) {
+            NSManagedObjectID *messageId = [message objectID];
+            [mainContext performBlock:^{
+                Message *mainMessage = (Message *)[mainContext objectWithID:messageId];
+                [self.messages addObject:[self jsqMessageFromCoreData:mainMessage]];
+            }];
+        }
+        
+        [mainContext performBlock:^{
+            [self.collectionView reloadData];
+            [self scrollToBottomAnimated:NO];
+        }];
+    }];
 }
 
 #pragma mark - navigation
