@@ -17,6 +17,7 @@
 #import "MBProgressHUD.h"
 #import "Message.h"
 #import "HERECoreDataHelper.h"
+#import <SVPullToRefresh.h>
 
 @interface HEREBeaconsMessagesTableViewController () <MBProgressHUDDelegate, NSFetchedResultsControllerDelegate>
 {
@@ -33,6 +34,7 @@
 @property (strong, nonatomic) HEREAPIHelper *apiHelper;
 @property (strong, nonatomic) NSData *audioData;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic) NSInteger offsetCount;
 @end
 
 @implementation HEREBeaconsMessagesTableViewController
@@ -124,7 +126,12 @@
     [self.audioRecorder prepareToRecord];
     self.apiHelper = [[HEREAPIHelper alloc] init];
     
-    [self fetchMessages];
+    [self fetchMessages:^{
+        [self.collectionView reloadData];
+        [HUD hide:YES];
+        self.offsetCount++;
+        [self scrollToBottomAnimated:NO];
+    }];
     
     HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     [self.navigationController.view addSubview:HUD];
@@ -132,6 +139,18 @@
     HUD.delegate = self;
     HUD.labelText = @"loading";
     [HUD show:YES];
+    
+    self.offsetCount = 0;
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent
+{
+    [super didMoveToParentViewController:parent];
+    if (self.collectionView.pullToRefreshView == nil) {
+        [self.collectionView addPullToRefreshWithActionHandler:^{
+            [self insertMessagesOnTop];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -334,7 +353,7 @@
     return message;
 }
 
-- (void)fetchMessages
+- (void)fetchMessages:(void(^)())completionHandler
 {
     NSManagedObjectContext *mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     
@@ -351,27 +370,35 @@
     
     fetchRequest.predicate = predicate;
     
-    fetchRequest.fetchBatchSize = 10;
+    fetchRequest.fetchOffset = self.offsetCount * 10;
+    
     fetchRequest.fetchLimit = 10;
     
     [privateContext performBlock:^{
         
         NSArray *results = [privateContext executeFetchRequest:fetchRequest error:nil];
         
-        NSArray *sortedResults = [results sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:YES]]];
-        for (NSManagedObject *message in sortedResults) {
+        for (NSManagedObject *message in results) {
             NSManagedObjectID *messageId = [message objectID];
             [mainContext performBlock:^{
                 Message *mainMessage = (Message *)[mainContext objectWithID:messageId];
-                [self.messages addObject:[self jsqMessageFromCoreData:mainMessage]];
+                [self.messages insertObject:[self jsqMessageFromCoreData:mainMessage] atIndex:0];
             }];
         }
         
         [mainContext performBlock:^{
-            [self.collectionView reloadData];
-            [HUD hide:YES];
-            [self scrollToBottomAnimated:NO];
+            completionHandler();
         }];
+    }];
+}
+
+- (void)insertMessagesOnTop
+{
+    NSLog(@"insert messages on top");
+    [self fetchMessages:^{
+        self.offsetCount++;
+        [self.collectionView reloadData];
+        [self.collectionView.pullToRefreshView stopAnimating];
     }];
 }
 
