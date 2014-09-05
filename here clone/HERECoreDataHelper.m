@@ -21,4 +21,15 @@
     return context;
 }
 
++ (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = nil;
+    id delegate = [[UIApplication sharedApplication] delegate];
+    
+    if ([delegate respondsToSelector:@selector(persistentStoreCoordinator)]) {
+        persistentStoreCoordinator = [delegate persistentStoreCoordinator];
+    }
+    return persistentStoreCoordinator;
+}
+
 @end

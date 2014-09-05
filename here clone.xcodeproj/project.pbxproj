@@ -81,9 +81,9 @@
 		7C9E81A51991DFA100156B88 /* here_cloneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E81A41991DFA100156B88 /* here_cloneTests.m */; };
 		7CA62F6719AF899800943F9C /* audio_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CA62F6619AF899800943F9C /* audio_press@2x.png */; };
 		7CA62F6A19AF920300943F9C /* HEREAudioHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA62F6919AF920300943F9C /* HEREAudioHelper.m */; };
+		7CAA365519B701C100A14A07 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAA365419B701C100A14A07 /* Message.m */; };
 		7CAE354519A1C28100263241 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAE354419A1C28100263241 /* CustomCell.m */; };
 		7CBA788419B4987D000CFEC8 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA788319B4987D000CFEC8 /* Location.m */; };
-		7CBA788719B4987D000CFEC8 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA788619B4987D000CFEC8 /* Message.m */; };
 		7CCB1F4119B4444600A49C8C /* HERECoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */; };
 		7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */; };
 		7CF1A1BC1999CB04004300AF /* HEREBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A1BB1999CB04004300AF /* HEREBeacon.m */; };
@@ -199,12 +199,13 @@
 		7CA62F6619AF899800943F9C /* audio_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio_press@2x.png"; sourceTree = "<group>"; };
 		7CA62F6819AF920300943F9C /* HEREAudioHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREAudioHelper.h; sourceTree = "<group>"; };
 		7CA62F6919AF920300943F9C /* HEREAudioHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREAudioHelper.m; sourceTree = "<group>"; };
+		7CAA364919B6CCE200A14A07 /* Here 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Here 2.xcdatamodel"; sourceTree = "<group>"; };
+		7CAA365319B701C100A14A07 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		7CAA365419B701C100A14A07 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		7CAE354319A1C28100263241 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		7CAE354419A1C28100263241 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		7CBA788219B4987D000CFEC8 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		7CBA788319B4987D000CFEC8 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		7CBA788519B4987D000CFEC8 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		7CBA788619B4987D000CFEC8 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		7CCB1F3F19B4444600A49C8C /* HERECoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERECoreDataHelper.h; sourceTree = "<group>"; };
 		7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERECoreDataHelper.m; sourceTree = "<group>"; };
 		7CDD6D8819922D5400138475 /* HEREMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREMenuTableViewController.h; sourceTree = "<group>"; };
@@ -417,15 +418,16 @@
 		7CF1A1B91999CAF8004300AF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */,
 				7CF49704199B5D04001AD29F /* Factory */,
 				7CF1A1BA1999CB04004300AF /* HEREBeacon.h */,
 				7CF1A1BB1999CB04004300AF /* HEREBeacon.m */,
-				7CBA788519B4987D000CFEC8 /* Message.h */,
-				7CBA788619B4987D000CFEC8 /* Message.m */,
 				7CBA788219B4987D000CFEC8 /* Location.h */,
 				7CBA788319B4987D000CFEC8 /* Location.m */,
 				D10EAC2A19B6096100F1D5A7 /* User.h */,
 				D10EAC2B19B6096100F1D5A7 /* User.m */,
+				7CAA365319B701C100A14A07 /* Message.h */,
+				7CAA365419B701C100A14A07 /* Message.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -433,7 +435,6 @@
 		7CF49704199B5D04001AD29F /* Factory */ = {
 			isa = PBXGroup;
 			children = (
-				7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */,
 				7CF49701199B5CFF001AD29F /* HEREFactory.h */,
 				7CF49702199B5CFF001AD29F /* HEREFactory.m */,
 				7C6F428119B0562100EE1B1B /* HEREMessageFactory.h */,
@@ -650,7 +651,7 @@
 				7C583F3A19AB370400B62244 /* HEREAPIHelper.m in Sources */,
 				7CBA788419B4987D000CFEC8 /* Location.m in Sources */,
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
-				7CBA788719B4987D000CFEC8 /* Message.m in Sources */,
+				7CAA365519B701C100A14A07 /* Message.m in Sources */,
 				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,
 				7CF4970A199B887B001AD29F /* HERELocationHelper.m in Sources */,
 				7CA62F6A19AF920300943F9C /* HEREAudioHelper.m in Sources */,
@@ -878,9 +879,10 @@
 		7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7CAA364919B6CCE200A14A07 /* Here 2.xcdatamodel */,
 				7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */,
 			);
-			currentVersion = 7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */;
+			currentVersion = 7CAA364919B6CCE200A14A07 /* Here 2.xcdatamodel */;
 			path = Here.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

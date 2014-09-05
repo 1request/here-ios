@@ -15,8 +15,11 @@
 #import "HEREAPIHelper.h"
 #import "HEREAudioHelper.h"
 #import "MBProgressHUD.h"
+#import "Message.h"
+#import "HERECoreDataHelper.h"
+#import <SVPullToRefresh.h>
 
-@interface HEREBeaconsMessagesTableViewController () <MBProgressHUDDelegate>
+@interface HEREBeaconsMessagesTableViewController () <MBProgressHUDDelegate, NSFetchedResultsControllerDelegate>
 {
     NSTimer *timer;
     NSTimeInterval timeInterval;
@@ -30,7 +33,8 @@
 @property (strong, nonatomic) UIButton *recordButton;
 @property (strong, nonatomic) HEREAPIHelper *apiHelper;
 @property (strong, nonatomic) NSData *audioData;
-
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic) NSInteger offsetCount;
 @end
 
 @implementation HEREBeaconsMessagesTableViewController
@@ -74,7 +78,7 @@
     
     self.title = self.location.name;
     
-    self.sender = [[PFUser currentUser] username];
+    self.sender = [User username];
     
     self.outgoingBubbleImageView = [JSQMessagesBubbleImageFactory
                                     outgoingMessageBubbleImageViewWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
@@ -121,12 +125,43 @@
     self.audioRecorder.meteringEnabled = YES;
     [self.audioRecorder prepareToRecord];
     self.apiHelper = [[HEREAPIHelper alloc] init];
+    
+    [self fetchMessages:^{
+        [self.collectionView reloadData];
+        [HUD hide:YES];
+        self.offsetCount++;
+        [self scrollToBottomAnimated:NO];
+    }];
+    
+    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    [self.navigationController.view addSubview:HUD];
+    
+    HUD.delegate = self;
+    HUD.labelText = @"loading";
+    [HUD show:YES];
+    
+    self.offsetCount = 0;
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent
+{
+    [super didMoveToParentViewController:parent];
+    if (self.collectionView.pullToRefreshView == nil) {
+        [self.collectionView addPullToRefreshWithActionHandler:^{
+            [self insertMessagesOnTop];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+//- (void)viewDidUnload
+//{
+//    self.fetchedResultsController = nil;
+//}
 
 #pragma mark - helper methods
 
@@ -294,6 +329,77 @@
     self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
     self.audioPlayer.delegate = self;
     [self.audioPlayer play];
+}
+
+- (void)playAudioWithUrl:(NSURL *)url
+{
+    NSError *error = nil;
+    
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
+    self.audioPlayer.delegate = self;
+    [self.audioPlayer play];
+}
+
+- (JSQMessage *)jsqMessageFromCoreData:(Message *)coreDataMessage
+{
+    JSQMessage *message = nil;
+    if (coreDataMessage.text) {
+        message = [[JSQMessage alloc] initWithText:coreDataMessage.text sender:coreDataMessage.username date:coreDataMessage.createdAt];
+    }
+    else if (coreDataMessage.audioFilePath) {
+        message = [[JSQMessage alloc] initWithAudioURL:[NSURL URLWithString:coreDataMessage.audioFilePath] sender:coreDataMessage.username date:coreDataMessage.createdAt];
+    }
+    return message;
+}
+
+- (void)fetchMessages:(void(^)())completionHandler
+{
+    NSManagedObjectContext *mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    
+    NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    
+    privateContext.persistentStoreCoordinator = [HERECoreDataHelper persistentStoreCoordinator];
+    mainContext.persistentStoreCoordinator = [HERECoreDataHelper persistentStoreCoordinator];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHEREMessageClassKey];
+    
+    [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:NO]]];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", self.location];
+    
+    fetchRequest.predicate = predicate;
+    
+    fetchRequest.fetchOffset = self.offsetCount * 10;
+    
+    fetchRequest.fetchLimit = 10;
+    
+    [privateContext performBlock:^{
+        
+        NSArray *results = [privateContext executeFetchRequest:fetchRequest error:nil];
+        
+        for (NSManagedObject *message in results) {
+            NSManagedObjectID *messageId = [message objectID];
+            [mainContext performBlock:^{
+                Message *mainMessage = (Message *)[mainContext objectWithID:messageId];
+                [self.messages insertObject:[self jsqMessageFromCoreData:mainMessage] atIndex:0];
+            }];
+        }
+        
+        [mainContext performBlock:^{
+            completionHandler();
+        }];
+    }];
+}
+
+- (void)insertMessagesOnTop
+{
+    NSLog(@"insert messages on top");
+    [self fetchMessages:^{
+        self.offsetCount++;
+        [self.collectionView reloadData];
+        [self.collectionView.pullToRefreshView stopAnimating];
+    }];
 }
 
 #pragma mark - navigation
@@ -744,12 +850,16 @@
 {
     JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
     HEREAudioPlayerView *player = (HEREAudioPlayerView *)incomingAudioCell.playerView;
-    if ([player isAnimating]) {
-        [player stopAnimation];
+    if (activePlayerView == player && [self.audioPlayer isPlaying]) {
+        [activePlayerView stopAnimation];
+        [self.audioPlayer stop];
+        self.audioPlayer = nil;
+        return;
     }
-    else {
-        [player startAnimation];
-    }
+    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    activePlayerView = player;
+    [player startAnimation];
+    [self playAudioWithUrl:message.sourceURL];
 }
 
 #pragma mark - AVAudioPlayer Delegate
@@ -757,6 +867,35 @@
 {
     [activePlayerView stopAnimation];
     activePlayerView = nil;
+}
+
+#pragma mark - NSFetchedResultsController Delegate
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    if (type == NSFetchedResultsChangeInsert) {
+        NSLog(@"didAddObject, object: %@", anObject);
+        Message *coreDataMessage = anObject;
+        if (![coreDataMessage.username isEqualToString:[User username]]) {
+            JSQMessage *message = [self jsqMessageFromCoreData:coreDataMessage];
+            [self.messages addObject:message];
+            [self finishReceivingMessage];
+        }
+    }
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    NSLog(@"NSFetchedResultsController will change content");
+
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    NSArray *sections = [controller sections];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:0];
+    
+    NSLog(@"NSFetchedResultsController did change content");
+    NSLog(@"NSFetchedResultsController object count: %tu", [sectionInfo numberOfObjects]);
 }
 
 @end

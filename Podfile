@@ -9,6 +9,8 @@ target "here clone" do
   pod 'SWTableViewCell', :git => 'https://github.com/CEWendel/SWTableViewCell.git', :tag => '0.3.2'
   pod 'JSQMessagesViewController', :git => 'git@github.com:VincentSit/JSQMessagesViewController.git', :branch => 'media'
   pod 'MBProgressHUD', '~> 0.8'
+  pod 'ISO8601DateFormatter'
+  pod 'SVPullToRefresh'
 end
 
 target "here cloneTests" do
