@@ -201,12 +201,22 @@
 
 - (BOOL)shouldSendNotification:(CLBeaconRegion *)region
 {
-    NSString *lastBeaconId = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastBeaconId"];
+    NSDictionary *lastDict = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastBeaconId"];
+    NSString *lastBeaconId = [lastDict objectForKey:@"beaconId"];
+    NSDate *lastDate = [lastDict objectForKey:@"updated_at"];
+    NSTimeInterval lastTime = [lastDate timeIntervalSince1970];
     NSString *currentBeaconId = [NSString stringWithFormat:@"%@-%@-%@", [region.proximityUUID UUIDString], [region major], [region minor]];
     
-    [[NSUserDefaults standardUserDefaults] setObject:currentBeaconId forKey:@"lastBeaconId"];
+    NSDate *currentDate = [[NSDate alloc] init];
+    NSTimeInterval currentTime = [currentDate timeIntervalSince1970];
+    NSDictionary *dict = @{@"beaconId": currentBeaconId, @"updated_at": currentDate};
+    [[NSUserDefaults standardUserDefaults] setObject:dict forKey:@"lastBeaconId"];
     
-    return ![currentBeaconId isEqualToString:lastBeaconId];
+    if ([currentBeaconId isEqualToString:lastBeaconId] && currentTime - lastTime <= 3600) {
+        return NO;
+    } else {
+        return YES;
+    };
 }
 
 @end
