@@ -28,9 +28,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     if ([User username]) {
         HEREHomeViewController *homeController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
         [self.navigationController setViewControllers:@[homeController] animated:NO];
+        homeController.managedObjectContext = self.managedObjectContext;
     }
 }
 

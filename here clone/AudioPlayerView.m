@@ -1,46 +1,43 @@
 //
-//  HEREAudioPlayerView.m
-//  here clone
+//  AudioPlayerView.m
+//  Here
 //
-//  Created by Joseph Cheung on 28/8/14.
+//  Created by Joseph Cheung on 13/9/14.
 //  Copyright (c) 2014 Reque.st. All rights reserved.
 //
 
-#import "HEREAudioPlayerView.h"
+#import "AudioPlayerView.h"
 #import <AVFoundation/AVFoundation.h>
-#import "JSQMessage.h"
-#import "HEREAudioHelper.h"
 
-@interface HEREAudioPlayerView ()
+@interface AudioPlayerView ()
 
 @property (strong, nonatomic) UILabel *durationLabel;
 @property (strong, nonatomic) UIImageView *animationContainer;
 
 @end
 
-@implementation HEREAudioPlayerView
+@implementation AudioPlayerView
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    
     if (self) {
-        // Initialization code
-        _incomingMessage = YES;
+        self.incomingMessage = YES;
+        self.durationLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.durationLabel.textAlignment = NSTextAlignmentCenter;
+        self.durationLabel.font = [UIFont systemFontOfSize:12];
+        [self addSubview:self.durationLabel];
         
-        _durationLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _durationLabel.textAlignment = NSTextAlignmentCenter;
-        _durationLabel.font = [UIFont systemFontOfSize:12];
-        [self addSubview:_durationLabel];
-        
-        _animationContainer = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"audio_normal"] highlightedImage:[UIImage imageNamed:@"audio_press"]];
-        _animationContainer.frame = CGRectZero;
-        _animationContainer.userInteractionEnabled = YES;
-        _animationContainer.animationImages = @[[UIImage imageNamed:@"audio_play_0"],
-                                                [UIImage imageNamed:@"audio_play_1"],
-                                                [UIImage imageNamed:@"audio_play_2"],
-                                                [UIImage imageNamed:@"audio_normal"]];
-        _animationContainer.animationDuration = 1.f;
-        [self addSubview:_animationContainer];
+        self.animationContainer = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"audio_normal"] highlightedImage:[UIImage imageNamed:@"audio_press"]];
+        self.animationContainer.frame = CGRectZero;
+        self.animationContainer.userInteractionEnabled = YES;
+        self.animationContainer.animationImages = @[[UIImage imageNamed:@"audio_play_0"],
+                                                    [UIImage imageNamed:@"audio_play_1"],
+                                                    [UIImage imageNamed:@"audio_play_2"],
+                                                    [UIImage imageNamed:@"audio_normal"]];
+        self.animationContainer.animationDuration = 1.f;
+        [self addSubview:self.animationContainer];
     }
     return self;
 }
@@ -59,16 +56,12 @@
     }
 }
 
-- (void)setMessage:(JSQMessage *)message
+- (void)setMessage:(ViewMessage *)message
 {
-    if (_message != message) {
-        
-        NSInteger duration = lroundf([HEREAudioHelper durationFromAudioFileURL:message.sourceURL]);
-        self.durationLabel.text = [NSString stringWithFormat:@"%tu\"", duration];
-        [self.durationLabel sizeToFit];
-        
-        _message = message;
-    }
+    self.durationLabel.text = [NSString stringWithFormat:@"%@", message.audioLength];
+    [self.durationLabel sizeToFit];
+    
+    _message = message;
 }
 
 - (void)setIncomingMessage:(BOOL)incomingMessage

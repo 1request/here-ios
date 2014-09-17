@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		35470C42431644F88034A4CD /* libPods-here clone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4514242B13346C6B416A6E6 /* libPods-here clone.a */; };
 		7C01C03719989AD700124BEC /* HEREConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C01C03619989AD700124BEC /* HEREConstant.m */; };
-		7C06CFCB19AF139F00828692 /* HEREAudioPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C06CFCA19AF139F00828692 /* HEREAudioPlayerView.m */; };
 		7C06D01119AF69BF00828692 /* anonymous_user.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D00A19AF69BF00828692 /* anonymous_user.png */; };
 		7C06D01219AF69BF00828692 /* audio_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D00B19AF69BF00828692 /* audio_normal@2x.png */; };
 		7C06D01319AF69BF00828692 /* audio_play_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D00C19AF69BF00828692 /* audio_play_0@2x.png */; };
@@ -17,6 +16,12 @@
 		7C06D01519AF69BF00828692 /* audio_play_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D00E19AF69BF00828692 /* audio_play_2@2x.png */; };
 		7C06D01619AF69BF00828692 /* RecordCancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D00F19AF69BF00828692 /* RecordCancel@2x.png */; };
 		7C06D01719AF69BF00828692 /* RecordingBkg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C06D01019AF69BF00828692 /* RecordingBkg@2x.png */; };
+		7C15B30E19C80A04006C8657 /* Message+API.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C15B30D19C80A04006C8657 /* Message+API.m */; };
+		7C15B31119C8337A006C8657 /* Location+API.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C15B31019C8337A006C8657 /* Location+API.m */; };
+		7C15B31719C83D3B006C8657 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C15B31619C83D3B006C8657 /* CoreDataTableViewController.m */; };
+		7C15B35219C89A8C006C8657 /* ViewMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C15B35119C89A8C006C8657 /* ViewMessage.m */; };
+		7C15B35619C89AFA006C8657 /* AudioPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C15B35519C89AFA006C8657 /* AudioPlayerView.m */; };
+		7C15B35A19C89D1B006C8657 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C15B35919C89D1B006C8657 /* Message.m */; };
 		7C2B11B01998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */; };
 		7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C141991E1E900C53C7B /* HERERootViewController.m */; };
 		7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */; };
@@ -64,7 +69,7 @@
 		7C3E5C9019920EA100C53C7B /* 1_131.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6719920EA100C53C7B /* 1_131.png */; };
 		7C3E5C9119920EA100C53C7B /* 1_133.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6819920EA100C53C7B /* 1_133.png */; };
 		7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C931992109300C53C7B /* HERESignInViewController.m */; };
-		7C583F3A19AB370400B62244 /* HEREAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C583F3919AB370400B62244 /* HEREAPIHelper.m */; };
+		7C583F3A19AB370400B62244 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C583F3919AB370400B62244 /* APIManager.m */; };
 		7C6F424519B0403800EE1B1B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6F424419B0403800EE1B1B /* CoreData.framework */; };
 		7C6F424B19B0409300EE1B1B /* Here.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */; };
 		7C6F428319B0562100EE1B1B /* HEREMessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F428219B0562100EE1B1B /* HEREMessageFactory.m */; };
@@ -80,8 +85,6 @@
 		7C9E81991991DFA100156B88 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81981991DFA100156B88 /* Images.xcassets */; };
 		7C9E81A51991DFA100156B88 /* here_cloneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E81A41991DFA100156B88 /* here_cloneTests.m */; };
 		7CA62F6719AF899800943F9C /* audio_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CA62F6619AF899800943F9C /* audio_press@2x.png */; };
-		7CA62F6A19AF920300943F9C /* HEREAudioHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA62F6919AF920300943F9C /* HEREAudioHelper.m */; };
-		7CAA365519B701C100A14A07 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAA365419B701C100A14A07 /* Message.m */; };
 		7CAE354519A1C28100263241 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAE354419A1C28100263241 /* CustomCell.m */; };
 		7CBA788419B4987D000CFEC8 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA788319B4987D000CFEC8 /* Location.m */; };
 		7CCB1F4119B4444600A49C8C /* HERECoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */; };
@@ -105,8 +108,6 @@
 /* Begin PBXFileReference section */
 		7C01C03519989AD700124BEC /* HEREConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREConstant.h; sourceTree = "<group>"; };
 		7C01C03619989AD700124BEC /* HEREConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREConstant.m; sourceTree = "<group>"; };
-		7C06CFC919AF139F00828692 /* HEREAudioPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREAudioPlayerView.h; sourceTree = "<group>"; };
-		7C06CFCA19AF139F00828692 /* HEREAudioPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREAudioPlayerView.m; sourceTree = "<group>"; };
 		7C06D00A19AF69BF00828692 /* anonymous_user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anonymous_user.png; sourceTree = "<group>"; };
 		7C06D00B19AF69BF00828692 /* audio_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio_normal@2x.png"; sourceTree = "<group>"; };
 		7C06D00C19AF69BF00828692 /* audio_play_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio_play_0@2x.png"; sourceTree = "<group>"; };
@@ -114,6 +115,19 @@
 		7C06D00E19AF69BF00828692 /* audio_play_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio_play_2@2x.png"; sourceTree = "<group>"; };
 		7C06D00F19AF69BF00828692 /* RecordCancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RecordCancel@2x.png"; sourceTree = "<group>"; };
 		7C06D01019AF69BF00828692 /* RecordingBkg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RecordingBkg@2x.png"; sourceTree = "<group>"; };
+		7C15B30C19C80A04006C8657 /* Message+API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+API.h"; sourceTree = "<group>"; };
+		7C15B30D19C80A04006C8657 /* Message+API.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+API.m"; sourceTree = "<group>"; };
+		7C15B30F19C8337A006C8657 /* Location+API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Location+API.h"; sourceTree = "<group>"; };
+		7C15B31019C8337A006C8657 /* Location+API.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Location+API.m"; sourceTree = "<group>"; };
+		7C15B31519C83D3B006C8657 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
+		7C15B31619C83D3B006C8657 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		7C15B35019C89A8C006C8657 /* ViewMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewMessage.h; sourceTree = "<group>"; };
+		7C15B35119C89A8C006C8657 /* ViewMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewMessage.m; sourceTree = "<group>"; };
+		7C15B35419C89AFA006C8657 /* AudioPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerView.h; sourceTree = "<group>"; };
+		7C15B35519C89AFA006C8657 /* AudioPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerView.m; sourceTree = "<group>"; };
+		7C15B35719C89BB2006C8657 /* Here 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Here 3.xcdatamodel"; sourceTree = "<group>"; };
+		7C15B35819C89D1B006C8657 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		7C15B35919C89D1B006C8657 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		7C2B11AE1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREBeaconsMessagesTableViewController.h; sourceTree = "<group>"; };
 		7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREBeaconsMessagesTableViewController.m; sourceTree = "<group>"; };
 		7C3E5C131991E1E900C53C7B /* HERERootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERERootViewController.h; sourceTree = "<group>"; };
@@ -169,8 +183,8 @@
 		7C3E5C6819920EA100C53C7B /* 1_133.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_133.png; sourceTree = "<group>"; };
 		7C3E5C921992109300C53C7B /* HERESignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERESignInViewController.h; sourceTree = "<group>"; };
 		7C3E5C931992109300C53C7B /* HERESignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESignInViewController.m; sourceTree = "<group>"; };
-		7C583F3819AB370400B62244 /* HEREAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREAPIHelper.h; sourceTree = "<group>"; };
-		7C583F3919AB370400B62244 /* HEREAPIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREAPIHelper.m; sourceTree = "<group>"; };
+		7C583F3819AB370400B62244 /* APIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
+		7C583F3919AB370400B62244 /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		7C6F424419B0403800EE1B1B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Here.xcdatamodel; sourceTree = "<group>"; };
 		7C6F428119B0562100EE1B1B /* HEREMessageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREMessageFactory.h; sourceTree = "<group>"; };
@@ -197,11 +211,7 @@
 		7C9E81A31991DFA100156B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C9E81A41991DFA100156B88 /* here_cloneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = here_cloneTests.m; sourceTree = "<group>"; };
 		7CA62F6619AF899800943F9C /* audio_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio_press@2x.png"; sourceTree = "<group>"; };
-		7CA62F6819AF920300943F9C /* HEREAudioHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREAudioHelper.h; sourceTree = "<group>"; };
-		7CA62F6919AF920300943F9C /* HEREAudioHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREAudioHelper.m; sourceTree = "<group>"; };
 		7CAA364919B6CCE200A14A07 /* Here 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Here 2.xcdatamodel"; sourceTree = "<group>"; };
-		7CAA365319B701C100A14A07 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		7CAA365419B701C100A14A07 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		7CAE354319A1C28100263241 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		7CAE354419A1C28100263241 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		7CBA788219B4987D000CFEC8 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -253,6 +263,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7C15B35319C89AAA006C8657 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7C15B35419C89AFA006C8657 /* AudioPlayerView.h */,
+				7C15B35519C89AFA006C8657 /* AudioPlayerView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		7C3E5C161991E1F100C53C7B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,12 +289,12 @@
 				7C3E5C931992109300C53C7B /* HERESignInViewController.m */,
 				7C3E5C26199207C100C53C7B /* HERECreateUserViewController.h */,
 				7C3E5C27199207C100C53C7B /* HERECreateUserViewController.m */,
+				7C15B31519C83D3B006C8657 /* CoreDataTableViewController.h */,
+				7C15B31619C83D3B006C8657 /* CoreDataTableViewController.m */,
 				7C3E5C171991EF6300C53C7B /* HEREHomeViewController.h */,
 				7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */,
 				7C2B11AE1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.h */,
 				7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */,
-				7C06CFC919AF139F00828692 /* HEREAudioPlayerView.h */,
-				7C06CFCA19AF139F00828692 /* HEREAudioPlayerView.m */,
 				7C3E5C201992033000C53C7B /* HEREBeaconsTableViewController.h */,
 				7C3E5C211992033000C53C7B /* HEREBeaconsTableViewController.m */,
 				7C9893D51993A53000A53029 /* HEREAddBeaconViewController.h */,
@@ -370,14 +389,13 @@
 				7C9E81901991DFA100156B88 /* AppDelegate.m */,
 				7C01C03519989AD700124BEC /* HEREConstant.h */,
 				7C01C03619989AD700124BEC /* HEREConstant.m */,
-				7C583F3819AB370400B62244 /* HEREAPIHelper.h */,
-				7C583F3919AB370400B62244 /* HEREAPIHelper.m */,
+				7C583F3819AB370400B62244 /* APIManager.h */,
+				7C583F3919AB370400B62244 /* APIManager.m */,
 				7CCB1F3F19B4444600A49C8C /* HERECoreDataHelper.h */,
 				7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */,
-				7CA62F6819AF920300943F9C /* HEREAudioHelper.h */,
-				7CA62F6919AF920300943F9C /* HEREAudioHelper.m */,
 				7CF49708199B887B001AD29F /* HERELocationHelper.h */,
 				7CF49709199B887B001AD29F /* HERELocationHelper.m */,
+				7C15B35319C89AAA006C8657 /* View */,
 				7CF1A1B91999CAF8004300AF /* Models */,
 				7C3E5C161991E1F100C53C7B /* Controllers */,
 				7C9E81951991DFA100156B88 /* Main.storyboard */,
@@ -422,12 +440,18 @@
 				7CF49704199B5D04001AD29F /* Factory */,
 				7CF1A1BA1999CB04004300AF /* HEREBeacon.h */,
 				7CF1A1BB1999CB04004300AF /* HEREBeacon.m */,
+				7C15B30F19C8337A006C8657 /* Location+API.h */,
+				7C15B31019C8337A006C8657 /* Location+API.m */,
 				7CBA788219B4987D000CFEC8 /* Location.h */,
 				7CBA788319B4987D000CFEC8 /* Location.m */,
 				D10EAC2A19B6096100F1D5A7 /* User.h */,
 				D10EAC2B19B6096100F1D5A7 /* User.m */,
-				7CAA365319B701C100A14A07 /* Message.h */,
-				7CAA365419B701C100A14A07 /* Message.m */,
+				7C15B30C19C80A04006C8657 /* Message+API.h */,
+				7C15B30D19C80A04006C8657 /* Message+API.m */,
+				7C15B35819C89D1B006C8657 /* Message.h */,
+				7C15B35919C89D1B006C8657 /* Message.m */,
+				7C15B35019C89A8C006C8657 /* ViewMessage.h */,
+				7C15B35119C89A8C006C8657 /* ViewMessage.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -636,25 +660,28 @@
 			files = (
 				7C6F428319B0562100EE1B1B /* HEREMessageFactory.m in Sources */,
 				7C3E5C221992033000C53C7B /* HEREBeaconsTableViewController.m in Sources */,
+				7C15B31719C83D3B006C8657 /* CoreDataTableViewController.m in Sources */,
 				7C9E81911991DFA100156B88 /* AppDelegate.m in Sources */,
 				7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */,
 				7CF1A1BC1999CB04004300AF /* HEREBeacon.m in Sources */,
+				7C15B35619C89AFA006C8657 /* AudioPlayerView.m in Sources */,
 				7C8D6AE21994C1D0005A87C4 /* HERESignInUpViewController.m in Sources */,
 				7C9893D71993A53000A53029 /* HEREAddBeaconViewController.m in Sources */,
-				7C06CFCB19AF139F00828692 /* HEREAudioPlayerView.m in Sources */,
+				7C15B35219C89A8C006C8657 /* ViewMessage.m in Sources */,
+				7C15B31119C8337A006C8657 /* Location+API.m in Sources */,
 				D10EAC2C19B6096100F1D5A7 /* User.m in Sources */,
 				7C2B11B01998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m in Sources */,
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
+				7C15B35A19C89D1B006C8657 /* Message.m in Sources */,
 				7CAE354519A1C28100263241 /* CustomCell.m in Sources */,
 				7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */,
 				7CCB1F4119B4444600A49C8C /* HERECoreDataHelper.m in Sources */,
-				7C583F3A19AB370400B62244 /* HEREAPIHelper.m in Sources */,
+				7C583F3A19AB370400B62244 /* APIManager.m in Sources */,
 				7CBA788419B4987D000CFEC8 /* Location.m in Sources */,
+				7C15B30E19C80A04006C8657 /* Message+API.m in Sources */,
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
-				7CAA365519B701C100A14A07 /* Message.m in Sources */,
 				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,
 				7CF4970A199B887B001AD29F /* HERELocationHelper.m in Sources */,
-				7CA62F6A19AF920300943F9C /* HEREAudioHelper.m in Sources */,
 				7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */,
 				7C6F424B19B0409300EE1B1B /* Here.xcdatamodeld in Sources */,
 				7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */,
@@ -787,6 +814,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "here clone/here clone-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -797,7 +825,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: STAY REAL LIMITED";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "here clone/HEREPrefix.pch";
 				INFOPLIST_FILE = "here clone/Info.plist";
@@ -806,6 +834,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "48f30ea3-e116-45b8-9314-b8264875d5c8";
 				SWIFT_OBJC_BRIDGING_HEADER = "here clone/here clone-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -880,9 +909,10 @@
 			isa = XCVersionGroup;
 			children = (
 				7CAA364919B6CCE200A14A07 /* Here 2.xcdatamodel */,
+				7C15B35719C89BB2006C8657 /* Here 3.xcdatamodel */,
 				7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */,
 			);
-			currentVersion = 7CAA364919B6CCE200A14A07 /* Here 2.xcdatamodel */;
+			currentVersion = 7C15B35719C89BB2006C8657 /* Here 3.xcdatamodel */;
 			path = Here.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

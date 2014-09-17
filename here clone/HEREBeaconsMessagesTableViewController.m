@@ -11,33 +11,39 @@
 #import <Parse/Parse.h>
 #import "UIViewController+HEREMenu.h"
 #import "JSQMessagesActivityIndicatorView.h"
-#import "HEREAudioPlayerView.h"
-#import "HEREAPIHelper.h"
-#import "HEREAudioHelper.h"
+#import "AudioPlayerView.h"
+#import "ViewMessage.h"
 #import "MBProgressHUD.h"
-#import "Message.h"
+#import "Message+API.h"
 #import "HERECoreDataHelper.h"
 #import <SVPullToRefresh.h>
+#import "APIManager.h"
 
 @interface HEREBeaconsMessagesTableViewController () <MBProgressHUDDelegate, NSFetchedResultsControllerDelegate>
 {
     NSTimer *timer;
     NSTimeInterval timeInterval;
     NSDate *startDate;
-    HEREAudioPlayerView *activePlayerView;
-    MBProgressHUD *HUD;
+    AudioPlayerView *activePlayerView;
 }
-
+@property (strong, nonatomic) MBProgressHUD *HUD;
 @property (nonatomic) BOOL isRecording;
 @property (strong, nonatomic) JSQMessagesComposerTextView *textView;
 @property (strong, nonatomic) UIButton *recordButton;
-@property (strong, nonatomic) HEREAPIHelper *apiHelper;
 @property (strong, nonatomic) NSData *audioData;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic) NSInteger offsetCount;
+@property (nonatomic) NSUInteger index;
+@property (nonatomic) NSUInteger totalPages;
+@property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) AVAudioRecorder *audioRecorder;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+@property (strong, nonatomic) UIImageView *outgoingBubbleImageView;
+@property (strong, nonatomic) UIImageView *incomingBubbleImageView;
+
 @end
 
 @implementation HEREBeaconsMessagesTableViewController
+static const NSUInteger kItemPerView = 6;
 
 #pragma mark - Instantiation
 
@@ -71,6 +77,83 @@
     return _recordButton;
 }
 
+-(void)setLocation:(Location *)location
+{
+    _location = location;
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHEREMessageClassKey];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", location];
+    request.predicate = predicate;
+    request.fetchBatchSize = 10;
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey
+                                                              ascending:NO]];
+    
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                        managedObjectContext:location.managedObjectContext
+                                                                          sectionNameKeyPath:nil
+                                                                                   cacheName:nil];
+    [self.fetchedResultsController performFetch:NULL];
+}
+
+- (NSUInteger)index
+{
+    if (!_index) {
+        _index = 0;
+    }
+    return _index;
+}
+
+- (NSUInteger)totalPages
+{
+    if (!_totalPages) {
+        _totalPages = ([[self.fetchedResultsController fetchedObjects] count] / kItemPerView) + 1;
+    }
+    return _totalPages;
+}
+
+- (AVAudioRecorder *)audioRecorder
+{
+    if (!_audioRecorder) {
+        // Set the audio file
+        NSArray *pathComponents = [NSArray arrayWithObjects:
+                                   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
+                                   @"MyAudioMemo.m4a",
+                                   nil];
+        NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
+        
+        // Setup audio session
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+        
+        NSError *error;
+        [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
+        
+        // Define the recorder setting
+        NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
+        
+        [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
+        [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
+        [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
+        
+        // Initiate and prepare the recorder
+        _audioRecorder = [[AVAudioRecorder alloc] initWithURL:outputFileURL settings:recordSetting error:nil];
+        _audioRecorder.delegate = self;
+        _audioRecorder.meteringEnabled = YES;
+        [_audioRecorder prepareToRecord];
+    }
+    return _audioRecorder;
+}
+
+- (MBProgressHUD *)HUD
+{
+    if (!_HUD) {
+        _HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+        _HUD.delegate = self;
+        [self.navigationController.view addSubview:_HUD];
+    }
+    return _HUD;
+}
+
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad {
@@ -85,6 +168,10 @@
     
     self.incomingBubbleImageView = [JSQMessagesBubbleImageFactory
                                     incomingMessageBubbleImageViewWithColor:[UIColor jsq_messageBubbleGreenColor]];
+    
+    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
+    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+    
     self.isRecording = NO;
     self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
     
@@ -98,49 +185,7 @@
     [self.recordButton addTarget:self action:@selector(holdDownDragOutside:) forControlEvents:UIControlEventTouchDragExit];
     [self.recordButton addTarget:self action:@selector(holdDownDragInside:) forControlEvents:UIControlEventTouchDragEnter];
     
-    // Set the audio file
-    NSArray *pathComponents = [NSArray arrayWithObjects:
-                               [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
-                               @"MyAudioMemo.m4a",
-                               nil];
-    NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
-    
-    // Setup audio session
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-    
-    NSError *error;
-    [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
-    
-    // Define the recorder setting
-    NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
-    
-    [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
-    [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
-    [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
-    
-    // Initiate and prepare the recorder
-    self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:outputFileURL settings:recordSetting error:nil];
-    self.audioRecorder.delegate = self;
-    self.audioRecorder.meteringEnabled = YES;
-    [self.audioRecorder prepareToRecord];
-    self.apiHelper = [[HEREAPIHelper alloc] init];
-    
-    [self fetchMessages:^{
-        [self.collectionView reloadData];
-        [HUD hide:YES];
-        self.offsetCount++;
-        [self scrollToBottomAnimated:NO];
-    }];
-    
-    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-    [self.navigationController.view addSubview:HUD];
-    
-    HUD.delegate = self;
-    HUD.labelText = @"loading";
-    [HUD show:YES];
-    
-    self.offsetCount = 0;
+    [self loadMessages];
 }
 
 - (void)didMoveToParentViewController:(UIViewController *)parent
@@ -191,14 +236,9 @@
     
     button.backgroundColor = [UIColor lightGrayColor];
     
-    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-    
-    [self.navigationController.view addSubview:HUD];
-    
-    HUD.delegate = self;
-    HUD.mode = MBProgressHUDModeCustomView;
-    HUD.square = YES;
-    [HUD show:YES];
+    self.HUD.mode = MBProgressHUDModeCustomView;
+    self.HUD.square = YES;
+    [self.HUD show:YES];
     
     [self normalHUD];
     
@@ -209,14 +249,14 @@
 {
     [self resetRecordButton];
     [self cancelRecordAudio];
-    [HUD hide:YES];
+    [self.HUD hide:YES];
 }
 
 - (void)holdDownButtonTouchUpInside:(UIButton *)button
 {
     [self resetRecordButton];
     [self finishRecordAudio];
-    [HUD hide:YES];
+    [self.HUD hide:YES];
 }
 
 - (void)holdDownDragOutside:(UIButton *)button
@@ -231,16 +271,16 @@
 
 - (void)normalHUD
 {
-    HUD.labelText = @"Slide up to cancel";
-    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RecordingBkg"]];
-    HUD.labelColor = [UIColor whiteColor];
+    self.HUD.labelText = @"Slide up to cancel";
+    self.HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RecordingBkg"]];
+    self.HUD.labelColor = [UIColor whiteColor];
 }
 
 - (void)cancelHUD
 {
-    HUD.labelText = @"Release and cancel";
-    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RecordCancel"]];
-    HUD.labelColor = [UIColor redColor];
+    self.HUD.labelText = @"Release and cancel";
+    self.HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RecordCancel"]];
+    self.HUD.labelColor = [UIColor redColor];
 }
 
 - (void)resetRecordButton
@@ -312,15 +352,16 @@
     NSString *dateString = [formatter stringFromDate:currentDate];
     documentsURL = [documentsURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.m4a", dateString]];
     [self.audioData writeToURL:documentsURL atomically:YES];
-    JSQMessage *audioMessage = [JSQMessage messageWithAudioURL:documentsURL sender:self.sender];
-    audioMessage.sourceURL = documentsURL;
+    ViewMessage *audioMessage = [[ViewMessage alloc] initWithAudio:self.audioData sender:[User username] date:currentDate];
+    audioMessage.audioLength = [Message durationFromAudioFileURL:documentsURL];
     [self.messages addObject:audioMessage];
+    [APIManager fetchMessagesForLocation:self.location];
     [self finishSendingMessage];
 }
 
 - (void)uploadAudio
 {
-    [self.apiHelper pushAudioMessageToServer:self.audioData Location:self.location];
+    [APIManager pushAudioMessageToServer:self.audioData Location:self.location];
 }
 
 - (void)playAudio:(NSData *)data
@@ -353,53 +394,30 @@
     return message;
 }
 
-- (void)fetchMessages:(void(^)())completionHandler
+- (void)loadMessages
 {
-    NSManagedObjectContext *mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    NSUInteger startIndex = self.index * kItemPerView;
     
-    NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    NSArray *faultedMessages = [self.fetchedResultsController fetchedObjects];
+    NSUInteger count = MIN([faultedMessages count] - startIndex, kItemPerView);
     
-    privateContext.persistentStoreCoordinator = [HERECoreDataHelper persistentStoreCoordinator];
-    mainContext.persistentStoreCoordinator = [HERECoreDataHelper persistentStoreCoordinator];
+    NSArray *messagesForView = [faultedMessages subarrayWithRange:NSMakeRange(startIndex, count)];
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHEREMessageClassKey];
+    for (Message *coreDataMessage in messagesForView) {
+        ViewMessage *message = [[ViewMessage alloc] initWithCoreDataMessage:coreDataMessage];
+        [self.messages insertObject:message atIndex:0];
+    }
     
-    [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:NO]]];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", self.location];
-    
-    fetchRequest.predicate = predicate;
-    
-    fetchRequest.fetchOffset = self.offsetCount * 10;
-    
-    fetchRequest.fetchLimit = 10;
-    
-    [privateContext performBlock:^{
-        
-        NSArray *results = [privateContext executeFetchRequest:fetchRequest error:nil];
-        
-        for (NSManagedObject *message in results) {
-            NSManagedObjectID *messageId = [message objectID];
-            [mainContext performBlock:^{
-                Message *mainMessage = (Message *)[mainContext objectWithID:messageId];
-                [self.messages insertObject:[self jsqMessageFromCoreData:mainMessage] atIndex:0];
-            }];
-        }
-        
-        [mainContext performBlock:^{
-            completionHandler();
-        }];
-    }];
+    self.index++;
 }
 
 - (void)insertMessagesOnTop
 {
-    NSLog(@"insert messages on top");
-    [self fetchMessages:^{
-        self.offsetCount++;
+    if (self.index != self.totalPages) {
+        [self loadMessages];
         [self.collectionView reloadData];
-        [self.collectionView.pullToRefreshView stopAnimating];
-    }];
+    }
+    [self.collectionView.pullToRefreshView stopAnimating];
 }
 
 #pragma mark - navigation
@@ -432,8 +450,9 @@
     [self.messages addObject:message];
     
     [self finishSendingMessage];
-    
-    [self.apiHelper pushTextMessageToServer:text Location:self.location];
+    [APIManager fetchMessagesForLocation:self.location];
+
+    [APIManager pushTextMessageToServer:text Location:self.location];
 }
 
 - (void)didPressAccessoryButton:(UIButton *)sensder
@@ -488,31 +507,7 @@
 
 - (UIImageView *)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageViewForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  Return `nil` here if you do not want avatars.
-     *  If you do return `nil`, be sure to do the following in `viewDidLoad`:
-     *
-     *  self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-     *  self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-     *
-     *  It is possible to have only outgoing avatars or only incoming avatars, too.
-     */
-    
-    /**
-     *  Reuse created avatar images, but create new imageView to add to each cell
-     *  Otherwise, each cell would be referencing the same imageView and avatars would disappear from cells
-     *
-     *  Note: these images will be sized according to these values:
-     *
-     *  self.collectionView.collectionViewLayout.incomingAvatarViewSize
-     *  self.collectionView.collectionViewLayout.outgoingAvatarViewSize
-     *
-     *  Override the defaults in `viewDidLoad`
-     */
-    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-    
-    UIImage *avatarImage = [self.avatars objectForKey:message.sender];
-    return [[UIImageView alloc] initWithImage:avatarImage];
+    return nil;
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
@@ -609,8 +604,8 @@
 
 - (UIView *)collectionView:(JSQMessagesCollectionView *)collectionView viewForAudioPlayerViewAtIndexPath:(NSIndexPath *)indexPath
 {
-    JSQMessage *message = self.messages[indexPath.item];
-    HEREAudioPlayerView *player = [HEREAudioPlayerView new];
+    ViewMessage *message = self.messages[indexPath.item];
+    AudioPlayerView *player = [AudioPlayerView new];
     player.message = message;
     player.incomingMessage = ![message.sender isEqual:self.sender];
     
@@ -634,9 +629,8 @@
 
 - (CGSize)collectionView:(JSQMessagesCollectionView *)collectionView sizeForAudioPlayerViewAtIndexPath:(NSIndexPath *)indexPath
 {
-    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-    CGFloat duration = [HEREAudioHelper durationFromAudioFileURL:message.sourceURL];
-    CGFloat width = (duration / 60.0) * 100.0;
+    ViewMessage *message = [self.messages objectAtIndex:indexPath.item];
+    CGFloat width = ([message.audioLength floatValue] / 60.0) * 100.0;
     return CGSizeMake(100 + width, 40);
 }
 
@@ -833,7 +827,7 @@
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAudio:(NSData *)audioData atIndexPath:(NSIndexPath *)indexPath
 {
     JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
-    HEREAudioPlayerView *player = (HEREAudioPlayerView *)incomingAudioCell.playerView;
+    AudioPlayerView *player = (AudioPlayerView *)incomingAudioCell.playerView;
     
     if (activePlayerView == player && [self.audioPlayer isPlaying]) {
         [activePlayerView stopAnimation];
@@ -849,7 +843,7 @@
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAudioForURL:(NSURL *)audioURL atIndexPath:(NSIndexPath *)indexPath
 {
     JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
-    HEREAudioPlayerView *player = (HEREAudioPlayerView *)incomingAudioCell.playerView;
+    AudioPlayerView *player = (AudioPlayerView *)incomingAudioCell.playerView;
     if (activePlayerView == player && [self.audioPlayer isPlaying]) {
         [activePlayerView stopAnimation];
         [self.audioPlayer stop];

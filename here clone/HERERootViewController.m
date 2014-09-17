@@ -7,6 +7,7 @@
 //
 
 #import "HERERootViewController.h"
+#import "HEREMenuTableViewController.h"
 
 @interface HERERootViewController ()
 
@@ -38,6 +39,10 @@
 {
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentController"];
     self.menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menuController"];
+    
+    UINavigationController *nav = (UINavigationController *)self.contentViewController;
+    
+    NSLog(@"nav: %@", nav.topViewController);
 }
 
 @end

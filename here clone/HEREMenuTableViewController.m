@@ -17,7 +17,7 @@
 @interface HEREMenuTableViewController ()
 
 @property (strong, nonatomic) UILabel *usernameLabel;
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
 @end
 
 @implementation HEREMenuTableViewController
@@ -35,6 +35,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     if ([User username]) {
         self.tableView.tableHeaderView = ({
             UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];

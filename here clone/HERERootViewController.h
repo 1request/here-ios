@@ -9,5 +9,6 @@
 #import "REFrostedViewController.h"
 
 @interface HERERootViewController : REFrostedViewController
-
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) UIViewController *contentViewController;
 @end

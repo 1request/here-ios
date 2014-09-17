@@ -11,8 +11,9 @@
 #import "REFrostedViewController.h"
 #import "UIViewController+HEREMenu.h"
 #import "HEREBeaconsMessagesTableViewController.h"
+#import "CoreDataTableViewController.h"
 
-@interface HEREHomeViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
+@interface HEREHomeViewController : CoreDataTableViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 

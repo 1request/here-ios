@@ -10,5 +10,5 @@
 #import "REFrostedViewController.h"
 
 @interface HERESignInUpViewController : UIViewController
-
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @end

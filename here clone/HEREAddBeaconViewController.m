@@ -10,12 +10,15 @@
 #import "HERELocationHelper.h"
 #import "Location.h"
 #import "HERECoreDataHelper.h"
+#import "APIManager.h"
 
 @interface HEREAddBeaconViewController ()
+
 @property (weak, nonatomic) NSTimer *animationTimer;
 @property (strong, nonatomic) NSMutableArray *beaconRegions;
 @property (strong, nonatomic) HERELocationHelper *locationHelper;
 @property (strong, nonatomic) CLBeacon *foundBeacon;
+
 @end
 
 @implementation HEREAddBeaconViewController
@@ -34,14 +37,6 @@
         _locationHelper = [[HERELocationHelper alloc] init];
     }
     return _locationHelper;
-}
-
-- (HEREAPIHelper *)apiHelper
-{
-    if (!_apiHelper) {
-        _apiHelper = [[HEREAPIHelper alloc] init];
-    }
-    return _apiHelper;
 }
 
 - (void)viewDidLoad {
@@ -67,7 +62,6 @@
     self.animationView.duration = 0.5;
     self.animationView.delay = 0;
     self.animationView.type = CSAnimationTypeZoomIn;
-    self.apiHelper.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,6 +71,8 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    
     [self.locationHelper monitorBeacons];
 }
 
@@ -98,7 +94,8 @@
 - (IBAction)addBeaconButtonPressed:(UIButton *)sender
 {
     NSDictionary *data = @{ kHEREAPILocationNameKey : self.beaconNameTextField.text, kHEREAPILocationUUIDKey : [self.foundBeacon.proximityUUID UUIDString], kHEREAPILocationMajorKey : self.foundBeacon.major, kHEREAPILocationMinorKey : self.foundBeacon.minor };
-    [self.apiHelper createLocationInServer:data];
+    
+    [APIManager createLocationInServer:data];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -203,14 +200,6 @@
         default:
             break;
     }
-}
-
-#pragma mark - api Delegate
-
-- (void)didUpdateLocation
-{
-    NSLog(@"updated location in add beacon view controller");
-    [self.apiHelper fetchLocations];
 }
 
 @end
