@@ -144,7 +144,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLBeaconRegion *)region
 {
-//    NSLog(@"Exited region: %@", region);
+    NSLog(@"Exited region: %@", region);
     
     if (self.delegate) {
         
