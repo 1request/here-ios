@@ -10,6 +10,7 @@
 #import "HERERootViewController.h"
 #import "HERESignInUpViewController.h"
 #import "APIManager.h"
+#import "HEREMenuTableViewController.h"
 
 @interface AppDelegate ()
 
@@ -49,8 +50,11 @@
     
     HERERootViewController *rootVC = (HERERootViewController *)self.window.rootViewController;
     UINavigationController *navigationVC = (UINavigationController *)rootVC.contentViewController;
+
     HERESignInUpViewController *signInUpVC = (HERESignInUpViewController *)navigationVC.topViewController;
+    HEREMenuTableViewController *menuVC = (HEREMenuTableViewController *)rootVC.menuViewController;
     
+    menuVC.managedObjectContext = self.managedObjectContext;
     signInUpVC.managedObjectContext = self.managedObjectContext;
     
     [APIManager fetchLocationsWithManagedObjectContext:self.managedObjectContext];

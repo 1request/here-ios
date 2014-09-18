@@ -110,6 +110,7 @@
     if ([User username]) {
         if (indexPath.row == 0) {
             HEREHomeViewController *homeViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
+            homeViewController.managedObjectContext = self.managedObjectContext;
             
             navigationController.viewControllers = @[homeViewController];
         } else if (indexPath.row == 1) {
