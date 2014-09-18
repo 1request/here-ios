@@ -24,8 +24,8 @@
     NSTimer *timer;
     NSTimeInterval timeInterval;
     NSDate *startDate;
-    AudioPlayerView *activePlayerView;
 }
+@property (strong, nonatomic) AudioPlayerView *activePlayerView;
 @property (strong, nonatomic) MBProgressHUD *HUD;
 @property (nonatomic) BOOL isRecording;
 @property (strong, nonatomic) JSQMessagesComposerTextView *textView;
@@ -728,7 +728,6 @@ static const NSUInteger kItemPerView = 6;
         cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
-    
     return cell;
 }
 
@@ -803,38 +802,42 @@ static const NSUInteger kItemPerView = 6;
     JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
     AudioPlayerView *player = (AudioPlayerView *)incomingAudioCell.playerView;
     
-    if (activePlayerView == player && [self.audioPlayer isPlaying]) {
-        [activePlayerView stopAnimation];
+    if (self.activePlayerView == player && [self.audioPlayer isPlaying]) {
+        [self.activePlayerView stopAnimation];
         [self.audioPlayer stop];
         self.audioPlayer = nil;
         return;
     }
-    activePlayerView = player;
+    self.activePlayerView = player;
     [player startAnimation];
     [self playAudio:audioData];
 }
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAudioForURL:(NSURL *)audioURL atIndexPath:(NSIndexPath *)indexPath
 {
+    AudioPlayerView *previousPlayerView = self.activePlayerView;
+    [previousPlayerView stopAnimation];
+    
+    [self.audioPlayer stop];
+    self.audioPlayer = nil;
+    self.activePlayerView = nil;
+    
     JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
     AudioPlayerView *player = (AudioPlayerView *)incomingAudioCell.playerView;
-    if (activePlayerView == player && [self.audioPlayer isPlaying]) {
-        [activePlayerView stopAnimation];
-        [self.audioPlayer stop];
-        self.audioPlayer = nil;
-        return;
+    ViewMessage *message = [self.messages objectAtIndex:indexPath.item];
+    
+    if (!previousPlayerView || previousPlayerView != player) {
+        self.activePlayerView = player;
+        [player startAnimation];
+        [self playAudioWithUrl:message.sourceURL];
     }
-    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-    activePlayerView = player;
-    [player startAnimation];
-    [self playAudioWithUrl:message.sourceURL];
 }
 
 #pragma mark - AVAudioPlayer Delegate
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
-    [activePlayerView stopAnimation];
-    activePlayerView = nil;
+    [self.activePlayerView stopAnimation];
+    self.activePlayerView = nil;
 }
 
 #pragma mark - NSFetchedResultsController Delegate
