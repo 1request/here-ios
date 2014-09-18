@@ -16,7 +16,7 @@
 
 @implementation APIManager
 
-+ (void)updateUser:(NSString *)token username:(NSString *)name
++ (void)updateUser:(NSString *)token username:(NSString *)name CompletionHandler:(HERECompletionBlock)completionHandler
 {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:@{ kHEREAPIMessagesDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIMessagesDeviceTypeKey: @"iOS" }];
     if (token != nil) {
@@ -30,8 +30,9 @@
     
     [self serverRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
-            NSLog(@"successfully posted user update to server");
+            NSLog(@"updated user successfully, response: %@", response);
         }
+        if (completionHandler) completionHandler(success, response, error);
     }];
 }
 
@@ -102,6 +103,9 @@
     [self serverRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
             [Location loadLocationsFromAPIArray:response[@"data"] intoManagedObjectContext:context];
+        }
+        else {
+            NSLog(@"error when fetch locations: %@", error);
         }
     }];
 }
@@ -203,6 +207,7 @@
         }
         else {
             NSLog(@"cannot post to server.");
+            NSLog(@"response: %@", parsedObject);
             success = NO;
         }
         [session invalidateAndCancel];
