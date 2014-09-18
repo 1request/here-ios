@@ -61,6 +61,11 @@
         [self.locationManager requestAlwaysAuthorization];
     }
     
+    if (![CLLocationManager isMonitoringAvailableForClass:[CLBeaconRegion class]]) {
+        NSLog(@"Couldn't turn on region monitoring: Region monitoring is not available for CLBeaconRegion class.");
+        return;
+    }
+    
     [self loadBeacons];
     
     for (CLBeaconRegion *beaconRegion in self.beaconRegions) {
@@ -139,7 +144,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLBeaconRegion *)region
 {
-//    NSLog(@"Exited region: %@", region);
+    NSLog(@"Exited region: %@", region);
     
     if (self.delegate) {
         

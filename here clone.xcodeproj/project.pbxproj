@@ -26,7 +26,6 @@
 		7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C141991E1E900C53C7B /* HERERootViewController.m */; };
 		7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */; };
 		7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C1E199200D000C53C7B /* HERENavigationViewController.m */; };
-		7C3E5C221992033000C53C7B /* HEREBeaconsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C211992033000C53C7B /* HEREBeaconsTableViewController.m */; };
 		7C3E5C28199207C100C53C7B /* HERECreateUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C27199207C100C53C7B /* HERECreateUserViewController.m */; };
 		7C3E5C6919920EA100C53C7B /* 1_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4019920EA000C53C7B /* 1_01.png */; };
 		7C3E5C6A19920EA100C53C7B /* 1_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C4119920EA000C53C7B /* 1_03.png */; };
@@ -77,6 +76,7 @@
 		7C7EBC4B19933E850078BE2F /* here.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C7EBC4A19933E850078BE2F /* here.png */; };
 		7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8D6AD3199485DC005A87C4 /* UIViewController+HEREMenu.m */; };
 		7C8D6AE21994C1D0005A87C4 /* HERESignInUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8D6AE11994C1D0005A87C4 /* HERESignInUpViewController.m */; };
+		7C9578C019CB042800D2609C /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9578BF19CB042800D2609C /* Location.m */; };
 		7C9893D71993A53000A53029 /* HEREAddBeaconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9893D61993A53000A53029 /* HEREAddBeaconViewController.m */; };
 		7C9893D91993AD8F00A53029 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C9893D81993AD8F00A53029 /* CoreLocation.framework */; };
 		7C9E818E1991DFA100156B88 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E818D1991DFA100156B88 /* main.m */; };
@@ -85,8 +85,8 @@
 		7C9E81991991DFA100156B88 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C9E81981991DFA100156B88 /* Images.xcassets */; };
 		7C9E81A51991DFA100156B88 /* here_cloneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E81A41991DFA100156B88 /* here_cloneTests.m */; };
 		7CA62F6719AF899800943F9C /* audio_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CA62F6619AF899800943F9C /* audio_press@2x.png */; };
-		7CAE354519A1C28100263241 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAE354419A1C28100263241 /* CustomCell.m */; };
-		7CBA788419B4987D000CFEC8 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA788319B4987D000CFEC8 /* Location.m */; };
+		7CBA8C2B19CAAC090066C389 /* HERESettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA8C2A19CAAC090066C389 /* HERESettingsTableViewController.m */; };
+		7CBA8C3419CAF50E0066C389 /* HERESetUsernameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA8C3319CAF50E0066C389 /* HERESetUsernameViewController.m */; };
 		7CCB1F4119B4444600A49C8C /* HERECoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */; };
 		7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */; };
 		7CF1A1BC1999CB04004300AF /* HEREBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1A1BB1999CB04004300AF /* HEREBeacon.m */; };
@@ -136,8 +136,6 @@
 		7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREHomeViewController.m; sourceTree = "<group>"; };
 		7C3E5C1D199200D000C53C7B /* HERENavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERENavigationViewController.h; sourceTree = "<group>"; };
 		7C3E5C1E199200D000C53C7B /* HERENavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERENavigationViewController.m; sourceTree = "<group>"; };
-		7C3E5C201992033000C53C7B /* HEREBeaconsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREBeaconsTableViewController.h; sourceTree = "<group>"; };
-		7C3E5C211992033000C53C7B /* HEREBeaconsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREBeaconsTableViewController.m; sourceTree = "<group>"; };
 		7C3E5C26199207C100C53C7B /* HERECreateUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERECreateUserViewController.h; sourceTree = "<group>"; };
 		7C3E5C27199207C100C53C7B /* HERECreateUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERECreateUserViewController.m; sourceTree = "<group>"; };
 		7C3E5C4019920EA000C53C7B /* 1_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_01.png; sourceTree = "<group>"; };
@@ -197,6 +195,8 @@
 		7C8D6ADF1994BE3F005A87C4 /* HEREPrefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREPrefix.pch; sourceTree = "<group>"; };
 		7C8D6AE01994C1D0005A87C4 /* HERESignInUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERESignInUpViewController.h; sourceTree = "<group>"; };
 		7C8D6AE11994C1D0005A87C4 /* HERESignInUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESignInUpViewController.m; sourceTree = "<group>"; };
+		7C9578BE19CB042800D2609C /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		7C9578BF19CB042800D2609C /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		7C9893D51993A53000A53029 /* HEREAddBeaconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREAddBeaconViewController.h; sourceTree = "<group>"; };
 		7C9893D61993A53000A53029 /* HEREAddBeaconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREAddBeaconViewController.m; sourceTree = "<group>"; };
 		7C9893D81993AD8F00A53029 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -212,10 +212,11 @@
 		7C9E81A41991DFA100156B88 /* here_cloneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = here_cloneTests.m; sourceTree = "<group>"; };
 		7CA62F6619AF899800943F9C /* audio_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio_press@2x.png"; sourceTree = "<group>"; };
 		7CAA364919B6CCE200A14A07 /* Here 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Here 2.xcdatamodel"; sourceTree = "<group>"; };
-		7CAE354319A1C28100263241 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
-		7CAE354419A1C28100263241 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
-		7CBA788219B4987D000CFEC8 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		7CBA788319B4987D000CFEC8 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		7CBA8C2919CAAC090066C389 /* HERESettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERESettingsTableViewController.h; sourceTree = "<group>"; };
+		7CBA8C2A19CAAC090066C389 /* HERESettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESettingsTableViewController.m; sourceTree = "<group>"; };
+		7CBA8C3219CAF50E0066C389 /* HERESetUsernameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERESetUsernameViewController.h; sourceTree = "<group>"; };
+		7CBA8C3319CAF50E0066C389 /* HERESetUsernameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESetUsernameViewController.m; sourceTree = "<group>"; };
+		7CBA8C3519CB038C0066C389 /* Here 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Here 4.xcdatamodel"; sourceTree = "<group>"; };
 		7CCB1F3F19B4444600A49C8C /* HERECoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERECoreDataHelper.h; sourceTree = "<group>"; };
 		7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERECoreDataHelper.m; sourceTree = "<group>"; };
 		7CDD6D8819922D5400138475 /* HEREMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREMenuTableViewController.h; sourceTree = "<group>"; };
@@ -266,6 +267,7 @@
 		7C15B35319C89AAA006C8657 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7C9E81951991DFA100156B88 /* Main.storyboard */,
 				7C15B35419C89AFA006C8657 /* AudioPlayerView.h */,
 				7C15B35519C89AFA006C8657 /* AudioPlayerView.m */,
 			);
@@ -295,12 +297,12 @@
 				7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */,
 				7C2B11AE1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.h */,
 				7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */,
-				7C3E5C201992033000C53C7B /* HEREBeaconsTableViewController.h */,
-				7C3E5C211992033000C53C7B /* HEREBeaconsTableViewController.m */,
+				7CBA8C3219CAF50E0066C389 /* HERESetUsernameViewController.h */,
+				7CBA8C3319CAF50E0066C389 /* HERESetUsernameViewController.m */,
+				7CBA8C2919CAAC090066C389 /* HERESettingsTableViewController.h */,
+				7CBA8C2A19CAAC090066C389 /* HERESettingsTableViewController.m */,
 				7C9893D51993A53000A53029 /* HEREAddBeaconViewController.h */,
 				7C9893D61993A53000A53029 /* HEREAddBeaconViewController.m */,
-				7CAE354319A1C28100263241 /* CustomCell.h */,
-				7CAE354419A1C28100263241 /* CustomCell.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -398,7 +400,6 @@
 				7C15B35319C89AAA006C8657 /* View */,
 				7CF1A1B91999CAF8004300AF /* Models */,
 				7C3E5C161991E1F100C53C7B /* Controllers */,
-				7C9E81951991DFA100156B88 /* Main.storyboard */,
 				7C9E81981991DFA100156B88 /* Images.xcassets */,
 				7C9E818B1991DFA100156B88 /* Supporting Files */,
 			);
@@ -442,10 +443,10 @@
 				7CF1A1BB1999CB04004300AF /* HEREBeacon.m */,
 				7C15B30F19C8337A006C8657 /* Location+API.h */,
 				7C15B31019C8337A006C8657 /* Location+API.m */,
-				7CBA788219B4987D000CFEC8 /* Location.h */,
-				7CBA788319B4987D000CFEC8 /* Location.m */,
 				D10EAC2A19B6096100F1D5A7 /* User.h */,
 				D10EAC2B19B6096100F1D5A7 /* User.m */,
+				7C9578BE19CB042800D2609C /* Location.h */,
+				7C9578BF19CB042800D2609C /* Location.m */,
 				7C15B30C19C80A04006C8657 /* Message+API.h */,
 				7C15B30D19C80A04006C8657 /* Message+API.m */,
 				7C15B35819C89D1B006C8657 /* Message.h */,
@@ -659,7 +660,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C6F428319B0562100EE1B1B /* HEREMessageFactory.m in Sources */,
-				7C3E5C221992033000C53C7B /* HEREBeaconsTableViewController.m in Sources */,
 				7C15B31719C83D3B006C8657 /* CoreDataTableViewController.m in Sources */,
 				7C9E81911991DFA100156B88 /* AppDelegate.m in Sources */,
 				7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */,
@@ -668,20 +668,21 @@
 				7C8D6AE21994C1D0005A87C4 /* HERESignInUpViewController.m in Sources */,
 				7C9893D71993A53000A53029 /* HEREAddBeaconViewController.m in Sources */,
 				7C15B35219C89A8C006C8657 /* ViewMessage.m in Sources */,
+				7CBA8C3419CAF50E0066C389 /* HERESetUsernameViewController.m in Sources */,
 				7C15B31119C8337A006C8657 /* Location+API.m in Sources */,
 				D10EAC2C19B6096100F1D5A7 /* User.m in Sources */,
 				7C2B11B01998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m in Sources */,
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
 				7C15B35A19C89D1B006C8657 /* Message.m in Sources */,
-				7CAE354519A1C28100263241 /* CustomCell.m in Sources */,
+				7CBA8C2B19CAAC090066C389 /* HERESettingsTableViewController.m in Sources */,
 				7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */,
 				7CCB1F4119B4444600A49C8C /* HERECoreDataHelper.m in Sources */,
 				7C583F3A19AB370400B62244 /* APIManager.m in Sources */,
-				7CBA788419B4987D000CFEC8 /* Location.m in Sources */,
 				7C15B30E19C80A04006C8657 /* Message+API.m in Sources */,
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
 				7C8D6AD4199485DC005A87C4 /* UIViewController+HEREMenu.m in Sources */,
 				7CF4970A199B887B001AD29F /* HERELocationHelper.m in Sources */,
+				7C9578C019CB042800D2609C /* Location.m in Sources */,
 				7C3E5C1F199200D000C53C7B /* HERENavigationViewController.m in Sources */,
 				7C6F424B19B0409300EE1B1B /* Here.xcdatamodeld in Sources */,
 				7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */,
@@ -908,11 +909,12 @@
 		7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7CBA8C3519CB038C0066C389 /* Here 4.xcdatamodel */,
 				7CAA364919B6CCE200A14A07 /* Here 2.xcdatamodel */,
 				7C15B35719C89BB2006C8657 /* Here 3.xcdatamodel */,
 				7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */,
 			);
-			currentVersion = 7C15B35719C89BB2006C8657 /* Here 3.xcdatamodel */;
+			currentVersion = 7CBA8C3519CB038C0066C389 /* Here 4.xcdatamodel */;
 			path = Here.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

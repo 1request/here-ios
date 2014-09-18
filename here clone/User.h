@@ -12,7 +12,7 @@
 
 + (NSString *)username;
 + (void)currentInstallation;
-+ (void)setUser:(NSString *)name;
++ (void)setUser:(NSString *)name CompletionHandler:(void(^)(BOOL success, NSDictionary *response, NSError *error))completionHandler;
 + (void)setDeviceTokenFromData:(NSData *)deviceToken;
 
 @end

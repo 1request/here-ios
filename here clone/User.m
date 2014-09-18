@@ -13,24 +13,29 @@
 
 + (NSString *)username
 {
-    return @"harry";
+    return [[NSUserDefaults standardUserDefaults] valueForKey:kHEREAPIUserNameKey];
 }
 
 + (void)currentInstallation
 {
-    [APIManager updateUser:nil username:nil];
+    [APIManager updateUser:nil username:nil CompletionHandler:NULL];
 }
 
-+ (void)setUser:(NSString *)name
++ (void)setUser:(NSString *)name CompletionHandler:(void(^)(BOOL success, NSDictionary *response, NSError *error))completionHandler
 {
-    [APIManager updateUser:nil username:name];
+    [APIManager updateUser:nil username:name CompletionHandler:^(BOOL success, NSDictionary *response, NSError *error) {
+        completionHandler(success, response, error);
+    }];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:name forKey:kHEREAPIUserNameKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (void)setDeviceTokenFromData:(NSData *)deviceToken
 {
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    [APIManager updateUser:token username:nil];
+    [APIManager updateUser:token username:nil CompletionHandler:NULL];
 }
 
 @end
