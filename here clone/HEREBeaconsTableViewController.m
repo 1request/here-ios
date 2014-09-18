@@ -43,6 +43,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     [factory queryBeacons];
     beacons = [factory returnBeacons];
 }

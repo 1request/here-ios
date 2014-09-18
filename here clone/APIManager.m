@@ -1,21 +1,20 @@
 //
-//  HEREAPIHelper.m
+//  APIManager.m
 //  here clone
 //
 //  Created by Joseph Cheung on 25/8/14.
 //  Copyright (c) 2014 Reque.st. All rights reserved.
 //
 
-#import "HEREAPIHelper.h"
-#import "Location.h"
-#import "Message.h"
-#import "HERECoreDataHelper.h"
+#import "APIManager.h"
+#import "Location+API.h"
+#import "Message+API.h"
 #import <ISO8601DateFormatter.h>
 
-@interface HEREAPIHelper ()
+@interface APIManager ()
 @end
 
-@implementation HEREAPIHelper
+@implementation APIManager
 
 + (void)updateUser:(NSString *)token username:(NSString *)name
 {
@@ -26,18 +25,17 @@
     if (name != nil) {
         [parameters setObject:name forKey:kHEREAPIUserNameKey];
     }
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
     NSURLRequest *urlRequest = [self urlPostRequestWithParams:parameters Url:[NSURL URLWithString:kHEREAPIUserPOSTUrl]];
     
-    [self serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+    [self serverRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
             NSLog(@"successfully posted user update to server");
         }
     }];
 }
 
-- (void)pushAudioMessageToServer:(NSData *)data Location:(Location *)location
++ (void)pushAudioMessageToServer:(NSData *)data Location:(Location *)location
 {
     NSDictionary *parameters = @{ kHEREAPIMessagesLocationIdKey: location.locationId, kHEREAPIMessagesDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIMessagesDeviceTypeKey: @"iOS", kHEREAPIMessagesUsernameKey: [User username] };
     
@@ -73,84 +71,59 @@
     NSString *postLength = [NSString stringWithFormat:@"%tu", [body length]];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    [HEREAPIHelper serverRequest:session urlRequest:request withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+    [self serverRequest:request withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         NSLog(@"server response for upload audio: %@", response);
-        [self saveMessageToCoreData:response[@"message"] Location:location];
+//        [self saveMessageToCoreData:response[@"message"] Location:location];
+        [Message createMessageWithInfo:response[@"message"] ofLocation:location inManagedObjectContext:location.managedObjectContext];
     }];
 }
 
-- (void)pushTextMessageToServer:(NSString *)text Location:(Location *)location
++ (void)pushTextMessageToServer:(NSString *)text Location:(Location *)location
 {
     NSDictionary *parameters = @{ kHEREAPIMessagesLocationIdKey: location.locationId, kHEREAPIMessagesDeviceIdKey: [[[UIDevice currentDevice] identifierForVendor] UUIDString], kHEREAPIMessagesDeviceTypeKey: @"iOS", kHEREAPIMessagesTextKey: text, kHEREAPIMessagesUsernameKey: [User username] };
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
     NSURLRequest *urlRequest = [self.class urlPostRequestWithParams:parameters Url:[NSURL URLWithString:kHEREAPIMessagesPOSTUrl]];
     
-    [self.class serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+    [self serverRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
             NSLog(@"successfully posted text message to server");
-//            [self saveMessageToCoreData:messageId];
-            [self saveMessageToCoreData:response[@"message"] Location:location];
+            //            save message to core data
+            [Message createMessageWithInfo:response[@"message"] ofLocation:location inManagedObjectContext:location.managedObjectContext];
         }
     }];
 }
 
-- (void)fetchLocations
++ (void)fetchLocationsWithManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:kHEREAPILocationsUrl]];
     
     [urlRequest setHTTPMethod:@"GET"];
     
-    [self.class serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+    [self serverRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
-            NSLog(@"fetched location successfully, response: %@", response);
-            [self saveLocationsToCoreData:response[@"data"]];
+            [Location loadLocationsFromAPIArray:response[@"data"] intoManagedObjectContext:context];
         }
     }];
 }
 
-- (void)saveLocationsToCoreData:(NSDictionary *)locations
++ (void)fetchMessagesForLocation:(Location *)location
 {
-    for (NSDictionary *data in locations) {
-        
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHERELocationClassKey];
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"locationId", data[kHEREAPIIdKey]];
-        
-        fetchRequest.predicate = predicate;
-        
-        NSError *fetchError = nil;
-        
-        NSArray *result = [[HERECoreDataHelper managedObjectContext] executeFetchRequest:fetchRequest error:&fetchError];
-        
-        if (!fetchError) {
-            if ([result count] == 0) {
-                [self createLocationWithData:data];
-            }
-            else {
-                Location *location = [result firstObject];
-                [self updateCoreData:location data:data];
-            }
-        }
-    }
-    [self.delegate didFetchLocations];
-}
-
-- (void)fetchMessagesForLocation:(Location *)location
-{
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHEREMessageClassKey];
     
-    NSString *urlString = [NSString stringWithFormat:@"%@?locId=%@", kHEREAPIMessagesGETUrl, location.locationId];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:NO]];
+    request.fetchLimit = 1;
+    
+    NSArray *messages = [location.managedObjectContext executeFetchRequest:request error:NULL];
+    
+    double milliseconds = [messages count] ? [[(Message *)[messages firstObject] createdAt] timeIntervalSince1970] * 1000.0 : [[NSDate date] timeIntervalSince1970] * 1000.0;
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@?locId=%@&timestamp=%.0f", kHEREAPIMessagesGETUrl, location.locationId, milliseconds];
     
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
     [urlRequest setHTTPMethod:@"GET"];
     
-    [self.class serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+    [self serverRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
             NSLog(@"fetched messages for location %@ successfully", location.name);
             NSArray *messages = response[kHEREAPIDataKey];
@@ -163,42 +136,19 @@
                 
                 NSError *fetchError = nil;
                 
-                NSArray *result = [[HERECoreDataHelper managedObjectContext] executeFetchRequest:fetchRequest error:&fetchError];
+                NSArray *result = [location.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
                 
-                if (!fetchError && [result count] == 0) [self saveMessageToCoreData:message Location:location];
+                if (!fetchError && [result count] == 0) [Message createMessageWithInfo:message ofLocation:location inManagedObjectContext:location.managedObjectContext];
+            }
+        } else {
+            if (error) {
+                NSLog(@"error while fetch messages for location %@, error: %@", location.name, error.localizedDescription);
             }
         }
     }];
 }
 
-
-- (void)createLocationWithData:(NSDictionary *)data
-{
-    NSManagedObjectContext *context = [HERECoreDataHelper managedObjectContext];
-    
-    Location *location = [NSEntityDescription insertNewObjectForEntityForName:kHERELocationClassKey inManagedObjectContext:context];
-
-    location = [self updateLocationAttributes:location data:data];
-    
-    location.createdAt = [NSDate date];
-    
-    NSError *error = nil;
-    if (![context save:&error]) {
-        NSLog(@"error in createLocationWithData: %@", error);
-    }
-}
-
-- (void)updateCoreData:(Location *)location data:(NSDictionary *)data
-{
-    location = [self updateLocationAttributes:location data:data];
-    
-    NSError *error = nil;
-    if (![location.managedObjectContext save:&error]) {
-        NSLog(@"updateCoreDataLocation error: %@", error);
-    }
-}
-
-- (Location *)updateLocationAttributes:(Location *)location data:(NSDictionary *)data
++ (Location *)updateLocationAttributes:(Location *)location data:(NSDictionary *)data
 {
     location.locationId = data[kHEREAPIIdKey];
     
@@ -214,16 +164,13 @@
     return location;
 }
 
-- (void)createLocationInServer:(NSDictionary *)data
++ (void)createLocationInServer:(NSDictionary *)data
 {
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
     NSURLRequest *urlRequest = [self.class urlPostRequestWithParams:data Url:[NSURL URLWithString:kHEREAPILocationsUrl]];
     
-    [self.class serverRequest:session urlRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
+    [self serverRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
             NSLog(@"successfully posted location to server");
-            [self.delegate didUpdateLocation];
         }
     }];
 }
@@ -245,8 +192,9 @@
     return urlRequest;
 }
 
-+ (void)serverRequest:(NSURLSession *)session urlRequest:(NSURLRequest *)urlRequest withCallback:(HERECompletionBlock)callback
++ (void)serverRequest:(NSURLRequest *)urlRequest withCallback:(HERECompletionBlock)callback
 {
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         BOOL success;
@@ -263,31 +211,12 @@
     [task resume];
 }
 
-- (NSDate *)dateFromISOString:(NSString *)isoDateString
++ (NSDate *)dateFromISOString:(NSString *)isoDateString
 {
     ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
     NSDate *date = [formatter dateFromString:isoDateString];
     return date;
 }
 
-- (void)saveMessageToCoreData:(NSDictionary *)data Location:(Location *)location
-{
-    NSManagedObjectContext *context = [HERECoreDataHelper managedObjectContext];
-    
-    Message *message = [NSEntityDescription insertNewObjectForEntityForName:kHEREMessageClassKey inManagedObjectContext:context];
-    
-    if (![data[kHEREAPIMessagesAudioFileKey] isKindOfClass:[NSNull class]]) message.audioFilePath = data[kHEREAPIMessagesAudioFileKey];
-    if (![data[kHEREAPIMessagesTextKey] isKindOfClass:[NSNull class]]) message.text = data[kHEREAPIMessagesTextKey];
-    message.createdAt = [self dateFromISOString:data[kHEREAPICreatedAtKey]];
-    message.deviceId = data[kHEREAPIMessagesDeviceIdKey];
-    message.messageId = data[kHEREAPIIdKey];
-    message.username = data[kHEREAPIMessagesUsernameKey];
-    message.location = location;
-    
-    NSError *error = nil;
-    if (![context save:&error]) {
-        NSLog(@"error in saveMessageToCoreData: %@", error);
-    }
-}
 
 @end

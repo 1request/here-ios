@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "HERERootViewController.h"
+#import "HERESignInUpViewController.h"
+#import "APIManager.h"
 
 @interface AppDelegate ()
 
@@ -43,7 +46,15 @@
     } else {
         [app registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert];
     }
-        
+    
+    HERERootViewController *rootVC = (HERERootViewController *)self.window.rootViewController;
+    UINavigationController *navigationVC = (UINavigationController *)rootVC.contentViewController;
+    HERESignInUpViewController *signInUpVC = (HERESignInUpViewController *)navigationVC.topViewController;
+    
+    signInUpVC.managedObjectContext = self.managedObjectContext;
+    
+    [APIManager fetchLocationsWithManagedObjectContext:self.managedObjectContext];
+    
     return YES;
 }
 

@@ -7,12 +7,10 @@
 //
 
 #import "HEREHomeViewController.h"
-#import "HERECoreDataHelper.h"
 #import "Location.h"
 #import "HERELocationHelper.h"
-#import "HEREAPIHelper.h"
 
-@interface HEREHomeViewController () <apiDelegate, NSFetchedResultsControllerDelegate, locationDelegate>
+@interface HEREHomeViewController () <NSFetchedResultsControllerDelegate, locationDelegate>
 
 {
     NSTimer *timer;
@@ -26,7 +24,6 @@
 @property (strong, nonatomic) NSData *audioData;
 @property (strong, nonatomic) NSMutableArray *locations;
 @property (strong, nonatomic) HERELocationHelper *locationHelper;
-@property (strong, nonatomic) HEREAPIHelper *apiHelper;
 
 @end
 
@@ -43,28 +40,11 @@
 #pragma mark - View Lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+        
     [self.navigationController setNavigationBarHidden:NO];
-    
-    self.managedObjectContext = [HERECoreDataHelper managedObjectContext];
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHERELocationClassKey];
-    
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES]];
-    
-    
-    NSError *error = nil;
-    
-    if (error) {
-        NSLog(@"Unabled to perform core data fetch at home view controller.");
-        NSLog(@"%@, %@", error, error.localizedDescription);
-    }
-    
+        
     self.locationHelper = [[HERELocationHelper alloc] init];
     self.locationHelper.delegate = self;
-    
-    self.apiHelper = [[HEREAPIHelper alloc] init];
-    self.apiHelper.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,8 +55,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    [self.apiHelper fetchLocations];
     
     [self.locationHelper stopMonitoringBeacons];
     [self.locationHelper monitorBeacons];
@@ -91,9 +69,24 @@
         UITableViewCell *cell = sender;
         HEREBeaconsMessagesTableViewController *beaconsMessagesTableVC = segue.destinationViewController;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-        beaconsMessagesTableVC.location = [self.locations objectAtIndex:indexPath.row];
-        beaconsMessagesTableVC.managedObjectContext = self.managedObjectContext;
+        beaconsMessagesTableVC.location = [self.fetchedResultsController objectAtIndexPath:indexPath];
     }
+}
+
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+{
+    _managedObjectContext = managedObjectContext;
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
+    request.predicate = nil;
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPILocationNameKey
+                                                              ascending:YES
+                                                               ]];
+    
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                        managedObjectContext:self.managedObjectContext
+                                                                          sectionNameKeyPath:nil
+                                                                                   cacheName:nil];
 }
 
 - (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender
@@ -103,82 +96,16 @@
 
 #pragma mark - UITableView Data Source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.locations count];
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"groupCell";
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"groupCell"];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    Location *location = [self.locations objectAtIndex:indexPath.row];
+    Location *location = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.textLabel.text = location.name;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)[location.messages count]];
     
     return cell;
-}
-
-#pragma mark - helper methods
-
-- (void)fetchLocations
-{
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
-    
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES]];
-    
-    NSError *error = nil;
-    
-    NSArray *fetchedLocations = [[HERECoreDataHelper managedObjectContext] executeFetchRequest:fetchRequest error:&error];
-    
-    self.locations = [fetchedLocations mutableCopy];
-    
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-}
-
-#pragma mark - locationHelper delegate
-
-- (void)notifyWhenEntryBeacon:(CLBeaconRegion *)beaconRegion
-{
-    NSLog(@"Enter region: %@", beaconRegion);
-}
-
-- (void)notifyWhenExitBeacon:(CLBeaconRegion *)beaconRegion
-{
-    NSLog(@"exit region: %@", beaconRegion);
-}
-
-- (void)notifyWhenFar:(CLBeacon *)beacon
-{
-    //    NSLog(@"far from beacon: %@", beacon);
-}
-
-- (void)notifyWhenImmediate:(CLBeacon *)beacon
-{
-    //    NSLog(@"Immediate to beacon: %@", beacon);
-}
-
-- (void)notifyWhenNear:(CLBeacon *)beacon
-{
-    //    NSLog(@"Near beacon: %@", beacon);
-}
-
-#pragma mark - api Delegate
-
-- (void)didFetchLocations
-{
-    NSLog(@"did fetched locations in home view controller");
-    [self fetchLocations];
-    for (Location *location in self.locations) {
-        [self.apiHelper fetchMessagesForLocation:location];
-    }
 }
 
 @end

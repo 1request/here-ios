@@ -7,7 +7,7 @@
 //
 
 #import "User.h"
-#import "HEREAPIHelper.h"
+#import "APIManager.h"
 
 @implementation User
 
@@ -18,20 +18,19 @@
 
 + (void)currentInstallation
 {
-    [HEREAPIHelper updateUser:nil username:nil];
+    [APIManager updateUser:nil username:nil];
 }
 
 + (void)setUser:(NSString *)name
 {
-    [HEREAPIHelper updateUser:nil username:name];
+    [APIManager updateUser:nil username:name];
 }
 
 + (void)setDeviceTokenFromData:(NSData *)deviceToken
 {
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
-    [HEREAPIHelper updateUser:token username:nil];
+    [APIManager updateUser:token username:nil];
 }
 
 @end
