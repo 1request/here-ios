@@ -92,6 +92,8 @@ static const NSUInteger kItemPerView = 6;
                                                                         managedObjectContext:location.managedObjectContext
                                                                           sectionNameKeyPath:nil
                                                                                    cacheName:nil];
+    self.fetchedResultsController.delegate = self;
+    
     [self.fetchedResultsController performFetch:NULL];
 }
 
@@ -171,6 +173,8 @@ static const NSUInteger kItemPerView = 6;
     
     self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+    self.collectionView.collectionViewLayout.outgoingVideoOverlayViewSize = CGSizeZero;
+    self.collectionView.collectionViewLayout.outgoingVideoOverlayViewSize = CGSizeZero;
     
     self.isRecording = NO;
     self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
@@ -178,14 +182,22 @@ static const NSUInteger kItemPerView = 6;
     UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCollectionTapRecognizer:)];
     [self.collectionView addGestureRecognizer:tapRecognizer];
     self.textView = self.inputToolbar.contentView.textView;
+    
+    [self loadMessages];
+    
+    [APIManager fetchMessagesForLocation:self.location];
+}
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
     [self.recordButton addTarget:self action:@selector(holdDownButtonTouchDown:) forControlEvents:UIControlEventTouchDown];
     [self.recordButton addTarget:self action:@selector(holdDownButtonTouchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
     [self.recordButton addTarget:self action:@selector(holdDownButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     [self.recordButton addTarget:self action:@selector(holdDownDragOutside:) forControlEvents:UIControlEventTouchDragExit];
     [self.recordButton addTarget:self action:@selector(holdDownDragInside:) forControlEvents:UIControlEventTouchDragEnter];
-    
-    [self loadMessages];
+
 }
 
 - (void)didMoveToParentViewController:(UIViewController *)parent
@@ -450,8 +462,7 @@ static const NSUInteger kItemPerView = 6;
     [self.messages addObject:message];
     
     [self finishSendingMessage];
-    [APIManager fetchMessagesForLocation:self.location];
-
+    
     [APIManager pushTextMessageToServer:text Location:self.location];
 }
 
@@ -557,49 +568,12 @@ static const NSUInteger kItemPerView = 6;
 
 - (UIView *)collectionView:(JSQMessagesCollectionView *)collectionView viewForVideoOverlayViewAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  Return `nil` here if you do not want overlay view for incoming video message.
-     *  If you do return `nil`, be sure to do the following in `viewDidLoad`:
-     *
-     *  self.collectionView.collectionViewLayout.incomingVideoOverlayViewSize = CGSizeZero;
-     */
-    
-    /**
-     *  You should create new view to add to each cell
-     *  Otherwise, each cell would be referencing the same view.
-     *
-     *  Note: these views will be sized according to these values:
-     *
-     *  self.collectionView.collectionViewLayout.incomingVideoOverlayViewSize
-     *
-     *  Override the defaults in `viewDidLoad`
-     */
-    
-    UIImageView *incomingVideoOverlayView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"demo_play_button_in"] highlightedImage:nil];
-    return incomingVideoOverlayView;
+    return nil;
 }
 
 - (UIView *)collectionView:(JSQMessagesCollectionView *)collectionView outgoingVideoOverlayViewForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  Return `nil` here if you do not want overlay view for outgoing video message.
-     *  If you do return `nil`, be sure to do the following in `viewDidLoad`:
-     *
-     *  self.collectionView.collectionViewLayout.outgoingVideoOverlayViewSize = CGSizeZero;
-     */
-    
-    /**
-     *  You should create new view to add to each cell
-     *  Otherwise, each cell would be referencing the same view.
-     *
-     *  Note: these views will be sized according to these values:
-     *
-     *  self.collectionView.collectionViewLayout.outgoingVideoOverlayViewSize
-     *
-     *  Override the defaults in `viewDidLoad`
-     */
-    UIImageView *outgoingVideoOverlayView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"demo_play_button_out"] highlightedImage:nil];
-    return outgoingVideoOverlayView;
+    return nil;
 }
 
 - (UIView *)collectionView:(JSQMessagesCollectionView *)collectionView viewForAudioPlayerViewAtIndexPath:(NSIndexPath *)indexPath
@@ -869,10 +843,12 @@ static const NSUInteger kItemPerView = 6;
     if (type == NSFetchedResultsChangeInsert) {
         NSLog(@"didAddObject, object: %@", anObject);
         Message *coreDataMessage = anObject;
-        if (![coreDataMessage.username isEqualToString:[User username]]) {
-            JSQMessage *message = [self jsqMessageFromCoreData:coreDataMessage];
-            [self.messages addObject:message];
-            [self finishReceivingMessage];
+        if (coreDataMessage.username && ![coreDataMessage.username isEqualToString:[User username]]) {
+            if (coreDataMessage.text || coreDataMessage.localURL) {
+                ViewMessage *message = [[ViewMessage alloc] initWithCoreDataMessage:coreDataMessage];
+                [self.messages addObject:message];
+                [self finishReceivingMessage];
+            }
         }
     }
 }

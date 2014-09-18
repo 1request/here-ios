@@ -101,17 +101,23 @@
     
     [self serverRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
-            NSArray *locations = [Location loadLocationsFromAPIArray:response[@"data"] intoManagedObjectContext:context];
-            for (Location *location in locations) {
-                [self fetchMessagesForLocation:location];
-            }
+            [Location loadLocationsFromAPIArray:response[@"data"] intoManagedObjectContext:context];
         }
     }];
 }
 
 + (void)fetchMessagesForLocation:(Location *)location
 {
-    NSString *urlString = [NSString stringWithFormat:@"%@?locId=%@", kHEREAPIMessagesGETUrl, location.locationId];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHEREMessageClassKey];
+    
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:NO]];
+    request.fetchLimit = 1;
+    
+    NSArray *messages = [location.managedObjectContext executeFetchRequest:request error:NULL];
+    
+    double milliseconds = [messages count] ? [[(Message *)[messages firstObject] createdAt] timeIntervalSince1970] * 1000.0 : [[NSDate date] timeIntervalSince1970] * 1000.0;
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@?locId=%@&timestamp=%.0f", kHEREAPIMessagesGETUrl, location.locationId, milliseconds];
     
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
@@ -133,6 +139,10 @@
                 NSArray *result = [location.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
                 
                 if (!fetchError && [result count] == 0) [Message createMessageWithInfo:message ofLocation:location inManagedObjectContext:location.managedObjectContext];
+            }
+        } else {
+            if (error) {
+                NSLog(@"error while fetch messages for location %@, error: %@", location.name, error.localizedDescription);
             }
         }
     }];

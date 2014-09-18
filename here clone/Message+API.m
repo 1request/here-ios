@@ -44,7 +44,11 @@
         message = [NSEntityDescription insertNewObjectForEntityForName:kHEREMessageClassKey inManagedObjectContext:context];
         message.messageId = messageId;
         message.location = location;
-        
+        if (messageDictionary[kHEREAPIMessagesDeviceIdKey] != [NSNull null]) message.deviceId = [messageDictionary valueForKeyPath:kHEREAPIMessagesDeviceIdKey];
+        if (messageDictionary[kHEREAPICreatedAtKey] != [NSNull null]) message.createdAt = [self dateFromISOString:[messageDictionary valueForKeyPath:kHEREAPICreatedAtKey]];
+        if (messageDictionary[kHEREAPIMessagesTextKey] != [NSNull null]) message.text = [messageDictionary valueForKeyPath:kHEREAPIMessagesTextKey];
+        if (messageDictionary[kHEREAPIMessagesUsernameKey] != [NSNull null]) message.username = [messageDictionary valueForKeyPath:kHEREAPIMessagesUsernameKey];
+
         if (messageDictionary[kHEREAPIMessagesAudioFileKey] != [NSNull null]) {
             message.audioFilePath = [messageDictionary valueForKeyPath:kHEREAPIMessagesAudioFileKey];
             NSData *audioData = [NSData dataWithContentsOfURL:[NSURL URLWithString:message.audioFilePath]];
@@ -58,10 +62,6 @@
                 }
             }
         }
-        if (messageDictionary[kHEREAPIMessagesDeviceIdKey] != [NSNull null]) message.deviceId = [messageDictionary valueForKeyPath:kHEREAPIMessagesDeviceIdKey];
-        if (messageDictionary[kHEREAPICreatedAtKey] != [NSNull null]) message.createdAt = [self dateFromISOString:[messageDictionary valueForKeyPath:kHEREAPICreatedAtKey]];
-        if (messageDictionary[kHEREAPIMessagesTextKey] != [NSNull null]) message.text = [messageDictionary valueForKeyPath:kHEREAPIMessagesTextKey];
-        if (messageDictionary[kHEREAPIMessagesUsernameKey] != [NSNull null]) message.username = [messageDictionary valueForKeyPath:kHEREAPIMessagesUsernameKey];
         NSLog(@"message: %@", message);
         [context save:NULL];
     }
