@@ -13,15 +13,8 @@
 #import "UIViewController+HEREMenu.h"
 #import <AudioToolbox/AudioToolbox.h>
 
-@protocol addBeaconViewControllerDelegate <NSObject>
-
-- (void)didAddBeacon;
-
-@end
-
 @interface HEREAddBeaconViewController : UIViewController <CLLocationManagerDelegate, UIAlertViewDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate>
 
-@property (weak, nonatomic) id <addBeaconViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UILabel *majorLabel;
 @property (strong, nonatomic) IBOutlet UILabel *minorLabel;
 @property (strong, nonatomic) IBOutlet UILabel *majorNumberLabel;
@@ -36,9 +29,7 @@
 @property (strong, nonatomic) CLBeaconRegion *beaconRegion;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
-- (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender;
 - (IBAction)addBeaconButtonPressed:(UIButton *)sender;
-- (IBAction)cancelButtonPressed:(UIButton *)sender;
 - (IBAction)scanBeaconButtonPressed:(UIButton *)sender;
 
 @end
