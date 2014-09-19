@@ -394,18 +394,6 @@ static const NSUInteger kItemPerView = 6;
     [self.audioPlayer play];
 }
 
-- (JSQMessage *)jsqMessageFromCoreData:(Message *)coreDataMessage
-{
-    JSQMessage *message = nil;
-    if (coreDataMessage.text) {
-        message = [[JSQMessage alloc] initWithText:coreDataMessage.text sender:coreDataMessage.username date:coreDataMessage.createdAt];
-    }
-    else if (coreDataMessage.audioFilePath) {
-        message = [[JSQMessage alloc] initWithAudioURL:[NSURL URLWithString:coreDataMessage.audioFilePath] sender:coreDataMessage.username date:coreDataMessage.createdAt];
-    }
-    return message;
-}
-
 - (void)loadMessages
 {
     NSUInteger startIndex = self.index * kItemPerView;
@@ -460,7 +448,7 @@ static const NSUInteger kItemPerView = 6;
         
         [JSQSystemSoundPlayer jsq_playMessageSentSound];
         
-        JSQMessage *message = [[JSQMessage alloc] initWithText:text sender:sender date:date];
+        ViewMessage *message = [[ViewMessage alloc] initWithText:text sender:sender date:date];
         [self.messages addObject:message];
         
         [self finishSendingMessage];
@@ -515,7 +503,7 @@ static const NSUInteger kItemPerView = 6;
      *  Otherwise, each cell would be referencing the same imageView and bubbles would disappear from cells
      */
     
-    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    ViewMessage *message = [self.messages objectAtIndex:indexPath.item];
     
     if ([message.sender isEqualToString:self.sender]) {
         return [[UIImageView alloc] initWithImage:self.outgoingBubbleImageView.image
@@ -540,7 +528,7 @@ static const NSUInteger kItemPerView = 6;
      *  Show a timestamp for every 3rd message
      */
     if (indexPath.item % 3 == 0) {
-        JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+        ViewMessage *message = [self.messages objectAtIndex:indexPath.item];
         return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
     }
     
@@ -549,7 +537,7 @@ static const NSUInteger kItemPerView = 6;
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    ViewMessage *message = [self.messages objectAtIndex:indexPath.item];
     
     /**
      *  iOS7-style sender name labels
@@ -559,7 +547,7 @@ static const NSUInteger kItemPerView = 6;
     }
     
     if (indexPath.item - 1 > 0) {
-        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
+        ViewMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
         if ([[previousMessage sender] isEqualToString:message.sender]) {
             return nil;
         }
@@ -725,7 +713,7 @@ static const NSUInteger kItemPerView = 6;
      *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
      */
     
-    JSQMessage *msg = [self.messages objectAtIndex:indexPath.item];
+    ViewMessage *msg = [self.messages objectAtIndex:indexPath.item];
     
     if (cell.textView) {
         if ([msg.sender isEqualToString:self.sender]) {
@@ -770,13 +758,13 @@ static const NSUInteger kItemPerView = 6;
     /**
      *  iOS7-style sender name labels
      */
-    JSQMessage *currentMessage = [self.messages objectAtIndex:indexPath.item];
+    ViewMessage *currentMessage = [self.messages objectAtIndex:indexPath.item];
     if ([[currentMessage sender] isEqualToString:self.sender]) {
         return 0.0f;
     }
     
     if (indexPath.item - 1 > 0) {
-        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
+        ViewMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
         if ([[previousMessage sender] isEqualToString:[currentMessage sender]]) {
             return 0.0f;
         }
