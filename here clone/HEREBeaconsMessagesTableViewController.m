@@ -456,33 +456,43 @@ static const NSUInteger kItemPerView = 6;
      *  2. Add new id<JSQMessageData> object to your data source
      *  3. Call `finishSendingMessage`
      */
-    [JSQSystemSoundPlayer jsq_playMessageSentSound];
-    
-    JSQMessage *message = [[JSQMessage alloc] initWithText:text sender:sender date:date];
-    [self.messages addObject:message];
-    
-    [self finishSendingMessage];
-    
-    [APIManager pushTextMessageToServer:text Location:self.location];
+    if ([User username]) {
+        
+        [JSQSystemSoundPlayer jsq_playMessageSentSound];
+        
+        JSQMessage *message = [[JSQMessage alloc] initWithText:text sender:sender date:date];
+        [self.messages addObject:message];
+        
+        [self finishSendingMessage];
+        
+        [APIManager pushTextMessageToServer:text Location:self.location];
+    }
+    else {
+        [self performSegueWithIdentifier:@"MessagesToSetUsername" sender:self];
+    }
 }
 
 - (void)didPressAccessoryButton:(UIButton *)sensder
 {
     NSLog(@"AccessoryButton pressed!");
-    /**
-     *  Accessory button has no default functionality, yet.
-     */
-    self.isRecording = !self.isRecording;
-    self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
-    self.inputToolbar.contentView.textView.text = nil;
     
-    if (self.isRecording) {
-        [self.inputToolbar addSubview:self.recordButton];
-        if ([self.inputToolbar.contentView.textView isFirstResponder]) [self.inputToolbar.contentView.textView resignFirstResponder ];
+    if ([User username]) {
+        self.isRecording = !self.isRecording;
+        self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
+        self.inputToolbar.contentView.textView.text = nil;
+        
+        if (self.isRecording) {
+            [self.inputToolbar addSubview:self.recordButton];
+            if ([self.inputToolbar.contentView.textView isFirstResponder]) [self.inputToolbar.contentView.textView resignFirstResponder ];
+        }
+        
+        else {
+            [self.recordButton removeFromSuperview];
+            [self.inputToolbar.contentView.textView becomeFirstResponder];
+        }
     }
     else {
-        [self.recordButton removeFromSuperview];
-        [self.inputToolbar.contentView.textView becomeFirstResponder];
+        [self performSegueWithIdentifier:@"MessagesToSetUsername" sender:self];
     }
 }
 
@@ -869,6 +879,14 @@ static const NSUInteger kItemPerView = 6;
     
     NSLog(@"NSFetchedResultsController did change content");
     NSLog(@"NSFetchedResultsController object count: %tu", [sectionInfo numberOfObjects]);
+}
+
+
+#pragma mark - unwind segue
+
+- (IBAction)doSetUsername:(UIStoryboardSegue *)segue
+{
+    self.sender = [User username];
 }
 
 @end

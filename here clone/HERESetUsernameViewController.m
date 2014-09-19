@@ -9,6 +9,7 @@
 #import "HERESetUsernameViewController.h"
 
 @interface HERESetUsernameViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *saveButton;
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 @end
 
@@ -21,9 +22,18 @@
     _usernameTextField.text = ([User username]) ? [User username] : @"";
 }
 
-- (IBAction)saveButtonPressed:(UIBarButtonItem *)sender
+#pragma mark - View Lifecycle
+
+- (void)viewDidLoad
 {
-    if ([self.usernameTextField.text length]) {
+    self.saveButton.hidden = self.hideSaveButton;
+}
+
+#pragma mark - helper methods
+
+- (void)setUsername
+{
+    if ([self shouldPerformSegueWithIdentifier:NULL sender:NULL]) {
         [User setUser:self.usernameTextField.text CompletionHandler:^(BOOL success, NSDictionary *response, NSError *error) {
             if (success) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -36,11 +46,32 @@
             }
         }];
     }
-    else {
+}
+
+#pragma mark - navigation
+
+- (IBAction)saveButtonPressed:(UIBarButtonItem *)sender
+{
+    [self setUsername];
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if (![self.usernameTextField.text length]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Invalid username" message:@"username cannot be blank" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
+        return NO;
     }
-    
+    else {
+        return YES;
+    }
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [self setUsername];
+}
+
+
 
 @end
