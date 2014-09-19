@@ -113,6 +113,8 @@
     }
     else {
         HERESettingsTableViewController *settingsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingsController"];
+        settingsTableViewController.managedObjectContext = self.managedObjectContext;
+        
         navigationController.viewControllers = @[settingsTableViewController];
     }
     

@@ -20,6 +20,6 @@ typedef void (^HERECompletionBlock)(BOOL success, NSDictionary *response, NSErro
 + (void)pushTextMessageToServer:(NSString *)text Location:(Location *)location;
 + (void)fetchLocationsWithManagedObjectContext:(NSManagedObjectContext *)context;
 + (void)fetchMessagesForLocation:(Location *)location;
-+ (void)createLocationInServer:(NSDictionary *)data;
++ (void)createLocationInServer:(NSDictionary *)data CompletionHandler:(HERECompletionBlock)completionHandler;
 
 @end

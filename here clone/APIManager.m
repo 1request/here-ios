@@ -168,13 +168,14 @@
     return location;
 }
 
-+ (void)createLocationInServer:(NSDictionary *)data
++ (void)createLocationInServer:(NSDictionary *)data CompletionHandler:(HERECompletionBlock)completionHandler
 {
     NSURLRequest *urlRequest = [self.class urlPostRequestWithParams:data Url:[NSURL URLWithString:kHEREAPILocationsUrl]];
     
     [self serverRequest:urlRequest withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
             NSLog(@"successfully posted location to server");
+            completionHandler(success, response, error);
         }
     }];
 }

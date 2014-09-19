@@ -91,7 +91,12 @@
 {
     NSDictionary *data = @{ kHEREAPILocationNameKey : self.beaconNameTextField.text, kHEREAPILocationUUIDKey : [self.foundBeacon.proximityUUID UUIDString], kHEREAPILocationMajorKey : self.foundBeacon.major, kHEREAPILocationMinorKey : self.foundBeacon.minor };
     
-    [APIManager createLocationInServer:data];
+    [APIManager createLocationInServer:data CompletionHandler:^(BOOL success, NSDictionary *response, NSError *error) {
+        if (success) {
+            [APIManager fetchLocationsWithManagedObjectContext:self.managedObjectContext];
+        }
+    }];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -158,7 +163,7 @@
     fetchRequest.predicate = predicate;
     
     NSError *fetchError = nil;
-    NSArray *result = [[HERECoreDataHelper managedObjectContext] executeFetchRequest:fetchRequest error:&fetchError];
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
     
     if (!fetchError) {
         if ([result count] != 0) {
