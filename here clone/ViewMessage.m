@@ -60,6 +60,24 @@
     return self;
 }
 
+- (instancetype)initWithText:(NSString *)text
+                      sender:(NSString *)sender
+                        date:(NSDate *)date
+{
+    NSParameterAssert(text != nil);
+    NSParameterAssert(sender != nil);
+    NSParameterAssert(date != nil);
+    
+    self = [self init];
+    if (self) {
+        _type = JSQMessageText;
+        _text = text;
+        _sender = sender;
+        _date = date;
+    }
+    return self;
+}
+
 - (instancetype)initWithAudio:(NSData *)audio
                        sender:(NSString *)sender
                          date:(NSDate *)date {

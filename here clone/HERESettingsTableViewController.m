@@ -9,6 +9,7 @@
 #import "HERESettingsTableViewController.h"
 #import "UIViewController+HEREMenu.h"
 #import "HEREAddBeaconViewController.h"
+#import "HERESetUsernameViewController.h"
 
 @implementation HERESettingsTableViewController
 
@@ -34,8 +35,12 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.destinationViewController isKindOfClass:[HEREAddBeaconViewController class]]) {
-        HEREAddBeaconViewController *addBeaconVC = (HEREAddBeaconViewController *)segue.destinationViewController;
+        HEREAddBeaconViewController *addBeaconVC = segue.destinationViewController;
         addBeaconVC.managedObjectContext = self.managedObjectContext;
+    }
+    else if ([segue.destinationViewController isKindOfClass:[HERESetUsernameViewController class]]) {
+        HERESetUsernameViewController *setUsernameVC = segue.destinationViewController;
+        setUsernameVC.hideSaveButton = YES;
     }
 }
 

@@ -37,6 +37,10 @@
 
 #pragma mark - Initialization
 
+- (instancetype)initWithText:(NSString *)text
+                      sender:(NSString *)sender
+                        date:(NSDate *)date;
+
 - (instancetype)initWithAudio:(NSData *)audio
                        sender:(NSString *)sender
                          date:(NSDate *)date;

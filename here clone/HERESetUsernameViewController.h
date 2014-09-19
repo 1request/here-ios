@@ -10,4 +10,6 @@
 
 @interface HERESetUsernameViewController : UIViewController
 
+@property (nonatomic) BOOL hideSaveButton;
+
 @end
