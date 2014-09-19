@@ -25,6 +25,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *addBeaconButton;
 @property (strong, nonatomic) IBOutlet UILabel *scanningBeaconsLabel;
 @property (strong, nonatomic) NSURLSession *session;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property (strong, nonatomic) CLBeaconRegion *beaconRegion;
 @property (strong, nonatomic) CLLocationManager *locationManager;

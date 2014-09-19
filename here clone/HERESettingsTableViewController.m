@@ -8,6 +8,7 @@
 
 #import "HERESettingsTableViewController.h"
 #import "UIViewController+HEREMenu.h"
+#import "HEREAddBeaconViewController.h"
 
 @implementation HERESettingsTableViewController
 
@@ -21,12 +22,21 @@
     
 }
 
-
 #pragma mark - Target Action
 
 - (IBAction)menuBarButtonItemPressed:(UIBarButtonItem *)sender
 {
     [self showMenu];
+}
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[HEREAddBeaconViewController class]]) {
+        HEREAddBeaconViewController *addBeaconVC = (HEREAddBeaconViewController *)segue.destinationViewController;
+        addBeaconVC.managedObjectContext = self.managedObjectContext;
+    }
 }
 
 #pragma mark - UITableViewControllerDataSource

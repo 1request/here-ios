@@ -264,14 +264,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7C15B35319C89AAA006C8657 /* View */ = {
+		7C15B35319C89AAA006C8657 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				7C9E81951991DFA100156B88 /* Main.storyboard */,
 				7C15B35419C89AFA006C8657 /* AudioPlayerView.h */,
 				7C15B35519C89AFA006C8657 /* AudioPlayerView.m */,
 			);
-			name = View;
+			name = Views;
 			sourceTree = "<group>";
 		};
 		7C3E5C161991E1F100C53C7B /* Controllers */ = {
@@ -397,8 +397,8 @@
 				7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */,
 				7CF49708199B887B001AD29F /* HERELocationHelper.h */,
 				7CF49709199B887B001AD29F /* HERELocationHelper.m */,
-				7C15B35319C89AAA006C8657 /* View */,
 				7CF1A1B91999CAF8004300AF /* Models */,
+				7C15B35319C89AAA006C8657 /* Views */,
 				7C3E5C161991E1F100C53C7B /* Controllers */,
 				7C9E81981991DFA100156B88 /* Images.xcassets */,
 				7C9E818B1991DFA100156B88 /* Supporting Files */,
