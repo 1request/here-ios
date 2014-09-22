@@ -35,6 +35,8 @@
 
 @property (strong, nonatomic) NSNumber *audioLength;
 
+@property (nonatomic) BOOL isRead;
+
 #pragma mark - Initialization
 
 - (instancetype)initWithText:(NSString *)text

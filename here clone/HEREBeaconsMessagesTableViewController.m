@@ -7,7 +7,6 @@
 //
 
 #import "HEREBeaconsMessagesTableViewController.h"
-#import "HEREFactory.h"
 #import <Parse/Parse.h>
 #import "UIViewController+HEREMenu.h"
 #import "JSQMessagesActivityIndicatorView.h"
@@ -43,7 +42,7 @@
 @end
 
 @implementation HEREBeaconsMessagesTableViewController
-static const NSUInteger kItemPerView = 6;
+static const NSUInteger kItemPerView = 50;
 
 #pragma mark - Instantiation
 
@@ -84,7 +83,9 @@ static const NSUInteger kItemPerView = 6;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHEREMessageClassKey];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", location];
     request.predicate = predicate;
+    
     request.fetchBatchSize = 10;
+    
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey
                                                               ascending:NO]];
     

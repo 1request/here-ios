@@ -38,6 +38,7 @@
     if (self) {
         _sender = message.username;
         _date = message.createdAt;
+        _isRead = [message.isRead boolValue];
         if (message.text) {
             _text = message.text;
             _type = JSQMessageText;
