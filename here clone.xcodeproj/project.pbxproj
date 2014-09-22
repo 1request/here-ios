@@ -21,7 +21,6 @@
 		7C15B31719C83D3B006C8657 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C15B31619C83D3B006C8657 /* CoreDataTableViewController.m */; };
 		7C15B35219C89A8C006C8657 /* ViewMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C15B35119C89A8C006C8657 /* ViewMessage.m */; };
 		7C15B35619C89AFA006C8657 /* AudioPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C15B35519C89AFA006C8657 /* AudioPlayerView.m */; };
-		7C15B35A19C89D1B006C8657 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C15B35919C89D1B006C8657 /* Message.m */; };
 		7C2B11B01998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */; };
 		7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C141991E1E900C53C7B /* HERERootViewController.m */; };
 		7C3E5C191991EF6300C53C7B /* HEREHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C181991EF6300C53C7B /* HEREHomeViewController.m */; };
@@ -69,6 +68,7 @@
 		7C3E5C9119920EA100C53C7B /* 1_133.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E5C6819920EA100C53C7B /* 1_133.png */; };
 		7C3E5C941992109300C53C7B /* HERESignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E5C931992109300C53C7B /* HERESignInViewController.m */; };
 		7C583F3A19AB370400B62244 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C583F3919AB370400B62244 /* APIManager.m */; };
+		7C6EF3DF19CFFB020065840C /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6EF3DE19CFFB020065840C /* Message.m */; };
 		7C6F424519B0403800EE1B1B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6F424419B0403800EE1B1B /* CoreData.framework */; };
 		7C6F424B19B0409300EE1B1B /* Here.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */; };
 		7C6F428319B0562100EE1B1B /* HEREMessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F428219B0562100EE1B1B /* HEREMessageFactory.m */; };
@@ -126,8 +126,6 @@
 		7C15B35419C89AFA006C8657 /* AudioPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerView.h; sourceTree = "<group>"; };
 		7C15B35519C89AFA006C8657 /* AudioPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerView.m; sourceTree = "<group>"; };
 		7C15B35719C89BB2006C8657 /* Here 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Here 3.xcdatamodel"; sourceTree = "<group>"; };
-		7C15B35819C89D1B006C8657 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		7C15B35919C89D1B006C8657 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		7C2B11AE1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREBeaconsMessagesTableViewController.h; sourceTree = "<group>"; };
 		7C2B11AF1998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREBeaconsMessagesTableViewController.m; sourceTree = "<group>"; };
 		7C3E5C131991E1E900C53C7B /* HERERootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERERootViewController.h; sourceTree = "<group>"; };
@@ -183,6 +181,9 @@
 		7C3E5C931992109300C53C7B /* HERESignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESignInViewController.m; sourceTree = "<group>"; };
 		7C583F3819AB370400B62244 /* APIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		7C583F3919AB370400B62244 /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
+		7C6EF3DC19CFFAE10065840C /* Here 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Here 5.xcdatamodel"; sourceTree = "<group>"; };
+		7C6EF3DD19CFFB020065840C /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		7C6EF3DE19CFFB020065840C /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		7C6F424419B0403800EE1B1B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Here.xcdatamodel; sourceTree = "<group>"; };
 		7C6F428119B0562100EE1B1B /* HEREMessageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREMessageFactory.h; sourceTree = "<group>"; };
@@ -449,8 +450,8 @@
 				7C9578BF19CB042800D2609C /* Location.m */,
 				7C15B30C19C80A04006C8657 /* Message+API.h */,
 				7C15B30D19C80A04006C8657 /* Message+API.m */,
-				7C15B35819C89D1B006C8657 /* Message.h */,
-				7C15B35919C89D1B006C8657 /* Message.m */,
+				7C6EF3DD19CFFB020065840C /* Message.h */,
+				7C6EF3DE19CFFB020065840C /* Message.m */,
 				7C15B35019C89A8C006C8657 /* ViewMessage.h */,
 				7C15B35119C89A8C006C8657 /* ViewMessage.m */,
 			);
@@ -673,7 +674,7 @@
 				D10EAC2C19B6096100F1D5A7 /* User.m in Sources */,
 				7C2B11B01998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m in Sources */,
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
-				7C15B35A19C89D1B006C8657 /* Message.m in Sources */,
+				7C6EF3DF19CFFB020065840C /* Message.m in Sources */,
 				7CBA8C2B19CAAC090066C389 /* HERESettingsTableViewController.m in Sources */,
 				7CF49703199B5CFF001AD29F /* HEREFactory.m in Sources */,
 				7CCB1F4119B4444600A49C8C /* HERECoreDataHelper.m in Sources */,
@@ -909,12 +910,13 @@
 		7C6F424919B0409300EE1B1B /* Here.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7C6EF3DC19CFFAE10065840C /* Here 5.xcdatamodel */,
 				7CBA8C3519CB038C0066C389 /* Here 4.xcdatamodel */,
 				7CAA364919B6CCE200A14A07 /* Here 2.xcdatamodel */,
 				7C15B35719C89BB2006C8657 /* Here 3.xcdatamodel */,
 				7C6F424A19B0409300EE1B1B /* Here.xcdatamodel */,
 			);
-			currentVersion = 7CBA8C3519CB038C0066C389 /* Here 4.xcdatamodel */;
+			currentVersion = 7C6EF3DC19CFFAE10065840C /* Here 5.xcdatamodel */;
 			path = Here.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
