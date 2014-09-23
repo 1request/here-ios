@@ -28,6 +28,7 @@
     }];
     
     [[NSUserDefaults standardUserDefaults] setObject:name forKey:kHEREAPIUserNameKey];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"set_user_date"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

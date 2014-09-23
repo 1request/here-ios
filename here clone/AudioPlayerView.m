@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) UILabel *durationLabel;
 @property (strong, nonatomic) UIImageView *animationContainer;
+@property (strong, nonatomic) UIBezierPath *path;
 
 @end
 
@@ -52,17 +53,17 @@
         
         CGFloat width = 10;
         CGFloat height = 10;
-        UIBezierPath *circularPath = nil;
+        
         if (self.incomingMessage) {
-            circularPath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(self.frame.size.width - 10, 0, width, height)];
+            self.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(self.frame.size.width - 10, 0, width, height)];
         }
         else {
-            circularPath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, width, height)];
+            self.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, width, height)];
         }
         
         [[UIColor redColor] set];
         
-        [circularPath fill];
+        [self.path fill];
     }
 }
 
