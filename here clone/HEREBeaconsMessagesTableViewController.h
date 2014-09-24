@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HEREBeacon.h"
 #import <JSQMessages.h>
 #import <AVFoundation/AVFoundation.h>
 #import "Location.h"

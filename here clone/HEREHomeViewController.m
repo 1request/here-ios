@@ -11,7 +11,7 @@
 #import "HERELocationHelper.h"
 #import "APIManager.h"
 
-@interface HEREHomeViewController () <NSFetchedResultsControllerDelegate, locationDelegate>
+@interface HEREHomeViewController () <NSFetchedResultsControllerDelegate>
 
 {
     NSTimer *timer;
@@ -19,7 +19,6 @@
 }
 
 @property (strong, nonatomic) NSDate *startDate;
-@property (strong, nonatomic) HEREBeacon *beacon;
 @property (strong, nonatomic) NSMutableArray *audioRecords;
 @property (strong, nonatomic) NSMutableArray *beacons;
 @property (strong, nonatomic) NSData *audioData;
@@ -43,9 +42,6 @@
     [super viewDidLoad];
         
     [self.navigationController setNavigationBarHidden:NO];
-        
-    self.locationHelper = [[HERELocationHelper alloc] init];
-    self.locationHelper.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -124,49 +120,5 @@
     
     return cell;
 }
-
-#pragma mark - helper methods
-
-- (void)fetchMessagesForBeaconRegion:(CLBeaconRegion *)beaconRegion
-{
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
-    request.predicate = [NSPredicate predicateWithFormat:@"%K == %@", kHEREAPILocationNameKey, beaconRegion.identifier];
-    
-    NSArray *locations = [self.managedObjectContext executeFetchRequest:request error:NULL];
-    
-    if ([locations count]) {
-        Location *location = [locations firstObject];
-        [APIManager fetchMessagesForLocation:location];
-    }
-}
-
-#pragma mark - locationHelper delegate
-
-- (void)notifyWhenEntryBeacon:(CLBeaconRegion *)beaconRegion
-{
-    NSLog(@"Enter region: %@", beaconRegion);
-    [self fetchMessagesForBeaconRegion:beaconRegion];
-}
-
-- (void)notifyWhenExitBeacon:(CLBeaconRegion *)beaconRegion
-{
-    NSLog(@"exit region: %@", beaconRegion);
-}
-
-- (void)notifyWhenFar:(CLBeacon *)beacon
-{
-    //    NSLog(@"far from beacon: %@", beacon);
-}
-
-- (void)notifyWhenImmediate:(CLBeacon *)beacon
-{
-    //    NSLog(@"Immediate to beacon: %@", beacon);
-}
-
-- (void)notifyWhenNear:(CLBeacon *)beacon
-{
-    //    NSLog(@"Near beacon: %@", beacon);
-}
-
 
 @end

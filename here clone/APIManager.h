@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HEREBeacon.h"
 #import "Location.h"
 
 @interface APIManager : NSObject

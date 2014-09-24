@@ -11,8 +11,11 @@
 #import "HEREHomeViewController.h"
 #import "APIManager.h"
 #import "HEREMenuTableViewController.h"
+#import "HERELocationHelper.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <locationDelegate>
+
+@property (strong, nonatomic) HERELocationHelper *locationHelper;
 
 @end
 
@@ -58,6 +61,12 @@
     homeVC.managedObjectContext = self.managedObjectContext;
     
     [APIManager fetchLocationsWithManagedObjectContext:self.managedObjectContext];
+    
+    self.locationHelper = [[HERELocationHelper alloc] init];
+    self.locationHelper.managedObjectContext = self.managedObjectContext;
+    self.locationHelper.delegate = self;
+    
+    [self.locationHelper monitorBeacons];
     
     return YES;
 }
@@ -241,6 +250,34 @@
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+#pragma mark - locationHelper delegate
+
+- (void)notifyWhenEntryBeacon:(CLBeaconRegion *)beaconRegion
+{
+    NSLog(@"Enter region (app delegate): %@", beaconRegion);
+//    [self fetchMessagesForBeaconRegion:beaconRegion];
+}
+
+- (void)notifyWhenExitBeacon:(CLBeaconRegion *)beaconRegion
+{
+    NSLog(@"exit region (app delegate): %@", beaconRegion);
+}
+
+- (void)notifyWhenFar:(CLBeacon *)beacon
+{
+    //    NSLog(@"far from beacon: %@", beacon);
+}
+
+- (void)notifyWhenImmediate:(CLBeacon *)beacon
+{
+    //    NSLog(@"Immediate to beacon: %@", beacon);
+}
+
+- (void)notifyWhenNear:(CLBeacon *)beacon
+{
+    //    NSLog(@"Near beacon: %@", beacon);
 }
 
 @end
