@@ -52,11 +52,14 @@
     HERERootViewController *rootVC = (HERERootViewController *)self.window.rootViewController;
 
     HEREMenuTableViewController *menuVC = (HEREMenuTableViewController *)rootVC.menuViewController;
+    UINavigationController *nav = (UINavigationController *)rootVC.contentViewController;
+    HEREHomeViewController *homeVC = (HEREHomeViewController *)nav.topViewController;
     
     self.mainQueueContext = [CoreDataStore mainQueueContext];
     self.privateQueueContext = [CoreDataStore privateQueueContext];
     
     menuVC.managedObjectContext = self.mainQueueContext;
+    homeVC.managedObjectContext = self.mainQueueContext;
     
     [APIManager fetchLocationsWithManagedObjectContext:self.privateQueueContext];
     
