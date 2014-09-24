@@ -236,12 +236,16 @@
             break;
         }
     }
-    
-    if (hasUnreadMessage && [currentBeaconId isEqualToString:lastBeaconId] && currentTime - lastTime <= 3600) {
+    if (hasUnreadMessage) {
+        if ([currentBeaconId isEqualToString:lastBeaconId] && currentTime - lastTime <= 3600) {
+            return NO;
+        } else {
+            return YES;
+        };
+    }
+    else {
         return NO;
-    } else {
-        return YES;
-    };
+    }
 }
 
 @end
