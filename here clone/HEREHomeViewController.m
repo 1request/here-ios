@@ -48,6 +48,13 @@
     self.locationHelper.delegate = self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -79,10 +86,14 @@
     _managedObjectContext = managedObjectContext;
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
+    
     request.predicate = nil;
+
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPILocationNameKey
                                                               ascending:YES
                                                                ]];
+
+    [request setRelationshipKeyPathsForPrefetching:@[@"messages"]];
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                         managedObjectContext:self.managedObjectContext
@@ -104,7 +115,12 @@
     Location *location = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.textLabel.text = location.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)[location.messages count]];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isRead == %@", [NSNumber numberWithBool:NO]];
+    
+    NSSet *filteredMessages = [location.messages filteredSetUsingPredicate:predicate];
+    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)[filteredMessages count]];
     
     return cell;
 }

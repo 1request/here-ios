@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) UILabel *durationLabel;
 @property (strong, nonatomic) UIImageView *animationContainer;
+@property (strong, nonatomic) UIBezierPath *path;
 
 @end
 
@@ -28,6 +29,7 @@
         self.durationLabel.textAlignment = NSTextAlignmentCenter;
         self.durationLabel.font = [UIFont systemFontOfSize:12];
         [self addSubview:self.durationLabel];
+        self.backgroundColor = [UIColor clearColor];
         
         self.animationContainer = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"audio_normal"] highlightedImage:[UIImage imageNamed:@"audio_press"]];
         self.animationContainer.frame = CGRectZero;
@@ -40,6 +42,29 @@
         [self addSubview:self.animationContainer];
     }
     return self;
+}
+
+- (void)drawRect:(CGRect)rect
+{
+    [super drawRect:rect];
+    
+    if (!self.message.isRead) {
+        NSLog(@"not read message");
+        
+        CGFloat width = 10;
+        CGFloat height = 10;
+        
+        if (self.incomingMessage) {
+            self.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(self.frame.size.width - 10, 0, width, height)];
+        }
+        else {
+            self.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, width, height)];
+        }
+        
+        [[UIColor redColor] set];
+        
+        [self.path fill];
+    }
 }
 
 - (void)layoutSubviews

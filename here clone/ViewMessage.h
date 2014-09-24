@@ -31,9 +31,13 @@
 
 @property (strong, nonatomic) UIImage *videoThumbnailPlaceholder;
 
-@property (strong, nonatomic) NSURL *sourceURL;
+@property (copy, nonatomic) NSURL *sourceURL;
 
-@property (strong, nonatomic) NSNumber *audioLength;
+@property (copy, nonatomic) NSNumber *audioLength;
+
+@property (copy, nonatomic) NSString *messageId;
+
+@property (nonatomic) BOOL isRead;
 
 #pragma mark - Initialization
 

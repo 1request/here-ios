@@ -7,7 +7,6 @@
 //
 
 #import "HEREBeaconsMessagesTableViewController.h"
-#import "HEREFactory.h"
 #import <Parse/Parse.h>
 #import "UIViewController+HEREMenu.h"
 #import "JSQMessagesActivityIndicatorView.h"
@@ -18,6 +17,7 @@
 #import "HERECoreDataHelper.h"
 #import <SVPullToRefresh.h>
 #import "APIManager.h"
+#import <JSQMessageData.h>
 
 @interface HEREBeaconsMessagesTableViewController () <MBProgressHUDDelegate, NSFetchedResultsControllerDelegate>
 {
@@ -43,7 +43,7 @@
 @end
 
 @implementation HEREBeaconsMessagesTableViewController
-static const NSUInteger kItemPerView = 6;
+static const NSUInteger kItemPerView = 50;
 
 #pragma mark - Instantiation
 
@@ -84,7 +84,9 @@ static const NSUInteger kItemPerView = 6;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHEREMessageClassKey];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", location];
     request.predicate = predicate;
+    
     request.fetchBatchSize = 10;
+    
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey
                                                               ascending:NO]];
     
@@ -420,6 +422,51 @@ static const NSUInteger kItemPerView = 6;
     [self.collectionView.pullToRefreshView stopAnimating];
 }
 
+- (void)readMessage:(ViewMessage *)msg
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"messageId", msg.messageId];
+    NSArray *filteredMessages = [[self.fetchedResultsController fetchedObjects] filteredArrayUsingPredicate:predicate];
+    
+    if ([filteredMessages count]) {
+        Message *message = [filteredMessages firstObject];
+        if (![message.isRead boolValue]) {
+            message.isRead = [NSNumber numberWithBool:YES];
+            [message.managedObjectContext save:NULL];
+        }
+    }
+}
+
+- (void)stopPlayingAudio
+{
+    [self.activePlayerView stopAnimation];
+    
+    [self.audioPlayer stop];
+    self.audioPlayer = nil;
+    self.activePlayerView = nil;
+}
+
+- (void)handleTapAudio:(JSQMessagesCollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath
+{
+    AudioPlayerView *previousPlayerView = self.activePlayerView;
+    [self stopPlayingAudio];
+    
+    JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
+    AudioPlayerView *player = (AudioPlayerView *)incomingAudioCell.playerView;
+    ViewMessage *message = [self.messages objectAtIndex:indexPath.item];
+    
+    if (message.messageId && !message.isRead) {
+        [self readMessage:message];
+        player.message.isRead = YES;
+        [player setNeedsDisplay];
+    }
+    
+    if (!previousPlayerView || previousPlayerView != player) {
+        self.activePlayerView = player;
+        [player startAnimation];
+        (message.audio) ? [self playAudio:message.audio] : [self playAudioWithUrl:message.sourceURL];
+    }
+}
+
 #pragma mark - navigation
 - (void) handleCollectionTapRecognizer:(UITapGestureRecognizer*)recognizer
 {
@@ -671,10 +718,6 @@ static const NSUInteger kItemPerView = 6;
                 
                 message.videoThumbnail = remoteThumbnail;
                 message.videoThumbnailPlaceholder = nil;
-                
-                /**
-                 *  Change the message type, so next time we will not need to ask the data source method.
-                 */
                 message.type = JSQMessageVideo;
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -694,24 +737,7 @@ static const NSUInteger kItemPerView = 6;
 
 - (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  Override point for customizing cells
-     */
     JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    
-    /**
-     *  Configure almost *anything* on the cell
-     *
-     *  Text colors, label text, label colors, etc.
-     *
-     *
-     *  DO NOT set `cell.textView.font` !
-     *  Instead, you need to set `self.collectionView.collectionViewLayout.messageBubbleFont` to the font you want in `viewDidLoad`
-     *
-     *
-     *  DO NOT manipulate cell layout information!
-     *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
-     */
     
     ViewMessage *msg = [self.messages objectAtIndex:indexPath.item];
     
@@ -726,6 +752,11 @@ static const NSUInteger kItemPerView = 6;
         cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
+    
+    if (msg.messageId && !msg.isRead && [msg.text length]) {
+        [self readMessage:msg];
+    }
+    
     return cell;
 }
 
@@ -735,16 +766,6 @@ static const NSUInteger kItemPerView = 6;
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  Each label in a cell has a `height` delegate method that corresponds to its text dataSource method
-     */
-    
-    /**
-     *  This logic should be consistent with what you return from `attributedTextForCellTopLabelAtIndexPath:`
-     *  The other label height delegate methods should follow similarly
-     *
-     *  Show a timestamp for every 3rd message
-     */
     if (indexPath.item % 3 == 0) {
         return kJSQMessagesCollectionViewCellLabelHeightDefault;
     }
@@ -755,9 +776,6 @@ static const NSUInteger kItemPerView = 6;
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  iOS7-style sender name labels
-     */
     ViewMessage *currentMessage = [self.messages objectAtIndex:indexPath.item];
     if ([[currentMessage sender] isEqualToString:self.sender]) {
         return 0.0f;
@@ -797,38 +815,12 @@ static const NSUInteger kItemPerView = 6;
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAudio:(NSData *)audioData atIndexPath:(NSIndexPath *)indexPath
 {
-    JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
-    AudioPlayerView *player = (AudioPlayerView *)incomingAudioCell.playerView;
-    
-    if (self.activePlayerView == player && [self.audioPlayer isPlaying]) {
-        [self.activePlayerView stopAnimation];
-        [self.audioPlayer stop];
-        self.audioPlayer = nil;
-        return;
-    }
-    self.activePlayerView = player;
-    [player startAnimation];
-    [self playAudio:audioData];
+    [self handleTapAudio:collectionView atIndexPath:indexPath];
 }
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAudioForURL:(NSURL *)audioURL atIndexPath:(NSIndexPath *)indexPath
 {
-    AudioPlayerView *previousPlayerView = self.activePlayerView;
-    [previousPlayerView stopAnimation];
-    
-    [self.audioPlayer stop];
-    self.audioPlayer = nil;
-    self.activePlayerView = nil;
-    
-    JSQMessagesCollectionViewAudioCellIncoming *incomingAudioCell = (JSQMessagesCollectionViewAudioCellIncoming *)[collectionView cellForItemAtIndexPath:indexPath];
-    AudioPlayerView *player = (AudioPlayerView *)incomingAudioCell.playerView;
-    ViewMessage *message = [self.messages objectAtIndex:indexPath.item];
-    
-    if (!previousPlayerView || previousPlayerView != player) {
-        self.activePlayerView = player;
-        [player startAnimation];
-        [self playAudioWithUrl:message.sourceURL];
-    }
+    [self handleTapAudio:collectionView atIndexPath:indexPath];
 }
 
 #pragma mark - AVAudioPlayer Delegate

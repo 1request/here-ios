@@ -118,8 +118,9 @@
     request.fetchLimit = 1;
     
     NSArray *messages = [location.managedObjectContext executeFetchRequest:request error:NULL];
+    NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:@"set_user_date"];
     
-    double milliseconds = [messages count] ? [[(Message *)[messages firstObject] createdAt] timeIntervalSince1970] * 1000.0 : [[NSDate date] timeIntervalSince1970] * 1000.0;
+    double milliseconds = [messages count] ? [[(Message *)[messages firstObject] createdAt] timeIntervalSince1970] * 1000.0 : [date timeIntervalSince1970] * 1000.0;
     
     NSString *urlString = [NSString stringWithFormat:@"%@?locId=%@&timestamp=%.0f", kHEREAPIMessagesGETUrl, location.locationId, milliseconds];
     
