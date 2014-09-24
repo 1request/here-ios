@@ -25,6 +25,8 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (assign, nonatomic) id <locationDelegate> delegate;
 
+- (void)requestLocationNotification;
+
 - (void)monitorBeacons;
 - (void)stopMonitoringBeacons;
 @end

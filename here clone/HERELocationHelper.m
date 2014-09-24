@@ -147,7 +147,7 @@
             [APIManager fetchMessagesForLocation:location
                                CompletionHandler:^(BOOL success, NSDictionary *response, NSError *error) {
                                    if ([self shouldSendNotification:location]) {
-                                       [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", region.identifier]];
+                                       [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", location.name] WithUserInfo:@{kHERENotificationLocationIdKey : location.locationId}];
                                    }
                                }];
         }
@@ -189,7 +189,7 @@
 
 #pragma mark - About Notification
 
-- (void)sendLocalNotificationWithMessage:(NSString *)message
+- (void)sendLocalNotificationWithMessage:(NSString *)message WithUserInfo:(NSDictionary *)userInfo
 {
     UILocalNotification *notification = [UILocalNotification new];
     

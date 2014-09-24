@@ -60,16 +60,24 @@
     
     menuVC.managedObjectContext = self.mainQueueContext;
     homeVC.managedObjectContext = self.mainQueueContext;
-    
-    [APIManager fetchLocationsWithManagedObjectContext:self.privateQueueContext];
-    
+
     self.locationHelper = [[HERELocationHelper alloc] init];
     
     self.locationHelper.managedObjectContext = self.privateQueueContext;
     
     self.locationHelper.delegate = self;
-    [self.locationHelper stopMonitoringBeacons];
-    [self.locationHelper monitorBeacons];
+    
+    __block AppDelegate *weakSelf = self;
+    [APIManager fetchLocationsWithManagedObjectContext:self.privateQueueContext CompletionHandler:^(BOOL success, NSDictionary *response, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.locationHelper monitorBeacons];
+        });
+    }];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kHEREAppInstallationDateKey]) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kHEREAppInstallationDateKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     return YES;
 }
@@ -117,6 +125,24 @@
     }
     else if (state == UIApplicationStateInactive) {
         NSLog(@"application inactive didreceivelocationnotification");
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
+        
+        request.predicate = [NSPredicate predicateWithFormat:@"locationId == %@", [notification.userInfo objectForKey:kHERENotificationLocationIdKey]];
+        
+        NSArray *locations = [self.mainQueueContext executeFetchRequest:request error:NULL];
+        
+        if ([locations count]) {
+            Location *location = [locations firstObject];
+            
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            HERERootViewController *rootVC = (HERERootViewController *)self.window.rootViewController;
+            UINavigationController *nav = (UINavigationController *)rootVC.contentViewController;
+            HEREHomeViewController *homeVC = [storyboard instantiateViewControllerWithIdentifier:@"homeController"];
+            HEREBeaconsMessagesTableViewController *beaconsMessagesTVC = [storyboard instantiateViewControllerWithIdentifier:@"beaconsMessagesController"];
+            beaconsMessagesTVC.location = location;
+            [nav setViewControllers:@[homeVC, beaconsMessagesTVC]];
+        }
+        
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil];
 }

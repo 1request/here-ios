@@ -93,7 +93,7 @@
     
     [APIManager createLocationInServer:data CompletionHandler:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
-            [APIManager fetchLocationsWithManagedObjectContext:[CoreDataStore privateQueueContext]];
+            [APIManager fetchLocationsWithManagedObjectContext:[CoreDataStore privateQueueContext] CompletionHandler:NULL];
         }
     }];
     

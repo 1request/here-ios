@@ -95,7 +95,7 @@
     }];
 }
 
-+ (void)fetchLocationsWithManagedObjectContext:(NSManagedObjectContext *)context
++ (void)fetchLocationsWithManagedObjectContext:(NSManagedObjectContext *)context CompletionHandler:(HERECompletionBlock)completionHandler
 {
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:kHEREAPILocationsUrl]];
     
@@ -108,6 +108,9 @@
         else {
             NSLog(@"error when fetch locations: %@", error);
         }
+        if (completionHandler) {
+            completionHandler(success, response, error);
+        }
     }];
 }
 
@@ -119,7 +122,7 @@
     request.fetchLimit = 1;
     
     NSArray *messages = [[CoreDataStore privateQueueContext] executeFetchRequest:request error:NULL];
-    NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:@"set_user_date"];
+    NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREAppInstallationDateKey];
     
     double milliseconds = [messages count] ? [[(Message *)[messages firstObject] createdAt] timeIntervalSince1970] * 1000.0 : [date timeIntervalSince1970] * 1000.0;
     
