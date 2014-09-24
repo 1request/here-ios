@@ -14,7 +14,6 @@
 #import "ViewMessage.h"
 #import "MBProgressHUD.h"
 #import "Message+API.h"
-#import "HERECoreDataHelper.h"
 #import <SVPullToRefresh.h>
 #import "APIManager.h"
 #import <JSQMessageData.h>

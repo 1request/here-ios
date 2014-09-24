@@ -9,7 +9,6 @@
 #import "HEREAddBeaconViewController.h"
 #import "HERELocationHelper.h"
 #import "Location.h"
-#import "HERECoreDataHelper.h"
 #import "APIManager.h"
 
 @interface HEREAddBeaconViewController ()

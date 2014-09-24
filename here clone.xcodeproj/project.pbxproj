@@ -85,7 +85,6 @@
 		7CA62F6719AF899800943F9C /* audio_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CA62F6619AF899800943F9C /* audio_press@2x.png */; };
 		7CBA8C2B19CAAC090066C389 /* HERESettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA8C2A19CAAC090066C389 /* HERESettingsTableViewController.m */; };
 		7CBA8C3419CAF50E0066C389 /* HERESetUsernameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBA8C3319CAF50E0066C389 /* HERESetUsernameViewController.m */; };
-		7CCB1F4119B4444600A49C8C /* HERECoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */; };
 		7CDD6D8A19922D5400138475 /* HEREMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */; };
 		7CF4970A199B887B001AD29F /* HERELocationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF49709199B887B001AD29F /* HERELocationHelper.m */; };
 		D10EAC2C19B6096100F1D5A7 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D10EAC2B19B6096100F1D5A7 /* User.m */; };
@@ -210,8 +209,6 @@
 		7CBA8C3219CAF50E0066C389 /* HERESetUsernameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERESetUsernameViewController.h; sourceTree = "<group>"; };
 		7CBA8C3319CAF50E0066C389 /* HERESetUsernameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERESetUsernameViewController.m; sourceTree = "<group>"; };
 		7CBA8C3519CB038C0066C389 /* Here 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Here 4.xcdatamodel"; sourceTree = "<group>"; };
-		7CCB1F3F19B4444600A49C8C /* HERECoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERECoreDataHelper.h; sourceTree = "<group>"; };
-		7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HERECoreDataHelper.m; sourceTree = "<group>"; };
 		7CDD6D8819922D5400138475 /* HEREMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEREMenuTableViewController.h; sourceTree = "<group>"; };
 		7CDD6D8919922D5400138475 /* HEREMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEREMenuTableViewController.m; sourceTree = "<group>"; };
 		7CF49708199B887B001AD29F /* HERELocationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HERELocationHelper.h; sourceTree = "<group>"; };
@@ -382,8 +379,6 @@
 				7C01C03619989AD700124BEC /* HEREConstant.m */,
 				7C583F3819AB370400B62244 /* APIManager.h */,
 				7C583F3919AB370400B62244 /* APIManager.m */,
-				7CCB1F3F19B4444600A49C8C /* HERECoreDataHelper.h */,
-				7CCB1F4019B4444600A49C8C /* HERECoreDataHelper.m */,
 				7CF49708199B887B001AD29F /* HERELocationHelper.h */,
 				7CF49709199B887B001AD29F /* HERELocationHelper.m */,
 				7CF1A1B91999CAF8004300AF /* Models */,
@@ -646,7 +641,6 @@
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
 				7C6EF3DF19CFFB020065840C /* Message.m in Sources */,
 				7CBA8C2B19CAAC090066C389 /* HERESettingsTableViewController.m in Sources */,
-				7CCB1F4119B4444600A49C8C /* HERECoreDataHelper.m in Sources */,
 				7C583F3A19AB370400B62244 /* APIManager.m in Sources */,
 				7C15B30E19C80A04006C8657 /* Message+API.m in Sources */,
 				7C9E818E1991DFA100156B88 /* main.m in Sources */,
