@@ -8,6 +8,7 @@
 
 #import "HERELocationHelper.h"
 #import "Location.h"
+#import "Message.h"
 #import "APIManager.h"
 
 @interface HERELocationHelper () {
@@ -143,13 +144,12 @@
             [self.delegate notifyWhenEntryBeacon:region];
             
             Location *location = [self locationFromBeaconRegion:region];
-            
-            [APIManager fetchMessagesForLocation:location];
-            
-            // Check when to send notification
-            if ([self shouldSendNotification:location]) {
-                [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", region.identifier]];
-            }
+            [APIManager fetchMessagesForLocation:location
+                               CompletionHandler:^(BOOL success, NSDictionary *response, NSError *error) {
+                                   if ([self shouldSendNotification:location]) {
+                                       [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", region.identifier]];
+                                   }
+                               }];
         }
     }
 }
@@ -229,7 +229,15 @@
     NSDictionary *dict = @{@"beaconId": currentBeaconId, @"updated_at": currentDate};
     [[NSUserDefaults standardUserDefaults] setObject:dict forKey:@"lastBeaconId"];
     
-    if ([currentBeaconId isEqualToString:lastBeaconId] && currentTime - lastTime <= 3600) {
+    BOOL hasUnreadMessage = NO;
+    for (Message *message in location.messages) {
+        if (!message.isRead) {
+            hasUnreadMessage = YES;
+            break;
+        }
+    }
+    
+    if (hasUnreadMessage && [currentBeaconId isEqualToString:lastBeaconId] && currentTime - lastTime <= 3600) {
         return NO;
     } else {
         return YES;

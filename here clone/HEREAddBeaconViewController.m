@@ -72,7 +72,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    
+    [self.locationHelper stopMonitoringBeacons];
     [self.locationHelper monitorBeacons];
 }
 

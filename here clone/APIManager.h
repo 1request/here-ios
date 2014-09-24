@@ -18,7 +18,7 @@ typedef void (^HERECompletionBlock)(BOOL success, NSDictionary *response, NSErro
 + (void)pushAudioMessageToServer:(NSData *)data Location:(Location *)location;
 + (void)pushTextMessageToServer:(NSString *)text Location:(Location *)location;
 + (void)fetchLocationsWithManagedObjectContext:(NSManagedObjectContext *)context;
-+ (void)fetchMessagesForLocation:(Location *)location;
++ (void)fetchMessagesForLocation:(Location *)location CompletionHandler:(HERECompletionBlock)completionHandler;
 + (void)createLocationInServer:(NSDictionary *)data CompletionHandler:(HERECompletionBlock)completionHandler;
 
 @end

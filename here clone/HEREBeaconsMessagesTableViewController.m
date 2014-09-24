@@ -386,8 +386,7 @@ static const NSUInteger kItemPerView = 50;
 {
     NSError *error = nil;
     
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
     self.audioPlayer.delegate = self;
     [self.audioPlayer play];
 }

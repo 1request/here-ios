@@ -68,7 +68,7 @@
     self.locationHelper.managedObjectContext = self.privateQueueContext;
     
     self.locationHelper.delegate = self;
-    
+    [self.locationHelper stopMonitoringBeacons];
     [self.locationHelper monitorBeacons];
     
     return YES;

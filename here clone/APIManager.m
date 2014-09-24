@@ -111,7 +111,7 @@
     }];
 }
 
-+ (void)fetchMessagesForLocation:(Location *)location
++ (void)fetchMessagesForLocation:(Location *)location CompletionHandler:(HERECompletionBlock)completionHandler
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHEREMessageClassKey];
     
@@ -133,6 +133,7 @@
         if (success) {
             NSLog(@"fetched messages for location %@ successfully", location.name);
             NSArray *messages = response[kHEREAPIDataKey];
+
             for (NSDictionary *message in messages) {
                 NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHEREMessageClassKey];
                 
@@ -150,6 +151,10 @@
             if (error) {
                 NSLog(@"error while fetch messages for location %@, error: %@", location.name, error.localizedDescription);
             }
+        }
+        
+        if (completionHandler) {
+            completionHandler(success, response, error);
         }
     }];
 }
