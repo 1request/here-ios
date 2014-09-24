@@ -10,6 +10,7 @@
 #import "Location+API.h"
 #import "Message+API.h"
 #import <ISO8601DateFormatter.h>
+#import "CoreDataStore.h"
 
 @interface APIManager ()
 @end
@@ -75,7 +76,7 @@
     [self serverRequest:request withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         NSLog(@"server response for upload audio: %@", response);
 //        [self saveMessageToCoreData:response[@"message"] Location:location];
-        [Message createMessageWithInfo:response[@"message"] ofLocation:location inManagedObjectContext:location.managedObjectContext];
+        [Message createMessageWithInfo:response[@"message"] ofLocation:location inManagedObjectContext:[CoreDataStore privateQueueContext]];
     }];
 }
 
@@ -89,7 +90,7 @@
         if (success) {
             NSLog(@"successfully posted text message to server");
             //            save message to core data
-            [Message createMessageWithInfo:response[@"message"] ofLocation:location inManagedObjectContext:location.managedObjectContext];
+            [Message createMessageWithInfo:response[@"message"] ofLocation:location inManagedObjectContext:[CoreDataStore privateQueueContext]];
         }
     }];
 }
@@ -117,7 +118,7 @@
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:NO]];
     request.fetchLimit = 1;
     
-    NSArray *messages = [location.managedObjectContext executeFetchRequest:request error:NULL];
+    NSArray *messages = [[CoreDataStore privateQueueContext] executeFetchRequest:request error:NULL];
     NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:@"set_user_date"];
     
     double milliseconds = [messages count] ? [[(Message *)[messages firstObject] createdAt] timeIntervalSince1970] * 1000.0 : [date timeIntervalSince1970] * 1000.0;
@@ -141,9 +142,9 @@
                 
                 NSError *fetchError = nil;
                 
-                NSArray *result = [location.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+                NSArray *result = [[CoreDataStore privateQueueContext] executeFetchRequest:fetchRequest error:&fetchError];
                 
-                if (!fetchError && [result count] == 0) [Message createMessageWithInfo:message ofLocation:location inManagedObjectContext:location.managedObjectContext];
+                if (!fetchError && [result count] == 0) [Message createMessageWithInfo:message ofLocation:location inManagedObjectContext:[CoreDataStore privateQueueContext]];
             }
         } else {
             if (error) {
