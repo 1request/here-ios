@@ -55,10 +55,14 @@
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
     
     request.predicate = nil;
-
-    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPILocationNameKey
-                                                              ascending:YES
-                                                               ]];
+    
+    NSSortDescriptor *lastMessageDateDescriptor = [NSSortDescriptor sortDescriptorWithKey:kHERELocationLastMessageDateKey
+                                                                                ascending:NO];
+    
+    NSSortDescriptor *nameDescriptor = [NSSortDescriptor sortDescriptorWithKey:kHERELocationNameKey
+                                                                     ascending:YES];
+    
+    request.sortDescriptors = @[lastMessageDateDescriptor, nameDescriptor];
 
     [request setRelationshipKeyPathsForPrefetching:@[@"messages"]];
     

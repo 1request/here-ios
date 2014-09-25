@@ -43,9 +43,11 @@
     else {
         message = [NSEntityDescription insertNewObjectForEntityForName:kHEREMessageClassKey inManagedObjectContext:context];
         message.messageId = messageId;
+        
         if (location.managedObjectContext != context) {
             location = (Location *)[context objectWithID:location.objectID];
         }
+        
         message.location = location;
         message.isRead = [NSNumber numberWithBool:NO];
         if (messageDictionary[kHEREAPIMessagesDeviceIdKey] != [NSNull null]) message.deviceId = [messageDictionary valueForKeyPath:kHEREAPIMessagesDeviceIdKey];
@@ -66,7 +68,14 @@
                 }
             }
         }
-        NSLog(@"message: %@", message);
+        
+        if (!location.lastMessageDate) {
+            location.lastMessageDate = message.createdAt;
+        }
+        else {
+            location.lastMessageDate = [location.lastMessageDate laterDate:message.createdAt];
+        }
+        
         [context save:NULL];
     }
     
