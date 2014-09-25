@@ -62,7 +62,6 @@
             NSURL *url = [[documentDirectories firstObject] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.m4a", message.messageId]];
             if (![[NSFileManager defaultManager] fileExistsAtPath:[url absoluteString]]) {
                 if ([audioData writeToURL:url atomically:YES]) {
-                    message.localURL = [url absoluteString];
                     message.audioLength = [self durationFromAudioFileURL:url];
                     NSLog(@"finish downloading audio file for message %@; url: %@", message.messageId, url);
                 }

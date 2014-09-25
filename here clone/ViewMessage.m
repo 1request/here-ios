@@ -45,17 +45,16 @@
             _type = JSQMessageText;
         }
         else {
-            NSURL *url = [NSURL URLWithString:message.localURL];
-            if ([url isFileURL]) {
-                _type = JSQMessageAudio;
-                _audioLength = message.audioLength;
-                NSData *audioData = [NSData dataWithContentsOfURL:url];
-                if (audioData) {
-                    _audio = audioData;
-                }
-                else {
-                    _sourceURL = [NSURL URLWithString:message.audioFilePath];
-                }
+            NSArray *documentDirectories = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
+            NSURL *url = [[documentDirectories firstObject] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.m4a", message.messageId]];
+            _type = JSQMessageAudio;
+            _audioLength = message.audioLength;
+            NSData *audioData = [NSData dataWithContentsOfURL:url];
+            if (audioData) {
+                _audio = audioData;
+            }
+            else {
+                _sourceURL = [NSURL URLWithString:message.audioFilePath];
             }
         }
     }

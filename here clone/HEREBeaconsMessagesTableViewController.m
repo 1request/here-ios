@@ -832,7 +832,7 @@ static const NSUInteger kItemPerView = 50;
         NSLog(@"didAddObject, object: %@", anObject);
         Message *coreDataMessage = anObject;
         if (coreDataMessage.username && ![coreDataMessage.username isEqualToString:[User username]]) {
-            if (coreDataMessage.text || coreDataMessage.localURL) {
+            if (coreDataMessage.text || coreDataMessage.audioFilePath) {
                 ViewMessage *message = [[ViewMessage alloc] initWithCoreDataMessage:coreDataMessage];
                 [self.messages addObject:message];
                 [self finishReceivingMessage];
