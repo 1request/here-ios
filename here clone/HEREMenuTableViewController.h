@@ -10,5 +10,4 @@
 #import "REFrostedViewController.h"
 
 @interface HEREMenuTableViewController : UITableViewController
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @end

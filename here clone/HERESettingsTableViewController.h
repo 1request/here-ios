@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HERESettingsTableViewController : UITableViewController
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
 @end
