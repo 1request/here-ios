@@ -64,4 +64,10 @@ NSString *const kHEREAPIMessagesBoundaryKey     = @"testboundaryblablabla";
 NSString *const kHERELocationClassKey           = @"Location";
 NSString *const kHEREMessageClassKey            = @"Message";
 
+#pragma mark - notification
+NSString *const kHERENotificationLocationIdKey = @"locationId";
+
+#pragma mark - Installation
+NSString *const kHEREAppInstallationDateKey     = @"installationDate";
+
 @end

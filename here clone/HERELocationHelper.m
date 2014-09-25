@@ -8,7 +8,8 @@
 
 #import "HERELocationHelper.h"
 #import "Location.h"
-#import "HERECoreDataHelper.h"
+#import "Message.h"
+#import "APIManager.h"
 
 @interface HERELocationHelper () {
     NSTimer *timer;
@@ -42,7 +43,7 @@
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
     
-    NSArray *locations = [[HERECoreDataHelper managedObjectContext] executeFetchRequest:fetchRequest error:nil];
+    NSArray *locations = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
     
     for (Location *location in locations) {
         if (location.uuid && location.major && location.minor && location.name) {
@@ -82,12 +83,20 @@
     }
 }
 
-//- (void)stopMonitoringBeacon:(HEREBeacon *)beacon
-//{
-//    CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:beacon.uuid major:beacon.major minor:beacon.minor identifier:beacon.name];
-//    [self.locationManager stopMonitoringForRegion:beaconRegion];
-//    [self.locationManager stopRangingBeaconsInRegion:beaconRegion];
-//}
+- (Location *)locationFromBeaconRegion:(CLBeaconRegion *)beaconRegion
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
+    request.predicate = [NSPredicate predicateWithFormat:@"%K == %@", kHEREAPILocationNameKey, beaconRegion.identifier];
+    NSArray *locations = [self.managedObjectContext executeFetchRequest:request error:NULL];
+    
+    if ([locations count]) {
+        Location *location = [locations firstObject];
+        return location;
+    }
+    else {
+        return nil;
+    }
+}
 
 #pragma mark - CLocationManager Delegate
 
@@ -131,13 +140,16 @@
     
     if (self.delegate) {
         if (region.major && region.minor) {
-//            self.previousTriggeredBeaconParseId = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREBeaconTriggeredKey];
+            
             [self.delegate notifyWhenEntryBeacon:region];
             
-            // Check when to send notification
-            if ([self shouldSendNotification:region]) {
-                [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", region.identifier]];
-            }
+            Location *location = [self locationFromBeaconRegion:region];
+            [APIManager fetchMessagesForLocation:location
+                               CompletionHandler:^(BOOL success, NSDictionary *response, NSError *error) {
+                                   if ([self shouldSendNotification:location]) {
+                                       [self sendLocalNotificationWithMessage:[NSString stringWithFormat:@"New message from %@!", location.name] WithUserInfo:@{kHERENotificationLocationIdKey : location.locationId}];
+                                   }
+                               }];
         }
     }
 }
@@ -177,7 +189,7 @@
 
 #pragma mark - About Notification
 
-- (void)sendLocalNotificationWithMessage:(NSString *)message
+- (void)sendLocalNotificationWithMessage:(NSString *)message WithUserInfo:(NSDictionary *)userInfo
 {
     UILocalNotification *notification = [UILocalNotification new];
     
@@ -188,6 +200,7 @@
     notification.alertAction = NSLocalizedString(@"View Details", nil);
     notification.soundName = UILocalNotificationDefaultSoundName;
     notification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+    notification.userInfo = userInfo;
     
     if ([notification respondsToSelector:@selector(regionTriggersOnce)]) {
         notification.regionTriggersOnce = YES;
@@ -204,24 +217,36 @@
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
 
-- (BOOL)shouldSendNotification:(CLBeaconRegion *)region
+- (BOOL)shouldSendNotification:(Location *)location
 {
     NSDictionary *lastDict = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastBeaconId"];
     NSString *lastBeaconId = [lastDict objectForKey:@"beaconId"];
     NSDate *lastDate = [lastDict objectForKey:@"updated_at"];
     NSTimeInterval lastTime = [lastDate timeIntervalSince1970];
-    NSString *currentBeaconId = [NSString stringWithFormat:@"%@-%@-%@", [region.proximityUUID UUIDString], [region major], [region minor]];
+    NSString *currentBeaconId = [NSString stringWithFormat:@"%@-%@-%@", location.uuid, location.major, location.minor];
     
     NSDate *currentDate = [[NSDate alloc] init];
     NSTimeInterval currentTime = [currentDate timeIntervalSince1970];
     NSDictionary *dict = @{@"beaconId": currentBeaconId, @"updated_at": currentDate};
     [[NSUserDefaults standardUserDefaults] setObject:dict forKey:@"lastBeaconId"];
     
-    if ([currentBeaconId isEqualToString:lastBeaconId] && currentTime - lastTime <= 3600) {
+    BOOL hasUnreadMessage = NO;
+    for (Message *message in location.messages) {
+        if (![message.isRead boolValue]) {
+            hasUnreadMessage = YES;
+            break;
+        }
+    }
+    if (hasUnreadMessage) {
+        if ([currentBeaconId isEqualToString:lastBeaconId] && currentTime - lastTime <= 3600) {
+            return NO;
+        } else {
+            return YES;
+        };
+    }
+    else {
         return NO;
-    } else {
-        return YES;
-    };
+    }
 }
 
 @end

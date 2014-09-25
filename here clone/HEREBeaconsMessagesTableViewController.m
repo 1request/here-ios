@@ -14,7 +14,6 @@
 #import "ViewMessage.h"
 #import "MBProgressHUD.h"
 #import "Message+API.h"
-#import "HERECoreDataHelper.h"
 #import <SVPullToRefresh.h>
 #import "APIManager.h"
 #import <JSQMessageData.h>
@@ -186,8 +185,6 @@ static const NSUInteger kItemPerView = 50;
     self.textView = self.inputToolbar.contentView.textView;
     
     [self loadMessages];
-    
-    [APIManager fetchMessagesForLocation:self.location];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -369,7 +366,6 @@ static const NSUInteger kItemPerView = 50;
     ViewMessage *audioMessage = [[ViewMessage alloc] initWithAudio:self.audioData sender:[User username] date:currentDate];
     audioMessage.audioLength = [Message durationFromAudioFileURL:documentsURL];
     [self.messages addObject:audioMessage];
-    [APIManager fetchMessagesForLocation:self.location];
     [self finishSendingMessage];
 }
 
@@ -390,8 +386,7 @@ static const NSUInteger kItemPerView = 50;
 {
     NSError *error = nil;
     
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
     self.audioPlayer.delegate = self;
     [self.audioPlayer play];
 }

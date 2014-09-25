@@ -10,6 +10,7 @@
 #import "Location+API.h"
 #import "Message+API.h"
 #import <ISO8601DateFormatter.h>
+#import "CoreDataStore.h"
 
 @interface APIManager ()
 @end
@@ -75,7 +76,7 @@
     [self serverRequest:request withCallback:^(BOOL success, NSDictionary *response, NSError *error) {
         NSLog(@"server response for upload audio: %@", response);
 //        [self saveMessageToCoreData:response[@"message"] Location:location];
-        [Message createMessageWithInfo:response[@"message"] ofLocation:location inManagedObjectContext:location.managedObjectContext];
+        [Message createMessageWithInfo:response[@"message"] ofLocation:location inManagedObjectContext:[CoreDataStore privateQueueContext]];
     }];
 }
 
@@ -89,12 +90,12 @@
         if (success) {
             NSLog(@"successfully posted text message to server");
             //            save message to core data
-            [Message createMessageWithInfo:response[@"message"] ofLocation:location inManagedObjectContext:location.managedObjectContext];
+            [Message createMessageWithInfo:response[@"message"] ofLocation:location inManagedObjectContext:[CoreDataStore privateQueueContext]];
         }
     }];
 }
 
-+ (void)fetchLocationsWithManagedObjectContext:(NSManagedObjectContext *)context
++ (void)fetchLocationsWithManagedObjectContext:(NSManagedObjectContext *)context CompletionHandler:(HERECompletionBlock)completionHandler
 {
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:kHEREAPILocationsUrl]];
     
@@ -107,18 +108,21 @@
         else {
             NSLog(@"error when fetch locations: %@", error);
         }
+        if (completionHandler) {
+            completionHandler(success, response, error);
+        }
     }];
 }
 
-+ (void)fetchMessagesForLocation:(Location *)location
++ (void)fetchMessagesForLocation:(Location *)location CompletionHandler:(HERECompletionBlock)completionHandler
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHEREMessageClassKey];
     
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPICreatedAtKey ascending:NO]];
     request.fetchLimit = 1;
     
-    NSArray *messages = [location.managedObjectContext executeFetchRequest:request error:NULL];
-    NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:@"set_user_date"];
+    NSArray *messages = [[CoreDataStore privateQueueContext] executeFetchRequest:request error:NULL];
+    NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kHEREAppInstallationDateKey];
     
     double milliseconds = [messages count] ? [[(Message *)[messages firstObject] createdAt] timeIntervalSince1970] * 1000.0 : [date timeIntervalSince1970] * 1000.0;
     
@@ -132,6 +136,7 @@
         if (success) {
             NSLog(@"fetched messages for location %@ successfully", location.name);
             NSArray *messages = response[kHEREAPIDataKey];
+
             for (NSDictionary *message in messages) {
                 NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kHEREMessageClassKey];
                 
@@ -141,14 +146,18 @@
                 
                 NSError *fetchError = nil;
                 
-                NSArray *result = [location.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+                NSArray *result = [[CoreDataStore privateQueueContext] executeFetchRequest:fetchRequest error:&fetchError];
                 
-                if (!fetchError && [result count] == 0) [Message createMessageWithInfo:message ofLocation:location inManagedObjectContext:location.managedObjectContext];
+                if (!fetchError && [result count] == 0) [Message createMessageWithInfo:message ofLocation:location inManagedObjectContext:[CoreDataStore privateQueueContext]];
             }
         } else {
             if (error) {
                 NSLog(@"error while fetch messages for location %@, error: %@", location.name, error.localizedDescription);
             }
+        }
+        
+        if (completionHandler) {
+            completionHandler(success, response, error);
         }
     }];
 }

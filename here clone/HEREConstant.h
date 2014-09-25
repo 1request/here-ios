@@ -64,4 +64,10 @@ extern NSString *const kHEREAPIMessagesBoundaryKey;
 extern NSString *const kHERELocationClassKey;
 extern NSString *const kHEREMessageClassKey;
 
+#pragma mark - notification
+extern NSString *const kHERENotificationLocationIdKey;
+
+#pragma mark - Installation
+extern NSString *const kHEREAppInstallationDateKey;
+
 @end

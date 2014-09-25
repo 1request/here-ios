@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import "HEREBeacon.h"
 
 @protocol locationDelegate <NSObject>
 @optional
@@ -22,11 +21,12 @@
 @end
 
 @interface HERELocationHelper : NSObject <CLLocationManagerDelegate>
-
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (assign, nonatomic) id <locationDelegate> delegate;
 
+- (void)requestLocationNotification;
+
 - (void)monitorBeacons;
 - (void)stopMonitoringBeacons;
-//- (void)stopMonitoringBeacon:(HEREBeacon *)beacon;
 @end

@@ -11,16 +11,17 @@
 #import "HEREHomeViewController.h"
 #import "APIManager.h"
 #import "HEREMenuTableViewController.h"
+#import "HERELocationHelper.h"
+#import "CoreDataStore.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <locationDelegate>
 
+@property (strong, nonatomic) HERELocationHelper *locationHelper;
+@property (strong, nonatomic) NSManagedObjectContext *mainQueueContext;
+@property (strong, nonatomic) NSManagedObjectContext *privateQueueContext;
 @end
 
 @implementation AppDelegate
-
-@synthesize managedObjectContext = _managedObjectContext;
-@synthesize managedObjectModel = _managedObjectModel;
-@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -49,15 +50,34 @@
     }
     
     HERERootViewController *rootVC = (HERERootViewController *)self.window.rootViewController;
-    UINavigationController *navigationVC = (UINavigationController *)rootVC.contentViewController;
 
-    HEREHomeViewController *homeVC = (HEREHomeViewController *)navigationVC.topViewController;
     HEREMenuTableViewController *menuVC = (HEREMenuTableViewController *)rootVC.menuViewController;
+    UINavigationController *nav = (UINavigationController *)rootVC.contentViewController;
+    HEREHomeViewController *homeVC = (HEREHomeViewController *)nav.topViewController;
     
-    menuVC.managedObjectContext = self.managedObjectContext;
-    homeVC.managedObjectContext = self.managedObjectContext;
+    self.mainQueueContext = [CoreDataStore mainQueueContext];
+    self.privateQueueContext = [CoreDataStore privateQueueContext];
     
-    [APIManager fetchLocationsWithManagedObjectContext:self.managedObjectContext];
+    menuVC.managedObjectContext = self.mainQueueContext;
+    homeVC.managedObjectContext = self.mainQueueContext;
+
+    self.locationHelper = [[HERELocationHelper alloc] init];
+    
+    self.locationHelper.managedObjectContext = self.privateQueueContext;
+    
+    self.locationHelper.delegate = self;
+    
+    __block AppDelegate *weakSelf = self;
+    [APIManager fetchLocationsWithManagedObjectContext:self.privateQueueContext CompletionHandler:^(BOOL success, NSDictionary *response, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.locationHelper monitorBeacons];
+        });
+    }];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kHEREAppInstallationDateKey]) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kHEREAppInstallationDateKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     return YES;
 }
@@ -89,7 +109,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     NSLog(@"applicationWillTerminate");
-    [self saveContext];
 }
 
 #pragma mark - Notifications
@@ -101,11 +120,26 @@
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive) {
         NSLog(@"application active didreceivelocationnotification");
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:notification.alertBody delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:notification.alertBody delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alert show];
+        
+        if ([notification.userInfo objectForKey:kHERENotificationLocationIdKey]) {
+            AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+            AudioServicesPlaySystemSound(1007);
+        }
     }
     else if (state == UIApplicationStateInactive) {
         NSLog(@"application inactive didreceivelocationnotification");
+        if ([notification.userInfo objectForKey:kHERENotificationLocationIdKey]) {
+            Location *location = [self locationWithLocationId:(NSString *)[notification.userInfo objectForKey:kHERENotificationLocationIdKey]];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            HERERootViewController *rootVC = (HERERootViewController *)self.window.rootViewController;
+            UINavigationController *nav = (UINavigationController *)rootVC.contentViewController;
+            HEREHomeViewController *homeVC = [storyboard instantiateViewControllerWithIdentifier:@"homeController"];
+            HEREBeaconsMessagesTableViewController *beaconsMessagesTVC = [storyboard instantiateViewControllerWithIdentifier:@"beaconsMessagesController"];
+            beaconsMessagesTVC.location = location;
+            [nav setViewControllers:@[homeVC, beaconsMessagesTVC]];
+        }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil];
 }
@@ -144,103 +178,45 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber: 0];
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
 }
+#pragma mark - locationHelper delegate
 
-- (void)saveContext
+- (void)notifyWhenEntryBeacon:(CLBeaconRegion *)beaconRegion
 {
-    NSError *error = nil;
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
+    NSLog(@"Enter region (app delegate): %@", beaconRegion);
+//    [self fetchMessagesForBeaconRegion:beaconRegion];
 }
 
-#pragma mark - Core Data stack
-
-// Returns the managed object context for the application.
-// If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
-- (NSManagedObjectContext *)managedObjectContext
+- (void)notifyWhenExitBeacon:(CLBeaconRegion *)beaconRegion
 {
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-    }
-    return _managedObjectContext;
+    NSLog(@"exit region (app delegate): %@", beaconRegion);
 }
 
-// Returns the managed object model for the application.
-// If the model doesn't already exist, it is created from the application's model.
-- (NSManagedObjectModel *)managedObjectModel
+- (void)notifyWhenFar:(CLBeacon *)beacon
 {
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Here" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    return _managedObjectModel;
+    //    NSLog(@"far from beacon: %@", beacon);
 }
 
-// Returns the persistent store coordinator for the application.
-// If the coordinator doesn't already exist, it is created and the application's store added to it.
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+- (void)notifyWhenImmediate:(CLBeacon *)beacon
 {
-    if (_persistentStoreCoordinator != nil) {
-        return _persistentStoreCoordinator;
-    }
-    
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Here.sqlite"];
-    
-    NSError *error = nil;
-    
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    
-    NSDictionary *options = @{ NSMigratePersistentStoresAutomaticallyOption : @(YES), NSInferMappingModelAutomaticallyOption : @(YES) };
-    
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
-        /*
-         Replace this implementation with code to handle the error appropriately.
-         
-         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-         
-         Typical reasons for an error here include:
-         * The persistent store is not accessible;
-         * The schema for the persistent store is incompatible with current managed object model.
-         Check the error message to determine what the actual problem was.
-         
-         If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
-         
-         If you encounter schema incompatibility errors during development, you can reduce their frequency by:
-         * Simply deleting the existing store:
-         [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil]
-         
-         * Performing automatic lightweight migration by passing the following dictionary as the options parameter:
-         @{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES}
-         
-         Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
-         
-         */
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    return _persistentStoreCoordinator;
+    //    NSLog(@"Immediate to beacon: %@", beacon);
 }
 
-#pragma mark - Application's Documents directory
-
-// Returns the URL to the application's Documents directory.
-- (NSURL *)applicationDocumentsDirectory
+- (void)notifyWhenNear:(CLBeacon *)beacon
 {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    //    NSLog(@"Near beacon: %@", beacon);
+}
+
+#pragma mark - helper methods
+
+- (Location *)locationWithLocationId:(NSString *)locationId
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
+    
+    request.predicate = [NSPredicate predicateWithFormat:@"locationId == %@", locationId];
+    
+    NSArray *locations = [self.mainQueueContext executeFetchRequest:request error:NULL];
+    if ([locations count]) return [locations firstObject];
+    else return nil;
 }
 
 @end

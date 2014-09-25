@@ -9,8 +9,8 @@
 #import "HEREAddBeaconViewController.h"
 #import "HERELocationHelper.h"
 #import "Location.h"
-#import "HERECoreDataHelper.h"
 #import "APIManager.h"
+#import "CoreDataStore.h"
 
 @interface HEREAddBeaconViewController ()
 
@@ -72,7 +72,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    
+    [self.locationHelper stopMonitoringBeacons];
     [self.locationHelper monitorBeacons];
 }
 
@@ -93,7 +93,7 @@
     
     [APIManager createLocationInServer:data CompletionHandler:^(BOOL success, NSDictionary *response, NSError *error) {
         if (success) {
-            [APIManager fetchLocationsWithManagedObjectContext:self.managedObjectContext];
+            [APIManager fetchLocationsWithManagedObjectContext:[CoreDataStore privateQueueContext] CompletionHandler:NULL];
         }
     }];
     
