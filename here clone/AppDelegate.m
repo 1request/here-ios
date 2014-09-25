@@ -120,20 +120,18 @@
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive) {
         NSLog(@"application active didreceivelocationnotification");
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:notification.alertBody delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:notification.alertBody delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alert show];
+        
+        if ([notification.userInfo objectForKey:kHERENotificationLocationIdKey]) {
+            AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+            AudioServicesPlaySystemSound(1007);
+        }
     }
     else if (state == UIApplicationStateInactive) {
         NSLog(@"application inactive didreceivelocationnotification");
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
-        
-        request.predicate = [NSPredicate predicateWithFormat:@"locationId == %@", [notification.userInfo objectForKey:kHERENotificationLocationIdKey]];
-        
-        NSArray *locations = [self.mainQueueContext executeFetchRequest:request error:NULL];
-        
-        if ([locations count]) {
-            Location *location = [locations firstObject];
-            
+        if ([notification.userInfo objectForKey:kHERENotificationLocationIdKey]) {
+            Location *location = [self locationWithLocationId:(NSString *)[notification.userInfo objectForKey:kHERENotificationLocationIdKey]];
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             HERERootViewController *rootVC = (HERERootViewController *)self.window.rootViewController;
             UINavigationController *nav = (UINavigationController *)rootVC.contentViewController;
@@ -142,7 +140,6 @@
             beaconsMessagesTVC.location = location;
             [nav setViewControllers:@[homeVC, beaconsMessagesTVC]];
         }
-        
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil];
 }
@@ -207,6 +204,19 @@
 - (void)notifyWhenNear:(CLBeacon *)beacon
 {
     //    NSLog(@"Near beacon: %@", beacon);
+}
+
+#pragma mark - helper methods
+
+- (Location *)locationWithLocationId:(NSString *)locationId
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
+    
+    request.predicate = [NSPredicate predicateWithFormat:@"locationId == %@", locationId];
+    
+    NSArray *locations = [self.mainQueueContext executeFetchRequest:request error:NULL];
+    if ([locations count]) return [locations firstObject];
+    else return nil;
 }
 
 @end

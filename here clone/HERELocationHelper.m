@@ -200,6 +200,7 @@
     notification.alertAction = NSLocalizedString(@"View Details", nil);
     notification.soundName = UILocalNotificationDefaultSoundName;
     notification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+    notification.userInfo = userInfo;
     
     if ([notification respondsToSelector:@selector(regionTriggersOnce)]) {
         notification.regionTriggersOnce = YES;
@@ -231,7 +232,7 @@
     
     BOOL hasUnreadMessage = NO;
     for (Message *message in location.messages) {
-        if (!message.isRead) {
+        if (![message.isRead boolValue]) {
             hasUnreadMessage = YES;
             break;
         }
