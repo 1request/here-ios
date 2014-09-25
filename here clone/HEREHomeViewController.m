@@ -10,38 +10,22 @@
 #import "Location.h"
 #import "HERELocationHelper.h"
 #import "APIManager.h"
+#import "CoreDataStore.h"
 
 @interface HEREHomeViewController () <NSFetchedResultsControllerDelegate>
-
-{
-    NSTimer *timer;
-    NSTimeInterval timeInterval;
-}
-
-@property (strong, nonatomic) NSDate *startDate;
-@property (strong, nonatomic) NSMutableArray *audioRecords;
-@property (strong, nonatomic) NSMutableArray *beacons;
-@property (strong, nonatomic) NSData *audioData;
-@property (strong, nonatomic) NSMutableArray *locations;
-@property (strong, nonatomic) HERELocationHelper *locationHelper;
 
 @end
 
 @implementation HEREHomeViewController
 
-#pragma mark - instantiation
-
-- (NSMutableArray *)locations
-{
-    if (!_locations) _locations = [[NSMutableArray alloc] init];
-    return _locations;
-}
-
 #pragma mark - View Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-        
+    
     [self.navigationController setNavigationBarHidden:NO];
+    
+    self.managedObjectContext = [CoreDataStore mainQueueContext];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -49,19 +33,6 @@
     [super viewWillAppear:animated];
     
     [self.tableView reloadData];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [self.locationHelper stopMonitoringBeacons];
-    [self.locationHelper monitorBeacons];
 }
 
 #pragma mark - Navigation
@@ -84,10 +55,14 @@
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:kHERELocationClassKey];
     
     request.predicate = nil;
-
-    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:kHEREAPILocationNameKey
-                                                              ascending:YES
-                                                               ]];
+    
+    NSSortDescriptor *lastMessageDateDescriptor = [NSSortDescriptor sortDescriptorWithKey:kHERELocationLastMessageDateKey
+                                                                                ascending:NO];
+    
+    NSSortDescriptor *nameDescriptor = [NSSortDescriptor sortDescriptorWithKey:kHERELocationNameKey
+                                                                     ascending:YES];
+    
+    request.sortDescriptors = @[lastMessageDateDescriptor, nameDescriptor];
 
     [request setRelationshipKeyPathsForPrefetching:@[@"messages"]];
     

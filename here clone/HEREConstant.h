@@ -62,6 +62,8 @@ extern NSString *const kHEREAPIMessagesBoundaryKey;
 
 #pragma mark - Core Data Classes
 extern NSString *const kHERELocationClassKey;
+extern NSString *const kHERELocationLastMessageDateKey;
+extern NSString *const kHERELocationNameKey;
 extern NSString *const kHEREMessageClassKey;
 
 #pragma mark - notification

@@ -48,19 +48,10 @@
     } else {
         [app registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert];
     }
-    
-    HERERootViewController *rootVC = (HERERootViewController *)self.window.rootViewController;
 
-    HEREMenuTableViewController *menuVC = (HEREMenuTableViewController *)rootVC.menuViewController;
-    UINavigationController *nav = (UINavigationController *)rootVC.contentViewController;
-    HEREHomeViewController *homeVC = (HEREHomeViewController *)nav.topViewController;
-    
     self.mainQueueContext = [CoreDataStore mainQueueContext];
     self.privateQueueContext = [CoreDataStore privateQueueContext];
     
-    menuVC.managedObjectContext = self.mainQueueContext;
-    homeVC.managedObjectContext = self.mainQueueContext;
-
     self.locationHelper = [[HERELocationHelper alloc] init];
     
     self.locationHelper.managedObjectContext = self.privateQueueContext;
@@ -135,13 +126,12 @@
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             HERERootViewController *rootVC = (HERERootViewController *)self.window.rootViewController;
             UINavigationController *nav = (UINavigationController *)rootVC.contentViewController;
-            HEREHomeViewController *homeVC = [storyboard instantiateViewControllerWithIdentifier:@"homeController"];
+
             HEREBeaconsMessagesTableViewController *beaconsMessagesTVC = [storyboard instantiateViewControllerWithIdentifier:@"beaconsMessagesController"];
             beaconsMessagesTVC.location = location;
-            [nav setViewControllers:@[homeVC, beaconsMessagesTVC]];
+            [nav pushViewController:beaconsMessagesTVC animated:NO];
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"setBeacon" object:nil];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken

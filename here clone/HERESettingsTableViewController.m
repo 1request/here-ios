@@ -34,11 +34,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.destinationViewController isKindOfClass:[HEREAddBeaconViewController class]]) {
-        HEREAddBeaconViewController *addBeaconVC = segue.destinationViewController;
-        addBeaconVC.managedObjectContext = self.managedObjectContext;
-    }
-    else if ([segue.destinationViewController isKindOfClass:[HERESetUsernameViewController class]]) {
+    if ([segue.destinationViewController isKindOfClass:[HERESetUsernameViewController class]]) {
         HERESetUsernameViewController *setUsernameVC = segue.destinationViewController;
         setUsernameVC.hideSaveButton = YES;
     }

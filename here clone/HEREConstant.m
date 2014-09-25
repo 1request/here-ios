@@ -61,7 +61,10 @@ NSString *const kHEREAPIMessagesDeviceTypeKey   = @"deviceType";
 NSString *const kHEREAPIMessagesBoundaryKey     = @"testboundaryblablabla";
 
 #pragma mark - Core Data Classes
-NSString *const kHERELocationClassKey           = @"Location";
+NSString *const kHERELocationClassKey                   = @"Location";
+NSString *const kHERELocationLastMessageDateKey         = @"lastMessageDate";
+NSString *const kHERELocationNameKey                    = @"name";
+
 NSString *const kHEREMessageClassKey            = @"Message";
 
 #pragma mark - notification

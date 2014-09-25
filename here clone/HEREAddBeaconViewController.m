@@ -39,6 +39,14 @@
     return _locationHelper;
 }
 
+- (NSManagedObjectContext *)managedObjectContext
+{
+    if (!_managedObjectContext) {
+        _managedObjectContext = [CoreDataStore mainQueueContext];
+    }
+    return _managedObjectContext;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

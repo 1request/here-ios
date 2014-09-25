@@ -107,13 +107,11 @@
     
     if (indexPath.row == 0) {
         HEREHomeViewController *homeViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeController"];
-        homeViewController.managedObjectContext = self.managedObjectContext;
         
         navigationController.viewControllers = @[homeViewController];
     }
     else {
         HERESettingsTableViewController *settingsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingsController"];
-        settingsTableViewController.managedObjectContext = self.managedObjectContext;
         
         navigationController.viewControllers = @[settingsTableViewController];
     }
