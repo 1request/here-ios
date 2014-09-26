@@ -70,6 +70,7 @@
 		7C41D45B19D51CD700CFAB33 /* here_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C41D45919D51CD700CFAB33 /* here_image.png */; };
 		7C41D45C19D51CD700CFAB33 /* here_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C41D45A19D51CD700CFAB33 /* here_thumb.png */; };
 		7C41D46019D51DA300CFAB33 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C41D45F19D51DA300CFAB33 /* Location.m */; };
+		7C41D46C19D5476F00CFAB33 /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C41D46B19D5476F00CFAB33 /* LocationTableViewCell.m */; };
 		7C583F3A19AB370400B62244 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C583F3919AB370400B62244 /* APIManager.m */; };
 		7C5B9C2719D2C5F400C36E80 /* CoreDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B9C2619D2C5F400C36E80 /* CoreDataStore.m */; };
 		7C5B9C3119D2C6C000C36E80 /* NSManagedObjectID+TBString.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B9C2A19D2C6C000C36E80 /* NSManagedObjectID+TBString.m */; };
@@ -187,6 +188,8 @@
 		7C41D45D19D51D5700CFAB33 /* Here 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Here 8.xcdatamodel"; sourceTree = "<group>"; };
 		7C41D45E19D51DA300CFAB33 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		7C41D45F19D51DA300CFAB33 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		7C41D46A19D5476F00CFAB33 /* LocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTableViewCell.h; sourceTree = "<group>"; };
+		7C41D46B19D5476F00CFAB33 /* LocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewCell.m; sourceTree = "<group>"; };
 		7C583F3819AB370400B62244 /* APIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		7C583F3919AB370400B62244 /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		7C5B9C2519D2C5F400C36E80 /* CoreDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStore.h; sourceTree = "<group>"; };
@@ -276,6 +279,8 @@
 			isa = PBXGroup;
 			children = (
 				7C9E81951991DFA100156B88 /* Main.storyboard */,
+				7C41D46A19D5476F00CFAB33 /* LocationTableViewCell.h */,
+				7C41D46B19D5476F00CFAB33 /* LocationTableViewCell.m */,
 				7C15B35419C89AFA006C8657 /* AudioPlayerView.h */,
 				7C15B35519C89AFA006C8657 /* AudioPlayerView.m */,
 			);
@@ -685,6 +690,7 @@
 				D10EAC2C19B6096100F1D5A7 /* User.m in Sources */,
 				7C2B11B01998B72F00C3EBC1 /* HEREBeaconsMessagesTableViewController.m in Sources */,
 				7C3E5C151991E1E900C53C7B /* HERERootViewController.m in Sources */,
+				7C41D46C19D5476F00CFAB33 /* LocationTableViewCell.m in Sources */,
 				7C90967419D40B1E005CE62B /* Message.m in Sources */,
 				7CBA8C2B19CAAC090066C389 /* HERESettingsTableViewController.m in Sources */,
 				7C583F3A19AB370400B62244 /* APIManager.m in Sources */,

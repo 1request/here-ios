@@ -8,9 +8,11 @@
 
 #import "HEREHomeViewController.h"
 #import "Location.h"
+#import "Message.h"
 #import "HERELocationHelper.h"
 #import "APIManager.h"
 #import "CoreDataStore.h"
+#import "LocationTableViewCell.h"
 
 @interface HEREHomeViewController () <NSFetchedResultsControllerDelegate>
 
@@ -81,19 +83,63 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"groupCell"];
+    LocationTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"groupCell"];
+    
+//    if (cell == nil) {
+//        cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"groupCell"];
+//    }
     
     Location *location = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
-    cell.textLabel.text = location.name;
-    
+
+    cell.locationNameLabel.text = location.name;
+
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isRead == %@", [NSNumber numberWithBool:NO]];
     
     NSSet *filteredMessages = [location.messages filteredSetUsingPredicate:predicate];
+    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1)
+    {
+        cell.contentView.frame = cell.bounds;
+        cell.contentView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleTopMargin |UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
+    }
+    if ([filteredMessages count] > 0) {
+        cell.unreadMessageCountLabel.text = [NSString stringWithFormat:@"%d", (int)[filteredMessages count]];
+        cell.unreadMessageCountView.hidden = NO;
+    }
+    UIImage *image = nil;
+    if (!location.thumbnailURL) {
+        image = [UIImage imageNamed:@"here_thumb.png"];
+    }
     
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)[filteredMessages count]];
+    CGSize size = cell.thumbnailImageView.frame.size;
+    
+    cell.thumbnailImageView.image = [self imageWithImage:image scaledToSize:size];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
+    
+    NSArray *sortedMessages = [location.messages sortedArrayUsingDescriptors:@[sortDescriptor]];
+    
+    Message *lastMessage = [sortedMessages lastObject];
+    
+    if (lastMessage) {
+        cell.lastMessageLabel.text = (lastMessage.text) ? lastMessage.text : @"[Voice]";
+    }
+    else {
+        cell.lastMessageLabel.text = @"";
+    }
+    
     
     return cell;
+}
+
+- (UIImage*)imageWithImage:(UIImage*)image
+              scaledToSize:(CGSize)newSize;
+{
+    UIGraphicsBeginImageContext( newSize );
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
 }
 
 @end
