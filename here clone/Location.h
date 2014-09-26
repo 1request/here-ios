@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) NSString * accessId;
 @property (nonatomic, retain) NSDate * createdAt;
+@property (nonatomic, retain) NSString * imageURL;
 @property (nonatomic, retain) NSDate * lastMessageDate;
 @property (nonatomic, retain) NSNumber * latitude;
 @property (nonatomic, retain) NSString * locationId;
@@ -23,9 +24,9 @@
 @property (nonatomic, retain) NSNumber * major;
 @property (nonatomic, retain) NSNumber * minor;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * uuid;
-@property (nonatomic, retain) NSString * imageURL;
 @property (nonatomic, retain) NSString * thumbnailURL;
+@property (nonatomic, retain) NSString * uuid;
+@property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSSet *messages;
 @end
 

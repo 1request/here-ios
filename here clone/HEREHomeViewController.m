@@ -106,8 +106,17 @@
         cell.unreadMessageCountView.hidden = NO;
     }
     UIImage *image = nil;
+    
     if (!location.thumbnailURL) {
         image = [UIImage imageNamed:@"here_thumb.png"];
+    }
+    else {
+        NSArray *documentDirectories = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
+        NSString *path = [[[documentDirectories firstObject] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@-thumb.png", location.locationId]] absoluteString];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:path]];
+            image = [UIImage imageWithData:data];
+        }
     }
     
     CGSize size = cell.thumbnailImageView.frame.size;

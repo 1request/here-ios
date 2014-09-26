@@ -14,6 +14,7 @@
 
 @dynamic accessId;
 @dynamic createdAt;
+@dynamic imageURL;
 @dynamic lastMessageDate;
 @dynamic latitude;
 @dynamic locationId;
@@ -22,9 +23,9 @@
 @dynamic major;
 @dynamic minor;
 @dynamic name;
-@dynamic uuid;
-@dynamic imageURL;
 @dynamic thumbnailURL;
+@dynamic uuid;
+@dynamic updatedAt;
 @dynamic messages;
 
 @end

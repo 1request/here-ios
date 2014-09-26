@@ -43,6 +43,8 @@ extern NSString *const kHEREAPILocationNameKey;
 extern NSString *const kHEREAPILocationUUIDKey;
 extern NSString *const kHEREAPILocationMajorKey;
 extern NSString *const kHEREAPILocationMinorKey;
+extern NSString *const kHEREAPILocationImageKey;
+extern NSString *const kHEREAPILocationThumbKey;
 
 #pragma mark - User API
 extern NSString *const kHEREAPIUserPOSTUrl;

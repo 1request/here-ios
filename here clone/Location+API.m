@@ -7,6 +7,7 @@
 //
 
 #import "Location+API.h"
+#import "APIManager.h"
 
 @implementation Location (API)
 
@@ -26,10 +27,15 @@
     }
     else if ([matches count]) {
         location = [matches firstObject];
+        if (locationDictionary[kHEREAPILocationThumbKey] != [NSNull null] && ![locationDictionary[kHEREAPILocationThumbKey] isEqualToString:location.thumbnailURL]) {
+            location.thumbnailURL = [locationDictionary valueForKeyPath:kHEREAPILocationThumbKey];
+            [self downloadThumbnailForLocation:location];
+        }
     }
     else {
         location = [NSEntityDescription insertNewObjectForEntityForName:kHERELocationClassKey inManagedObjectContext:context];
         location.locationId = locationId;
+        location.createdAt = [NSDate date];
         if (locationDictionary[kHEREAPILocationUUIDKey] != [NSNull null]) location.uuid = [locationDictionary valueForKeyPath:kHEREAPILocationUUIDKey];
         if (locationDictionary[kHEREAPILocationMajorKey] != [NSNull null]) location.major = [locationDictionary valueForKeyPath:kHEREAPILocationMajorKey];
         if (locationDictionary[kHEREAPILocationMinorKey] != [NSNull null]) location.minor = [locationDictionary valueForKeyPath:kHEREAPILocationMinorKey];
@@ -38,6 +44,12 @@
         if (locationDictionary[kHEREAPILocationLatitudeKey] != [NSNull null]) location.latitude = [locationDictionary valueForKeyPath:kHEREAPILocationLatitudeKey];
         if (locationDictionary[kHEREAPILocationLongitudeKey] != [NSNull null]) location.longitude = [locationDictionary valueForKeyPath:kHEREAPILocationLongitudeKey];
         if (locationDictionary[kHEREAPILocationNameKey] != [NSNull null]) location.name = [locationDictionary valueForKeyPath:kHEREAPILocationNameKey];
+        if (locationDictionary[kHEREAPILocationImageKey] != [NSNull null]) location.imageURL = [locationDictionary valueForKeyPath:kHEREAPILocationImageKey];
+        if (locationDictionary[kHEREAPILocationThumbKey] != [NSNull null]) {
+            location.thumbnailURL = [locationDictionary valueForKeyPath:kHEREAPILocationThumbKey];
+            [self downloadThumbnailForLocation:location];
+        }
+        
         [context save:NULL];
     }
     return location;
@@ -50,6 +62,18 @@
         [coreDataLocations addObject:[self locationWithAPIInfo:location inManagedObjectContext:context]];
     }
     return [coreDataLocations copy];
+}
+
++ (void)downloadThumbnailForLocation:(Location *)location
+{
+    NSArray *documentDirectories = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
+    NSString *path = [[[documentDirectories firstObject] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@-thumb.png", location.locationId]] absoluteString];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        [APIManager downloadFileFromURL:[NSURL URLWithString:location.thumbnailURL] ToPath:path CompletionHandler:^{
+            location.updatedAt = [NSDate date];
+            [location.managedObjectContext save:NULL];
+        }];
+    }
 }
 
 @end

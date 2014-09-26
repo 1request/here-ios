@@ -20,5 +20,6 @@ typedef void (^HERECompletionBlock)(BOOL success, NSDictionary *response, NSErro
 + (void)fetchLocationsWithManagedObjectContext:(NSManagedObjectContext *)context CompletionHandler:(HERECompletionBlock)completionHandler;
 + (void)fetchMessagesForLocation:(Location *)location CompletionHandler:(HERECompletionBlock)completionHandler;
 + (void)createLocationInServer:(NSDictionary *)data CompletionHandler:(HERECompletionBlock)completionHandler;
++ (void)downloadFileFromURL:(NSURL *)url ToPath:(NSString *)path CompletionHandler:(void(^)(void))completionHandler;
 
 @end
