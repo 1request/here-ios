@@ -43,6 +43,8 @@ NSString *const kHEREAPILocationNameKey         = @"name";
 NSString *const kHEREAPILocationUUIDKey         = @"uuid";
 NSString *const kHEREAPILocationMajorKey        = @"major";
 NSString *const kHEREAPILocationMinorKey        = @"minor";
+NSString *const kHEREAPILocationImageKey        = @"image";
+NSString *const kHEREAPILocationThumbKey        = @"thumb";
 
 #pragma mark - User API
 NSString *const kHEREAPIUserPOSTUrl              = @"http://here.zuohaisu.cn/api/users";

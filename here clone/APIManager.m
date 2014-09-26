@@ -234,5 +234,18 @@
     return date;
 }
 
++ (void)downloadFileFromURL:(NSURL *)url ToPath:(NSString *)path CompletionHandler:(void(^)(void))completionHandler
+{
+    [[[NSURLSession sharedSession] dataTaskWithRequest:[NSURLRequest requestWithURL:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error) {
+            if ([data writeToURL:[NSURL URLWithString:path] atomically:YES]) {
+                NSLog(@"finish downloading file at path %@", path);
+                if (completionHandler) {
+                    completionHandler();
+                }
+            }
+        }
+    }] resume];
+}
 
 @end
